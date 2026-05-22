@@ -6,20 +6,26 @@
   <title>PEKER HOTEL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
   <style>
     :root {
-      --bg: #f6f1e8;
-      --card: #ffffff;
-      --text: #1f1f1f;
-      --muted: #6d6a66;
-      --accent: #9a6b2f;
-      --accent-dark: #734c1c;
-      --line: rgba(0,0,0,.08);
-      --shadow: 0 20px 45px rgba(0,0,0,.08);
-      --radius: 24px;
+      --bg: #f4efe7;
+      --bg-2: #e9dfd1;
+      --card: rgba(255,255,255,.82);
+      --card-solid: #ffffff;
+      --text: #1b1712;
+      --muted: #6f6557;
+      --gold: #b88943;
+      --gold-2: #8d6328;
+      --line: rgba(64, 44, 20, .12);
+      --shadow: 0 28px 80px rgba(64, 34, 8, .12);
+      --shadow-soft: 0 16px 32px rgba(64, 34, 8, .08);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --nav-h: 82px;
     }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -27,449 +33,1216 @@
       font-family: "Montserrat", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(154,107,47,.12), transparent 28%),
-        radial-gradient(circle at top right, rgba(0,0,0,.04), transparent 22%),
-        linear-gradient(180deg, #f8f4ee 0%, #f4ede2 100%);
+        radial-gradient(circle at top left, rgba(184,137,67,.20), transparent 30%),
+        radial-gradient(circle at top right, rgba(255,255,255,.75), transparent 18%),
+        linear-gradient(180deg, #f8f4ed 0%, #f0e6d7 52%, #f6f1ea 100%);
+      min-height: 100vh;
+      padding-bottom: calc(var(--nav-h) + 18px);
     }
-    img, video { max-width: 100%; display: block; }
-    button, select { font: inherit; }
-    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    img, video { display: block; max-width: 100%; }
+    button, select, input, textarea { font: inherit; }
+    button { border: 0; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1160px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    .glass {
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.48);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-shell {
+      padding: 16px 14px 0;
+    }
 
     .hero {
       position: relative;
-      min-height: 360px;
-      display: flex;
-      align-items: center;
+      min-height: 290px;
       border-radius: 0 0 34px 34px;
       overflow: hidden;
       color: #fff;
-      background: #222;
+      background: #2a231c;
+      box-shadow: var(--shadow);
     }
-    .hero-media, .hero-overlay {
+
+    .hero-media-wrap,
+    .hero-overlay {
       position: absolute;
       inset: 0;
     }
-    .hero-media img, .hero-media video {
+
+    .hero-media-wrap img,
+    .hero-media-wrap video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.04);
+      transform: scale(var(--hero-zoom, 1.02));
     }
+
     .hero-overlay {
-      background: linear-gradient(rgba(0,0,0,.42), rgba(0,0,0,.52));
+      background: linear-gradient(rgba(15, 12, 9, .34), rgba(15, 12, 9, .58));
       z-index: 1;
     }
+
     .hero-inner {
       position: relative;
       z-index: 2;
-      width: 100%;
-      padding: 28px 0 38px;
+      padding: 18px 0 26px;
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+
     .topbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 48px;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
     }
+
     .brand {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
+
     .brand-name {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: .18em;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .28em;
       text-transform: uppercase;
     }
+
     .brand-sub {
-      font-size: 12px;
-      opacity: .86;
-      letter-spacing: .08em;
+      font-size: 11px;
       text-transform: uppercase;
+      letter-spacing: .18em;
+      opacity: .88;
     }
-    .lang-box {
+
+    .top-actions {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,.12);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,.18);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       border-radius: 999px;
       padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      backdrop-filter: blur(10px);
     }
-    .lang-box i { font-size: 14px; }
-    .lang-box select {
-      background: transparent;
+
+    .pill select {
       border: 0;
+      background: transparent;
       color: #fff;
       outline: none;
+      min-width: 84px;
       cursor: pointer;
     }
-    .lang-box select option { color: #111; }
-    .hero-copy { max-width: 760px; }
-    .hero-copy h1 {
-      margin: 0 0 14px;
-      font-size: clamp(42px, 7vw, 72px);
-      line-height: .95;
-      font-weight: 800;
-      letter-spacing: -.03em;
+
+    .pill select option { color: #111; }
+
+    .pill-btn,
+    .wa-btn,
+    .ghost-btn,
+    .soft-btn,
+    .icon-btn {
+      cursor: pointer;
+      transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
     }
+
+    .pill-btn:hover,
+    .wa-btn:hover,
+    .ghost-btn:hover,
+    .soft-btn:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 12px 16px;
+      color: #fff;
+      background: linear-gradient(135deg, #27c266, #16964a);
+      box-shadow: 0 16px 26px rgba(20, 125, 62, .24);
+      font-weight: 700;
+    }
+
+    .pill-btn {
+      border-radius: 999px;
+      padding: 11px 15px;
+      color: #fff;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      padding-top: 18px;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(38px, 6vw, 62px);
+      line-height: .94;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
     .hero-copy p {
       margin: 0;
-      max-width: 620px;
-      font-size: 15px;
-      line-height: 1.7;
+      max-width: 560px;
       color: rgba(255,255,255,.92);
-    }
-
-    .section { padding: 34px 0; }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(24px, 4vw, 34px);
-      line-height: 1.05;
-    }
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
+      line-height: 1.7;
       font-size: 14px;
-      max-width: 640px;
     }
 
-    .rates {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: -42px;
+    .mini-board-wrap {
+      margin-top: -18px;
       position: relative;
       z-index: 5;
     }
+
+    .mini-board {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .rates-box,
+    .calc-box,
+    .slider-box,
+    .section-card,
+    .service-card,
+    .gallery-empty,
+    .admin-panel,
+    .editor-modal-card,
+    .auth-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.58);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rates-box {
+      border-radius: 22px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .rate-card {
+      border-radius: 16px;
+      padding: 9px 10px;
       background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.55);
-      box-shadow: var(--shadow);
-      border-radius: 20px;
-      padding: 16px 18px;
-      min-width: 130px;
+      border: 1px solid var(--line);
+      min-height: 58px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
     }
+
     .rate-card small {
-      display: block;
       color: var(--muted);
-      margin-bottom: 6px;
-      font-size: 12px;
+      font-size: 10px;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      margin-bottom: 5px;
     }
+
     .rate-card strong {
-      font-size: 24px;
-      color: var(--accent-dark);
+      color: var(--gold-2);
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .calc-box {
+      border-radius: 22px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .calc-title,
+    .slider-title,
+    .section-title-row h2 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .03em;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+    }
+
+    .calc-grid select,
+    .calc-grid input {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .calc-toggle {
+      border-radius: 14px;
+      padding: 0 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .calc-result {
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 20px;
+    }
+
+    .section {
+      padding: 22px 0 0;
+    }
+
+    .slider-box,
+    .section-card {
+      border-radius: 28px;
+      padding: 18px;
+    }
+
+    .slider-box {
+      margin-top: 18px;
+    }
+
+    .slider-head,
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .slider-title-wrap p,
+    .section-title-row p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .banner-stage {
+      position: relative;
+      height: 210px;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #3d2c19, #8d6328);
+      cursor: pointer;
+    }
+
+    .banner-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .55s ease;
+    }
+
+    .banner-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .banner-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,10,.08), rgba(10,10,10,.62));
+    }
+
+    .banner-copy {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .banner-copy strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.05;
+    }
+
+    .banner-copy span {
+      display: block;
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,.86);
+    }
+
+    .banner-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .banner-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(113, 81, 41, .28);
+      border: 0;
+      cursor: pointer;
+    }
+
+    .banner-dot.active {
+      background: var(--gold);
+      transform: scale(1.08);
     }
 
     .categories-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
     }
+
     .category-card {
       position: relative;
-      border: 0;
-      border-radius: 24px;
       overflow: hidden;
-      min-height: 140px;
-      text-align: left;
-      cursor: pointer;
+      min-height: 120px;
+      border-radius: 22px;
       padding: 0;
       background: #ddd;
-      box-shadow: var(--shadow);
-      transition: transform .25s ease, box-shadow .25s ease;
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      text-align: left;
     }
-    .category-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 28px 50px rgba(0,0,0,.14);
-    }
+
     .category-card.active {
-      outline: 3px solid rgba(154,107,47,.42);
+      outline: 2px solid rgba(184,137,67,.42);
+      box-shadow: 0 18px 34px rgba(132, 95, 38, .20);
     }
-    .card-media, .card-overlay {
+
+    .card-media,
+    .card-overlay {
       position: absolute;
       inset: 0;
     }
-    .card-media img, .card-media video {
+
+    .card-media img,
+    .card-media video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.03);
     }
+
     .card-overlay {
-      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.60));
+      background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.62));
     }
+
     .category-content {
       position: relative;
       z-index: 1;
-      height: 100%;
+      min-height: inherit;
       display: flex;
       flex-direction: column;
-      justify-content: end;
+      justify-content: flex-end;
       gap: 10px;
-      padding: 16px;
-      color: #fff;
+      padding: 14px;
     }
-    .category-content i {
-      font-size: 22px;
+
+    .category-icon {
       width: 42px;
       height: 42px;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: rgba(255,255,255,.18);
-      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.16);
+      backdrop-filter: blur(8px);
+      font-size: 18px;
     }
+
     .category-content h3 {
       margin: 0;
-      font-size: 18px;
-      line-height: 1.2;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0,0,0,.28);
+      font-size: 16px;
+      line-height: 1.25;
+      max-width: 95%;
+      word-break: break-word;
     }
 
     .filters {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
-      margin-bottom: 18px;
+      margin-top: 12px;
     }
+
     .chip {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 16px;
+      padding: 10px 12px;
       border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
+      background: rgba(255,255,255,.92);
       color: var(--text);
-      transition: .2s ease;
+      font-weight: 600;
+      line-height: 1.25;
+      word-break: break-word;
+      cursor: pointer;
     }
+
     .chip.active {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
       color: #fff;
-      border-color: var(--accent);
+      border-color: transparent;
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
     }
+
     .service-card {
-      background: var(--card);
       border-radius: 26px;
       overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(0,0,0,.04);
       display: flex;
       flex-direction: column;
+      min-height: 100%;
+      position: relative;
     }
+
     .service-media {
       position: relative;
-      height: 176px;
+      height: 180px;
       background: #ddd;
     }
-    .service-media .card-overlay {
-      background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.42));
-    }
+
     .badge-row {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
-      z-index: 2;
+      top: 12px;
+      left: 12px;
+      right: 12px;
       display: flex;
       justify-content: space-between;
-      align-items: start;
       gap: 8px;
+      z-index: 2;
+      align-items: flex-start;
     }
-    .badge, .duration {
+
+    .badge,
+    .duration {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
       padding: 8px 10px;
       border-radius: 999px;
-      backdrop-filter: blur(8px);
       color: #fff;
+      font-size: 11px;
+      backdrop-filter: blur(10px);
     }
-    .badge { background: rgba(154,107,47,.88); }
-    .duration {
-      background: rgba(255,255,255,.18);
-      border: 1px solid rgba(255,255,255,.16);
-    }
+
+    .badge { background: rgba(184,137,67,.92); }
+    .duration { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.16); }
+
     .service-body {
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
       flex: 1;
     }
+
     .service-title {
       margin: 0;
-      font-size: 21px;
+      font-size: 20px;
       line-height: 1.15;
+      font-family: "Cormorant Garamond", serif;
     }
+
     .service-desc {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      flex: 1;
+      font-size: 13px;
+      line-height: 1.75;
       white-space: pre-line;
     }
+
     .service-meta {
+      margin-top: auto;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
       gap: 12px;
       flex-wrap: wrap;
     }
+
     .price-box {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .price {
-      font-size: 28px;
+      font-size: 25px;
       font-weight: 800;
-      color: var(--accent-dark);
+      color: var(--gold-2);
     }
+
     .old-price {
-      font-size: 15px;
-      color: #9b9893;
+      font-size: 14px;
+      color: #a29a8f;
       text-decoration: line-through;
     }
+
     .free-tag {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1d7a46;
-      background: #e7f7ee;
+      display: inline-flex;
+      padding: 8px 11px;
       border-radius: 999px;
-      padding: 8px 12px;
+      background: #e6f7ed;
+      color: #1d7a46;
+      font-size: 13px;
+      font-weight: 800;
     }
+
     .request-btn {
-      border: 0;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 15px;
+      padding: 12px 15px;
       color: #fff;
-      padding: 12px 18px;
-      border-radius: 14px;
+      background: linear-gradient(135deg, #22c55e, #16964a);
+      box-shadow: 0 14px 24px rgba(22, 150, 74, .22);
       font-weight: 700;
       cursor: pointer;
-      transition: transform .2s ease, opacity .2s ease;
     }
-    .request-btn:hover {
-      transform: translateY(-2px);
-      opacity: .95;
+
+    .admin-tools {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 6;
+      display: none;
+      gap: 6px;
+      flex-direction: column;
     }
-    .gallery-empty {
-      background: #fff;
-      border: 1px dashed rgba(0,0,0,.15);
-      border-radius: 24px;
-      padding: 26px;
-      color: var(--muted);
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-    .footer {
-      padding: 26px 0 42px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-    }
-    .empty-state {
-      padding: 26px;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      color: var(--muted);
-    }
-    .media-fallback {
-      width: 100%;
-      height: 100%;
+
+    .is-admin .admin-tools { display: flex; }
+
+    .admin-mini {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #a77d46, #6f4a1d);
       color: #fff;
-      font-size: 28px;
+      background: rgba(0,0,0,.44);
+      border: 1px solid rgba(255,255,255,.16);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .gallery-empty {
+      border-radius: 22px;
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-card {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ddd;
+      min-height: 130px;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 130px;
+      object-fit: cover;
+    }
+
+    .footer {
+      padding: 28px 0 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      z-index: 70;
+      width: min(430px, calc(100% - 20px));
+      border-radius: 24px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(255,255,255,.90);
+      border: 1px solid rgba(255,255,255,.65);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 46px rgba(64, 34, 8, .18);
+    }
+
+    .nav-btn {
+      min-height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(245,236,226,.96));
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 700;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 120;
+      min-width: 240px;
+      max-width: min(92vw, 360px);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(27, 23, 18, .92);
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(0,0,0,.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .modal,
+    .auth-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(21, 16, 10, .44);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.open,
+    .auth-modal.open {
+      display: grid;
+    }
+
+    .editor-modal-card,
+    .auth-card {
+      width: min(860px, 100%);
+      max-height: min(88vh, 940px);
+      overflow: auto;
+      border-radius: 28px;
+      padding: 20px;
+      background: rgba(255,255,255,.96);
+    }
+
+    .auth-card { width: min(420px, 100%); }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 24px;
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .close-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #f4ede3;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 102px;
+      resize: vertical;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .soft-btn,
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .soft-btn {
+      color: #fff;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    }
+
+    .ghost-btn {
+      background: #f3eadf;
+      color: var(--text);
+    }
+
+    .danger-btn {
+      background: #fff1f1;
+      color: #ba3838;
+    }
+
+    .admin-panel {
+      margin-top: 18px;
+      border-radius: 24px;
+      padding: 16px;
+      display: none;
+    }
+
+    .is-admin .admin-panel {
+      display: block;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+    }
+
+    .admin-box {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.86);
+      padding: 14px;
+    }
+
+    .admin-box h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+    }
+
+    .admin-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .admin-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #faf7f2;
+      border: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .admin-row span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .admin-row-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tiny-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: #efe5d8;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 980px) {
+      .mini-board,
+      .admin-grid,
+      .form-grid,
+      .services-grid,
+      .categories-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .filters {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     @media (max-width: 700px) {
-      .topbar {
-        flex-direction: column;
-        align-items: start;
-        margin-bottom: 34px;
+      .hero-shell {
+        padding: 10px 8px 0;
       }
+
       .hero {
-        min-height: 420px;
-        border-radius: 0 0 26px 26px;
+        min-height: 230px;
+        border-radius: 0 0 24px 24px;
       }
-      .hero-inner { padding-top: 22px; }
-      .rates { margin-top: -28px; }
-      .rate-card { flex: 1 1 calc(50% - 12px); }
+
+      .hero-inner {
+        min-height: 230px;
+        padding: 12px 0 16px;
+      }
+
+      .hero-copy {
+        padding-top: 10px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(30px, 10vw, 44px);
+      }
+
+      .hero-copy p {
+        font-size: 13px;
+        line-height: 1.55;
+        max-width: 100%;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .pill,
+      .pill-btn,
+      .wa-btn {
+        min-height: 42px;
+        padding: 10px 12px;
+      }
+
+      .mini-board {
+        grid-template-columns: 1fr;
+      }
+
+      .rates-box {
+        grid-template-columns: repeat(4, 1fr);
+        padding: 8px;
+        gap: 6px;
+      }
+
+      .rate-card {
+        min-height: 50px;
+        padding: 7px 4px;
+      }
+
+      .rate-card small {
+        font-size: 9px;
+      }
+
+      .rate-card strong {
+        font-size: 13px;
+      }
+
+      .calc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .calc-toggle {
+        grid-column: 1 / -1;
+        min-height: 44px;
+      }
+
+      .banner-stage {
+        height: 170px;
+      }
+
+      .banner-copy strong {
+        font-size: 18px;
+      }
+
+      .section-card,
+      .slider-box {
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      .categories-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .chip {
+        min-height: 44px;
+        padding: 9px 10px;
+        font-size: 12px;
+      }
+
+      .services-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-media {
+        height: 160px;
+      }
+
+      .service-title {
+        font-size: 18px;
+      }
+
+      .editor-modal-card,
+      .auth-card {
+        padding: 16px;
+        border-radius: 22px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-nav {
+        border-radius: 20px;
+        bottom: 10px;
+        padding: 8px;
+      }
+
+      .nav-btn {
+        min-height: 50px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-media" id="heroMedia"></div>
-    <div class="hero-overlay" id="heroOverlay"></div>
-    <div class="container hero-inner">
-      <div class="topbar">
-        <div class="brand">
-          <div class="brand-name">PEKER HOTEL</div>
-          <div class="brand-sub" id="hotelSubtitle">Guest services</div>
-        </div>
-        <div class="lang-box">
-          <i class="fa-solid fa-earth-americas"></i>
-          <select id="languageSelect">
-            <option value="hy">Հայերեն</option>
-            <option value="en">English</option>
-            <option value="ru">Русский</option>
-            <option value="tr">Türkçe</option>
-            <option value="fr">Français</option>
-            <option value="it">Italiano</option>
-            <option value="es">Español</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-            <option value="ar">العربية</option>
-          </select>
-        </div>
-      </div>
+  <div class="hero-shell">
+    <header class="hero" id="hero">
+      <div class="hero-media-wrap" id="heroMedia"></div>
+      <div class="hero-overlay" id="heroOverlay"></div>
 
-      <div class="hero-copy">
-        <h1 id="heroTitle"></h1>
-        <p id="heroText"></p>
+      <div class="container hero-inner">
+        <div class="topbar">
+          <div class="brand">
+            <div class="brand-name" id="brandName">PEKER HOTEL</div>
+            <div class="brand-sub" id="hotelSubtitle"></div>
+          </div>
+
+          <div class="top-actions">
+            <div class="pill">
+              <i class="fa-solid fa-earth-americas"></i>
+              <select id="languageSelect">
+                <option value="hy">Հայերեն</option>
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+                <option value="tr">Türkçe</option>
+                <option value="fr">Français</option>
+                <option value="it">Italiano</option>
+                <option value="es">Español</option>
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="ar">العربية</option>
+              </select>
+            </div>
+
+            <a class="wa-btn" id="globalWhatsappBtn" href="https://wa.me/905375120434?utm_source=chatgpt.com" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>WhatsApp Order</span>
+            </a>
+
+            <button class="pill-btn" id="adminToggleBtn">
+              <i class="fa-solid fa-user-shield"></i>
+              <span id="adminBtnLabel">Admin</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <h1 id="heroTitle"></h1>
+          <p id="heroText"></p>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 
   <main>
-    <section class="container">
-      <div class="rates">
-        <div class="rate-card"><small>USD</small><strong id="usdRate"></strong></div>
-        <div class="rate-card"><small>EUR</small><strong id="eurRate"></strong></div>
-        <div class="rate-card"><small>RUB</small><strong id="rubRate"></strong></div>
-        <div class="rate-card"><small id="marginLabel">Margin</small><strong id="marginRate"></strong></div>
+    <section class="container mini-board-wrap">
+      <div class="mini-board">
+        <div class="rates-box" id="ratesBox"></div>
+
+        <div class="calc-box">
+          <h3 class="calc-title" id="calcTitle"></h3>
+          <div class="calc-grid">
+            <select id="calcCurrency">
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="RUB">RUB</option>
+              <option value="TRY">TRY</option>
+            </select>
+            <input type="number" id="calcAmount" placeholder="0" />
+            <button class="calc-toggle" id="calcDirectionBtn">FX</button>
+          </div>
+          <div class="calc-result" id="calcResult"></div>
+        </div>
+      </div>
+
+      <div class="admin-panel" id="adminPanel">
+        <div class="admin-grid">
+          <div class="admin-box">
+            <h4>Quick Admin</h4>
+            <div class="field-row">
+              <button class="soft-btn" id="editHeroBtn"><i class="fa-solid fa-pen"></i> Hero</button>
+              <button class="soft-btn" id="addBannerBtn"><i class="fa-solid fa-images"></i> Add Banner</button>
+              <button class="soft-btn" id="editRatesBtn"><i class="fa-solid fa-coins"></i> Rates</button>
+              <button class="ghost-btn" id="githubSettingsBtn"><i class="fa-brands fa-github"></i> GitHub</button>
+            </div>
+          </div>
+
+          <div class="admin-box">
+            <h4>Auto Save</h4>
+            <div class="field-row">
+              <button class="soft-btn" id="saveLocalBtn"><i class="fa-solid fa-floppy-disk"></i> Save Now</button>
+              <button class="ghost-btn" id="exportJsonBtn"><i class="fa-solid fa-file-export"></i> Export JSON</button>
+              <button class="ghost-btn" id="logoutAdminBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+            <p id="githubStatusText" style="margin:10px 0 0;color:var(--muted);font-size:13px;"></p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
+    <section class="section container">
+      <div class="slider-box">
+        <div class="slider-head">
+          <div class="slider-title-wrap">
+            <h2 class="slider-title" id="sliderTitle"></h2>
+            <p id="sliderText"></p>
+          </div>
+          <button class="ghost-btn hidden" id="editSliderBtn">
+            <i class="fa-solid fa-pen"></i> Edit Slider
+          </button>
+        </div>
+        <div class="banner-stage" id="bannerStage"></div>
+        <div class="banner-dots" id="bannerDots"></div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-card">
+        <div class="section-title-row">
           <div>
             <h2 id="categoriesTitle"></h2>
             <p id="categoriesText"></p>
@@ -479,9 +1252,9 @@
       </div>
     </section>
 
-    <section class="section" style="padding-top: 10px;">
-      <div class="container">
-        <div class="section-head">
+    <section class="section container">
+      <div class="section-card">
+        <div class="section-title-row">
           <div>
             <h2 id="servicesTitle"></h2>
             <p id="servicesText"></p>
@@ -492,9 +1265,9 @@
       </div>
     </section>
 
-    <section class="section" id="gallerySection">
-      <div class="container">
-        <div class="section-head">
+    <section class="section container" id="gallerySection">
+      <div class="section-card">
+        <div class="section-title-row">
           <div>
             <h2 id="galleryTitle"></h2>
             <p id="galleryText"></p>
@@ -509,2263 +1282,510 @@
     <div class="container" id="footerText"></div>
   </footer>
 
+  <div class="mobile-nav">
+    <button class="nav-btn" id="prevCategoryBtn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="nav-btn" id="homeBtn"><i class="fa-solid fa-house"></i> Home</button>
+    <button class="nav-btn" id="nextCategoryBtn">Next <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="auth-modal" id="authModal">
+    <div class="auth-card">
+      <div class="modal-head">
+        <h3>Admin Login</h3>
+        <button class="close-btn" id="closeAuthBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="field">
+        <label>PIN</label>
+        <input type="password" id="adminPinInput" placeholder="Enter admin PIN" />
+      </div>
+
+      <div class="field-row" style="margin-top:14px;">
+        <button class="soft-btn" id="loginAdminBtn"><i class="fa-solid fa-lock-open"></i> Login</button>
+      </div>
+
+      <p style="margin:12px 0 0;color:var(--muted);font-size:13px;">
+        Default PIN: <strong>1234</strong> . Afterwards you can change it from GitHub settings window.
+      </p>
+    </div>
+  </div>
+
+  <div class="modal" id="editorModal">
+    <div class="editor-modal-card">
+      <div class="modal-head">
+        <h3 id="editorTitle">Edit</h3>
+        <button class="close-btn" id="closeEditorBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="editorBody"></div>
+    </div>
+  </div>
+
+  <script id="seedDataJson" type="application/json">
+{
+  "hotel": {
+    "name": "PEKER HOTEL",
+    "mediaType": "image",
+    "media": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80",
+    "height": 360,
+    "titleSize": 72,
+    "textSize": 15,
+    "color": "#ffffff",
+    "dim": 0.42,
+    "zoom": 1.04,
+    "title": {
+      "en": "Hotel services",
+      "hy": "Հյուրանոցի ծառայություններ",
+      "ru": "Услуги отеля",
+      "tr": "Otel hizmetleri",
+      "fr": "Hotel services",
+      "it": "Hotel services",
+      "es": "Hotel services",
+      "zh": "Hotel services",
+      "ja": "Hotel services",
+      "ar": "Hotel services"
+    },
+    "text": {
+      "en": "Choose a category, view available services and send your request directly to reception.",
+      "hy": "Ընտրեք կատեգորիա, տեսեք ծառայությունները և ուղարկեք պատվերը ռեսեփշնին։",
+      "ru": "Выберите категорию, посмотрите услуги и отправьте запрос на ресепшн.",
+      "tr": "Kategori seçin, hizmetleri görün ve talebinizi resepsiyona gönderin.",
+      "fr": "Choose a category, view available services and send your request directly to reception.",
+      "it": "Choose a category, view available services and send your request directly to reception.",
+      "es": "Choose a category, view available services and send your request directly to reception.",
+      "zh": "Choose a category, view available services and send your request directly to reception.",
+      "ja": "Choose a category, view available services and send your request directly to reception.",
+      "ar": "Choose a category, view available services and send your request directly to reception."
+    }
+  },
+  "rates": {
+    "usd": 45.58,
+    "eur": 53.21,
+    "rub": 0.64,
+    "margin": 1
+  },
+  "guestPosts": [],
+  "categories": [],
+  "services": [],
+  "banners": [],
+  "settings": {
+    "whatsappUrl": "https://wa.me/905375120434?utm_source=chatgpt.com",
+    "adminPin": "1234",
+    "github": {
+      "enabled": false,
+      "token": "",
+      "owner": "",
+      "repo": "",
+      "path": "index.html",
+      "branch": "main",
+      "sha": ""
+    }
+  }
+}
+  </script>
+
+  <script id="uiTextJson" type="application/json">
+{
+  "hotelSubtitle": {
+    "en": "Guest services",
+    "hy": "Հյուրանոցային ծառայություններ",
+    "ru": "Сервисы для гостей",
+    "tr": "Misafir hizmetleri",
+    "fr": "Guest services",
+    "it": "Guest services",
+    "es": "Guest services",
+    "zh": "Guest services",
+    "ja": "Guest services",
+    "ar": "Guest services"
+  },
+  "categoriesTitle": {
+    "en": "Categories",
+    "hy": "Կատեգորիաներ",
+    "ru": "Категории",
+    "tr": "Kategoriler",
+    "fr": "Categories",
+    "it": "Categories",
+    "es": "Categories",
+    "zh": "Categories",
+    "ja": "Categories",
+    "ar": "Categories"
+  },
+  "categoriesText": {
+    "en": "Choose the section you need and explore the available offers.",
+    "hy": "Ընտրեք ձեզ անհրաժեշտ բաժինը և տեսեք առաջարկները։",
+    "ru": "Выберите нужный раздел и посмотрите доступные предложения.",
+    "tr": "İhtiyacınız olan kategoriyi seçin ve mevcut hizmetleri inceleyin.",
+    "fr": "Choose the section you need and explore the available offers.",
+    "it": "Choose the section you need and explore the available offers.",
+    "es": "Choose the section you need and explore the available offers.",
+    "zh": "Choose the section you need and explore the available offers.",
+    "ja": "Choose the section you need and explore the available offers.",
+    "ar": "Choose the section you need and explore the available offers."
+  },
+  "servicesTitle": {
+    "en": "Available services",
+    "hy": "Հասանելի ծառայություններ",
+    "ru": "Доступные услуги",
+    "tr": "Mevcut hizmetler",
+    "fr": "Available services",
+    "it": "Available services",
+    "es": "Available services",
+    "zh": "Available services",
+    "ja": "Available services",
+    "ar": "Available services"
+  },
+  "servicesText": {
+    "en": "Browse all services or filter by category.",
+    "hy": "Դիտեք բոլոր ծառայությունները կամ ընտրեք կատեգորիա։",
+    "ru": "Просматривайте все услуги или фильтруйте по категориям.",
+    "tr": "Tüm hizmetleri görün veya kategoriye göre filtreleyin.",
+    "fr": "Browse all services or filter by category.",
+    "it": "Browse all services or filter by category.",
+    "es": "Browse all services or filter by category.",
+    "zh": "Browse all services or filter by category.",
+    "ja": "Browse all services or filter by category.",
+    "ar": "Browse all services or filter by category."
+  },
+  "galleryTitle": {
+    "en": "Guest photo section",
+    "hy": "Հյուրերի նկարների բաժին",
+    "ru": "Раздел фотографий гостей",
+    "tr": "Misafir fotoğraf bölümü",
+    "fr": "Guest photo section",
+    "it": "Guest photo section",
+    "es": "Guest photo section",
+    "zh": "Guest photo section",
+    "ja": "Guest photo section",
+    "ar": "Guest photo section"
+  },
+  "galleryText": {
+    "en": "This area can later display hotel and guest photos from admin.",
+    "hy": "Այս բաժնում հետո կարելի է ցույց տալ հյուրանոցի և հյուրերի նկարները admin-ից։",
+    "ru": "Здесь позже можно показывать фото отеля и гостей из админки.",
+    "tr": "Bu alanda daha sonra adminden otel ve misafir fotoğrafları gösterilebilir.",
+    "fr": "This area can later display hotel and guest photos from admin.",
+    "it": "This area can later display hotel and guest photos from admin.",
+    "es": "This area can later display hotel and guest photos from admin.",
+    "zh": "This area can later display hotel and guest photos from admin.",
+    "ja": "This area can later display hotel and guest photos from admin.",
+    "ar": "This area can later display hotel and guest photos from admin."
+  },
+  "noGallery": {
+    "en": "No guest photos added yet.",
+    "hy": "Հյուրերի նկարներ դեռ ավելացված չեն։",
+    "ru": "Фотографии гостей пока не добавлены.",
+    "tr": "Henüz misafir fotoğrafı eklenmedi.",
+    "fr": "No guest photos added yet.",
+    "it": "No guest photos added yet.",
+    "es": "No guest photos added yet.",
+    "zh": "No guest photos added yet.",
+    "ja": "No guest photos added yet.",
+    "ar": "No guest photos added yet."
+  },
+  "all": {
+    "en": "All",
+    "hy": "Բոլորը",
+    "ru": "Все",
+    "tr": "Tümü",
+    "fr": "All",
+    "it": "All",
+    "es": "All",
+    "zh": "All",
+    "ja": "All",
+    "ar": "All"
+  },
+  "request": {
+    "en": "WhatsApp Order",
+    "hy": "WhatsApp պատվեր",
+    "ru": "Заказать WhatsApp",
+    "tr": "WhatsApp Sipariş",
+    "fr": "WhatsApp Order",
+    "it": "WhatsApp Order",
+    "es": "WhatsApp Order",
+    "zh": "WhatsApp Order",
+    "ja": "WhatsApp Order",
+    "ar": "WhatsApp Order"
+  },
+  "popular": {
+    "en": "Popular",
+    "hy": "Սիրված",
+    "ru": "Популярно",
+    "tr": "Popüler",
+    "fr": "Popular",
+    "it": "Popular",
+    "es": "Popular",
+    "zh": "Popular",
+    "ja": "Popular",
+    "ar": "Popular"
+  },
+  "free": {
+    "en": "Free",
+    "hy": "Անվճար",
+    "ru": "Бесплатно",
+    "tr": "Ücretsiz",
+    "fr": "Free",
+    "it": "Free",
+    "es": "Free",
+    "zh": "Free",
+    "ja": "Free",
+    "ar": "Free"
+  },
+  "requestMessage": {
+    "en": "Order on WhatsApp",
+    "hy": "Պատվիրել WhatsApp-ով",
+    "ru": "Заказать в WhatsApp",
+    "tr": "WhatsApp'tan sipariş ver",
+    "fr": "Order on WhatsApp",
+    "it": "Order on WhatsApp",
+    "es": "Order on WhatsApp",
+    "zh": "Order on WhatsApp",
+    "ja": "Order on WhatsApp",
+    "ar": "Order on WhatsApp"
+  },
+  "noServices": {
+    "en": "No services found in this category.",
+    "hy": "Այս կատեգորիայում ծառայություն չկա։",
+    "ru": "В этой категории услуг нет.",
+    "tr": "Bu kategoride hizmet bulunamadı.",
+    "fr": "No services found in this category.",
+    "it": "No services found in this category.",
+    "es": "No services found in this category.",
+    "zh": "No services found in this category.",
+    "ja": "No services found in this category.",
+    "ar": "No services found in this category."
+  },
+  "footer": {
+    "en": "PEKER HOTEL services page",
+    "hy": "PEKER HOTEL ծառայությունների էջ",
+    "ru": "Страница услуг PEKER HOTEL",
+    "tr": "PEKER HOTEL hizmet sayfası",
+    "fr": "PEKER HOTEL services page",
+    "it": "PEKER HOTEL services page",
+    "es": "PEKER HOTEL services page",
+    "zh": "PEKER HOTEL services page",
+    "ja": "PEKER HOTEL services page",
+    "ar": "PEKER HOTEL services page"
+  },
+  "sliderTitle": {
+    "en": "Special offers",
+    "hy": "Հատուկ առաջարկներ",
+    "ru": "Специальные предложения",
+    "tr": "Özel teklifler",
+    "fr": "Special offers",
+    "it": "Special offers",
+    "es": "Special offers",
+    "zh": "Special offers",
+    "ja": "Special offers",
+    "ar": "Special offers"
+  },
+  "sliderText": {
+    "en": "Tap a banner to jump directly to the advertised category.",
+    "hy": "Սեղմեք banner-ի վրա և անմիջապես անցեք գովազդվող բաժին։",
+    "ru": "Нажмите на баннер, чтобы перейти в рекламируемый раздел.",
+    "tr": "Banner'a dokunun ve ilgili kategoriye geçin.",
+    "fr": "Tap a banner to jump directly to the advertised category.",
+    "it": "Tap a banner to jump directly to the advertised category.",
+    "es": "Tap a banner to jump directly to the advertised category.",
+    "zh": "Tap a banner to jump directly to the advertised category.",
+    "ja": "Tap a banner to jump directly to the advertised category.",
+    "ar": "Tap a banner to jump directly to the advertised category."
+  },
+  "calcTitle": {
+    "en": "Currency calculator",
+    "hy": "Արժույթի հաշվիչ",
+    "ru": "Калькулятор валют",
+    "tr": "Döviz hesaplayıcı",
+    "fr": "Currency calculator",
+    "it": "Currency calculator",
+    "es": "Currency calculator",
+    "zh": "Currency calculator",
+    "ja": "Currency calculator",
+    "ar": "Currency calculator"
+  }
+}
+  </script>
+
   <script>
-    const data = {
-      "hotel": {
-        "name": "PEKER HOTEL",
-        "mediaType": "image",
-        "media": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80",
-        "height": 360,
-        "titleSize": 72,
-        "textSize": 15,
-        "color": "#ffffff",
-        "dim": 0.42,
-        "zoom": 1.04,
-        "title": {
-          "en": "Hotel services",
-          "hy": "Հյուրանոցի ծառայություններ",
-          "ru": "Услуги отеля",
-          "tr": "Otel hizmetleri",
-          "fr": "Hotel services",
-          "it": "Hotel services",
-          "es": "Hotel services",
-          "zh": "Hotel services",
-          "ja": "Hotel services",
-          "ar": "Hotel services"
-        },
-        "text": {
-          "en": "Choose a category, view available services and send your request directly to reception.",
-          "hy": "Ընտրեք կատեգորիա, տեսեք ծառայությունները և ուղարկեք պատվերը ռեսեփշնին։",
-          "ru": "Выберите категорию, посмотрите услуги и отправьте запрос на ресепшн.",
-          "tr": "Kategori seçin, hizmetleri görün ve talebinizi resepsiyona gönderin.",
-          "fr": "Choose a category, view available services and send your request directly to reception.",
-          "it": "Choose a category, view available services and send your request directly to reception.",
-          "es": "Choose a category, view available services and send your request directly to reception.",
-          "zh": "Choose a category, view available services and send your request directly to reception.",
-          "ja": "Choose a category, view available services and send your request directly to reception.",
-          "ar": "Choose a category, view available services and send your request directly to reception."
-        }
-      },
-      "rates": {
-        "usd": 45.58,
-        "eur": 53.21,
-        "rub": 0.64,
-        "margin": 1
-      },
-      "guestPosts": [],
-      "categories": [
-        {
-          "id": "cleaning",
-          "icon": "fa-broom",
-          "mediaType": "image",
-          "media": "idb://media_1779265706046_fr66mwhx0ju",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "tr": "Oda temizliği ve bakımı",
-            "en": "Room cleaning and maintenance",
-            "ar": "تنظيف وصيانة الغرفة",
-            "hy": "Սենյակի մաքրում և սպասարկում",
-            "zh": "房间清洁和维护",
-            "es": "Limpieza y mantenimiento de habitaciones.",
-            "fr": "Nettoyage et entretien des chambres",
-            "ru": "Уборка и обслуживание номеров",
-            "ja": "部屋の清掃とメンテナンス",
-            "it": "Pulizia e manutenzione delle camere"
-          }
-        },
-        {
-          "id": "taxi",
-          "icon": "fa-taxi",
-          "mediaType": "video",
-          "media": "idb://media_1779254719167_uhjw8pgs13",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Taxi & Transfer",
-            "hy": "Տաքսի և տրանսֆեր",
-            "ru": "Такси и трансфер",
-            "tr": "Taksi ve Transfer",
-            "fr": "Taxi & Transfer",
-            "it": "Taxi & Transfer",
-            "es": "Taxi & Transfer",
-            "zh": "Taxi & Transfer",
-            "ja": "Taxi & Transfer",
-            "ar": "Taxi & Transfer"
-          }
-        },
-        {
-          "id": "food",
-          "icon": "fa-utensils",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Food & drinks",
-            "hy": "Ուտելիք և խմիչք",
-            "ru": "Еда и напитки",
-            "tr": "Yemek ve İçecek",
-            "fr": "Food & drinks",
-            "it": "Food & drinks",
-            "es": "Food & drinks",
-            "zh": "Food & drinks",
-            "ja": "Food & drinks",
-            "ar": "Food & drinks"
-          }
-        },
-        {
-          "id": "istanbul_tours",
-          "icon": "fa-map-location-dot",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Tours in Istanbul",
-            "hy": "Տուրեր Ստամբուլում",
-            "ru": "Туры в Стамбуле",
-            "tr": "İstanbul Turları",
-            "fr": "Tours in Istanbul",
-            "it": "Tours in Istanbul",
-            "es": "Tours in Istanbul",
-            "zh": "Tours in Istanbul",
-            "ja": "Tours in Istanbul",
-            "ar": "Tours in Istanbul"
-          }
-        },
-        {
-          "id": "outside_tours",
-          "icon": "fa-route",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Tours outside Istanbul",
-            "hy": "Տուրեր Ստամբուլից դուրս",
-            "ru": "Туры из Стамбула",
-            "tr": "İstanbul Dışı Turlar",
-            "fr": "Tours outside Istanbul",
-            "it": "Tours outside Istanbul",
-            "es": "Tours outside Istanbul",
-            "zh": "Tours outside Istanbul",
-            "ja": "Tours outside Istanbul",
-            "ar": "Tours outside Istanbul"
-          }
-        },
-        {
-          "id": "massage",
-          "icon": "fa-spa",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Massage salons",
-            "hy": "Մերսման սրահներ",
-            "ru": "Массажные салоны",
-            "tr": "Masaj Salonları",
-            "fr": "Massage salons",
-            "it": "Massage salons",
-            "es": "Massage salons",
-            "zh": "Massage salons",
-            "ja": "Massage salons",
-            "ar": "Massage salons"
-          }
-        },
-        {
-          "id": "rentals",
-          "icon": "fa-key",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Rentals",
-            "hy": "Վարձակալություն",
-            "ru": "Аренда",
-            "tr": "Kiralama",
-            "fr": "Rentals",
-            "it": "Rentals",
-            "es": "Rentals",
-            "zh": "Rentals",
-            "ja": "Rentals",
-            "ar": "Rentals"
-          }
-        },
-        {
-          "id": "hotel_guests",
-          "icon": "fa-camera-retro",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "en": "Hotel & guest photos",
-            "hy": "Հյուրանոց և հյուրերի նկարներ",
-            "ru": "Фото отеля и гостей",
-            "tr": "Otel ve Misafir Fotoğrafları",
-            "fr": "Hotel & guest photos",
-            "it": "Hotel & guest photos",
-            "es": "Hotel & guest photos",
-            "zh": "Hotel & guest photos",
-            "ja": "Hotel & guest photos",
-            "ar": "Hotel & guest photos"
-          }
-        },
-        {
-          "id": "cat_1779247439706",
-          "icon": "fa-layer-group",
-          "mediaType": "image",
-          "media": "idb://media_1779247567452_gj5o41m0mus",
-          "h": 140,
-          "z": 1,
-          "name": {
-            "tr": "Tavuk şiş",
-            "ru": "куриные шашлычки",
-            "fr": "brochettes de poulet",
-            "ar": "أسياخ الدجاج",
-            "es": "brochetas de pollo",
-            "en": "chicken skewers",
-            "it": "spiedini di pollo",
-            "hy": "հավի շամփուրներ",
-            "ja": "鶏の串",
-            "zh": "鸡肉串"
-          }
-        }
-      ],
-      "services": [
-        {
-          "id": "clean1",
-          "cat": "cleaning",
-          "popular": false,
-          "currency": "",
-          "price": "",
-          "oldPrice": "",
-          "duration": "Today",
-          "mediaType": "image",
-          "media": "idb://media_1779266361644_gkglajxzx6u",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": " Oda temizliği",
-            "en": "room cleaning",
-            "hy": "սենյակի մաքրում",
-            "ru": "уборка комнаты",
-            "fr": "nettoyage des chambres",
-            "es": "limpieza de habitaciones",
-            "zh": "房间清洁",
-            "it": "pulizia della camera",
-            "ar": "تنظيف الغرفة",
-            "ja": "部屋の掃除"
-          },
-          "desc": {
-            "tr": "Odanın kapsamlı temizliği ücretsizdir. Oda temizliği, yatak çarşaflarının değiştirilmesi ve havluların yenilenmesi bu hizmete dahildir. Bu hizmetten her 3 günde bir ücretsiz olarak yararlanabilirsiniz.",
-            "en": "Thorough cleaning of the room is free of charge. This service includes room cleaning, changing bed linen and renewing towels. You can benefit from this service free of charge every 3 days.",
-            "hy": "Սենյակի մանրակրկիտ մաքրումը անվճար է։ Այս ծառայությունը ներառում է սենյակների մաքրում, անկողնային սպիտակեղենի փոխում և սրբիչների թարմացում: Դուք կարող եք անվճար օգտվել այս ծառայությունից 3 օրը մեկ։",
-            "ru": "Генеральная уборка номера осуществляется бесплатно. В данную услугу входит уборка номера, смена постельного белья и полотенец. Вы можете воспользоваться этой услугой бесплатно каждые 3 дня.",
-            "it": "La pulizia approfondita della camera è gratuita. Questo servizio comprende la pulizia della camera, il cambio della biancheria da letto e il rinnovo degli asciugamani. Puoi usufruire di questo servizio gratuitamente ogni 3 giorni.",
-            "fr": "Le nettoyage approfondi de la chambre est gratuit. Ce service comprend le nettoyage des chambres, le changement du linge de lit et le renouvellement des serviettes. Vous pouvez bénéficier de ce service gratuitement tous les 3 jours.",
-            "es": "La limpieza a fondo de la habitación es gratuita. Este servicio incluye limpieza de habitaciones, cambio de ropa de cama y renovación de toallas. Podrás beneficiarte de este servicio de forma gratuita cada 3 días.",
-            "zh": "免费彻底清洁房间。该服务包括房间清洁、更换床单和更换毛巾。您每 3 天就可以免费享受这项服务。",
-            "ar": "التنظيف الشامل للغرفة مجاني. تشمل هذه الخدمة تنظيف الغرف وتغيير أغطية السرير وتجديد المناشف. ويمكنك الاستفادة من هذه الخدمة مجانًا كل 3 أيام.",
-            "ja": "お部屋の徹底清掃は無料です。このサービスには、部屋の清掃、ベッドリネンの交換、タオルの交換が含まれます。このサービスは 3 日ごとに無料でご利用いただけます。"
-          }
-        },
-        {
-          "id": "bos",
-          "cat": "istanbul_tours",
-          "popular": true,
-          "currency": "€",
-          "price": 50,
-          "oldPrice": 65,
-          "duration": "3-4h",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "en": "Bosphorus Cruise",
-            "hy": "Բոսֆորի նավարկություն",
-            "ru": "Круиз по Босфору",
-            "tr": "Boğaz Turu",
-            "fr": "Bosphorus Cruise",
-            "it": "Bosphorus Cruise",
-            "es": "Bosphorus Cruise",
-            "zh": "Bosphorus Cruise",
-            "ja": "Bosphorus Cruise",
-            "ar": "Bosphorus Cruise"
-          },
-          "desc": {
-            "en": "Group or private cruise with hotel pickup options.",
-            "hy": "Խմբակային կամ անհատական նավարկություն՝ հյուրանոցից վերցնելու հնարավորությամբ։",
-            "ru": "Групповой или приватный круиз с трансфером из отеля.",
-            "tr": "Otel transfer seçeneğiyle grup veya özel tekne turu.",
-            "fr": "Group or private cruise with hotel pickup options.",
-            "it": "Group or private cruise with hotel pickup options.",
-            "es": "Group or private cruise with hotel pickup options.",
-            "zh": "Group or private cruise with hotel pickup options.",
-            "ja": "Group or private cruise with hotel pickup options.",
-            "ar": "Group or private cruise with hotel pickup options."
-          }
-        },
-        {
-          "id": "old",
-          "cat": "istanbul_tours",
-          "popular": true,
-          "currency": "€",
-          "price": 40,
-          "oldPrice": "",
-          "duration": "5h",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1589561454226-796a8aa89b05?auto=format&fit=crop&w=900&q=80",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "en": "Old City Tour",
-            "hy": "Հին քաղաքի տուր",
-            "ru": "Тур по старому городу",
-            "tr": "Eski Şehir Turu",
-            "fr": "Old City Tour",
-            "it": "Old City Tour",
-            "es": "Old City Tour",
-            "zh": "Old City Tour",
-            "ja": "Old City Tour",
-            "ar": "Old City Tour"
-          },
-          "desc": {
-            "en": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "hy": "Սուլթանահմեդ, Այա Սոֆիա, Թոփքափը և Գրանդ Բազար։",
-            "ru": "Султанахмет, Айя-София, Топкапы и Гранд Базар.",
-            "tr": "Sultanahmet, Ayasofya, Topkapı ve Kapalıçarşı.",
-            "fr": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "it": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "es": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "zh": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "ja": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.",
-            "ar": "Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar."
-          }
-        },
-        {
-          "id": "sapanca",
-          "cat": "outside_tours",
-          "popular": false,
-          "currency": "€",
-          "price": 55,
-          "oldPrice": "",
-          "duration": "Full day",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "en": "Sapanca & Masukiye",
-            "hy": "Սապանջա և Մաշուքիե",
-            "ru": "Сапанджа и Машукие",
-            "tr": "Sapanca Maşukiye",
-            "fr": "Sapanca & Masukiye",
-            "it": "Sapanca & Masukiye",
-            "es": "Sapanca & Masukiye",
-            "zh": "Sapanca & Masukiye",
-            "ja": "Sapanca & Masukiye",
-            "ar": "Sapanca & Masukiye"
-          },
-          "desc": {
-            "en": "Nature day trip outside Istanbul with transfer options.",
-            "hy": "Բնության ամբողջօրյա տուր Ստամբուլից դուրս։",
-            "ru": "Поездка на природу за пределы Стамбула.",
-            "tr": "İstanbul dışında doğa turu ve transfer seçeneği.",
-            "fr": "Nature day trip outside Istanbul with transfer options.",
-            "it": "Nature day trip outside Istanbul with transfer options.",
-            "es": "Nature day trip outside Istanbul with transfer options.",
-            "zh": "Nature day trip outside Istanbul with transfer options.",
-            "ja": "Nature day trip outside Istanbul with transfer options.",
-            "ar": "Nature day trip outside Istanbul with transfer options."
-          }
-        },
-        {
-          "id": "massage1",
-          "cat": "massage",
-          "popular": true,
-          "currency": "$",
-          "price": 60,
-          "oldPrice": "",
-          "duration": "60 min",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "en": "Relax Massage",
-            "hy": "Ռելաքս մերսում",
-            "ru": "Расслабляющий массаж",
-            "tr": "Relax Masajı",
-            "fr": "Relax Massage",
-            "it": "Relax Massage",
-            "es": "Relax Massage",
-            "zh": "Relax Massage",
-            "ja": "Relax Massage",
-            "ar": "Relax Massage"
-          },
-          "desc": {
-            "en": "Relaxing massage appointment with trusted partners.",
-            "hy": "Հանգստացնող մերսում վստահելի գործընկերների մոտ։",
-            "ru": "Расслабляющий массаж у проверенных партнеров.",
-            "tr": "Güvenilir partnerlerle rahatlatıcı masaj.",
-            "fr": "Relaxing massage appointment with trusted partners.",
-            "it": "Relaxing massage appointment with trusted partners.",
-            "es": "Relaxing massage appointment with trusted partners.",
-            "zh": "Relaxing massage appointment with trusted partners.",
-            "ja": "Relaxing massage appointment with trusted partners.",
-            "ar": "Relaxing massage appointment with trusted partners."
-          }
-        },
-        {
-          "id": "guestphoto",
-          "cat": "hotel_guests",
-          "popular": false,
-          "currency": "",
-          "price": 0,
-          "oldPrice": "",
-          "duration": "Gallery",
-          "mediaType": "image",
-          "media": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "en": "Hotel photo gallery",
-            "hy": "Հյուրանոցի նկարներ",
-            "ru": "Фотогалерея отеля",
-            "tr": "Otel Fotoğraf Galerisi",
-            "fr": "Hotel photo gallery",
-            "it": "Hotel photo gallery",
-            "es": "Hotel photo gallery",
-            "zh": "Hotel photo gallery",
-            "ja": "Hotel photo gallery",
-            "ar": "Hotel photo gallery"
-          },
-          "desc": {
-            "en": "Add hotel and guest photos here from admin.",
-            "hy": "Այստեղ admin-ը կարող է ավելացնել հյուրանոցի և հյուրերի նկարներ։",
-            "ru": "Админ может добавить фото отеля и гостей.",
-            "tr": "Admin otel ve misafir fotoğrafları ekleyebilir.",
-            "fr": "Add hotel and guest photos here from admin.",
-            "it": "Add hotel and guest photos here from admin.",
-            "es": "Add hotel and guest photos here from admin.",
-            "zh": "Add hotel and guest photos here from admin.",
-            "ja": "Add hotel and guest photos here from admin.",
-            "ar": "Add hotel and guest photos here from admin."
-          }
-        },
-        {
-          "id": "srv_1779247637521",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "320",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779247746259_9lc3f43rom",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Tavuk şiş",
-            "zh": "鸡肉串",
-            "it": "spiedini di pollo",
-            "ja": "鶏の串",
-            "hy": "հավի շամփուրներ",
-            "fr": "brochettes de poulet",
-            "ru": "куриные шашлычки",
-            "en": "chicken skewers",
-            "es": "brochetas de pollo",
-            "ar": "أسياخ الدجاج"
-          },
-          "desc": {
-            "tr": "Chicken skewers",
-            "en": "chicken skewers",
-            "fr": "brochettes de poulet",
-            "hy": "հավի շամփուրներ",
-            "es": "brochetas de pollo",
-            "ja": "鶏の串",
-            "ru": "куриные шашлычки",
-            "ar": "أسياخ الدجاج",
-            "zh": "鸡肉串",
-            "it": "spiedini di pollo"
-          }
-        },
-        {
-          "id": "srv_1779256605673",
-          "cat": "taxi",
-          "popular": true,
-          "currency": "€",
-          "price": "40",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779256783477_53njfd8ekx7",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "TAKSİ (IST) İSTANBUL Havalimanı transferi",
-            "en": "TAXI (IST) ISTANBUL Airport transfer",
-            "hy": "ՏԱՔՍԻ (IST) ՍՏԱՄԲՈՒԼ Տրանսֆեր օդանավակայան",
-            "ja": "タクシー (IST) イスタンブール 空港送迎",
-            "fr": "TAXI (IST) ISTANBUL Transfert aéroport",
-            "zh": "TAKSİ (IST) İSTANBUL Havalimanı transferi",
-            "es": "TAXI (IST) ESTAMBUL Traslado aeropuerto",
-            "ru": "ТАКСИ (IST) СТАМБУЛ Трансфер из аэропорта",
-            "it": "TAXI (IST) Trasferimento aeroporto ISTANBUL",
-            "ar": "تاكسي (IST) اسطنبول نقل المطار"
-          },
-          "desc": {
-            "tr": "TAKSİ (IST) İSTANBUL Havalimanı transferi",
-            "en": "TAXI (IST) ISTANBUL Airport transfer",
-            "hy": "ՏԱՔՍԻ (IST) ՍՏԱՄԲՈՒԼ Տրանսֆեր օդանավակայան",
-            "it": "TAXI (IST) Trasferimento aeroporto ISTANBUL",
-            "ja": "タクシー (IST) イスタンブール 空港送迎",
-            "ar": "تاكسي (IST) اسطنبول نقل المطار",
-            "es": "TAXI (IST) ESTAMBUL Traslado aeropuerto",
-            "ru": "ТАКСИ (IST) СТАМБУЛ Трансфер из аэропорта",
-            "fr": "TAXI (IST) ISTANBUL Transfert aéroport",
-            "zh": "出租车 (IST) 伊斯坦布尔 机场接送"
-          }
-        },
-        {
-          "id": "srv_1779256409319",
-          "cat": "taxi",
-          "popular": true,
-          "currency": "€",
-          "price": "45",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779256548301_vcek8jjgvm",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "TAKSİ (SAW) Havaalanı transferi ",
-            "en": "TAXI (SAW) Airport transfer",
-            "hy": "TAXI (SAW) Տրանսֆեր օդանավակայան",
-            "es": "TAXI (SAW) Traslado aeropuerto",
-            "fr": "TAXI (SAW) Transfert aéroport",
-            "ar": "تاكسي (SAW) نقل المطار",
-            "ru": "ТАКСИ (SAW) Трансфер из аэропорта",
-            "zh": "出租车 (SAW) 机场接送",
-            "it": "TAXI (SAW) Trasferimento aeroporto",
-            "ja": "タクシー（SAW） 空港送迎"
-          },
-          "desc": {
-            "tr": "TAKSİ (SAW) Havaalanı transferi ",
-            "en": "TAXI (SAW) Airport transfer",
-            "ru": "ТАКСИ (SAW) Трансфер из аэропорта",
-            "es": "TAXI (SAW) Traslado aeropuerto",
-            "fr": "TAXI (SAW) Transfert aéroport",
-            "it": "TAXI (SAW) Trasferimento aeroporto",
-            "hy": "TAXI (SAW) Տրանսֆեր օդանավակայան",
-            "zh": "出租车 (SAW) 机场接送",
-            "ja": "タクシー（SAW） 空港送迎",
-            "ar": "تاكسي (SAW) نقل المطار"
-          }
-        },
-        {
-          "id": "airport",
-          "cat": "taxi",
-          "popular": true,
-          "currency": "€",
-          "price": "55",
-          "oldPrice": "",
-          "duration": "24/7",
-          "mediaType": "image",
-          "media": "idb://media_1779254973723_jtb2gfy89x",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "VIP TAKSİ (SAW) Havaalanı Transferi 1-4 kişi",
-            "en": "VIP TAXI (SAW) Airport Transfer 1-4 people",
-            "hy": "VIP TAXI (SAW) Տրանսֆեր օդանավակայան 1-4 հոգի",
-            "ru": "VIP ТАКСИ (SAW) Трансфер из аэропорта 1-4 человека",
-            "fr": "VIP TAXI (SAW) Transfert aéroport 1-4 personnes",
-            "es": "VIP TAXI (SAW) Traslado Aeropuerto 1-4 personas",
-            "ar": "VIP TAXI (SAW) نقل المطار 1-4 أشخاص",
-            "zh": "VIP 出租车 (SAW) 机场接送 1-4 人",
-            "it": "VIP TAXI (SAW) Trasferimento aeroportuale 1-4 persone",
-            "ja": "VIP TAXI (SAW) 空港送迎 1～4名様"
-          },
-          "desc": {
-            "tr": "VIP TAKSİ (SAW) Havaalanı Transferi 1-4 kişi",
-            "en": "VIP TAXI (SAW) Airport Transfer 1-4 people",
-            "hy": "VIP TAXI (SAW) Տրանսֆեր օդանավակայան 1-4 հոգի",
-            "ru": "VIP ТАКСИ (SAW) Трансфер из аэропорта 1-4 человека",
-            "es": "VIP TAXI (SAW) Traslado Aeropuerto 1-4 personas",
-            "ja": "VIP TAXI (SAW) 空港送迎 1～4名様",
-            "zh": "VIP 出租车 (SAW) 机场接送 1-4 人",
-            "it": "VIP TAXI (SAW) Trasferimento aeroportuale 1-4 persone",
-            "fr": "VIP TAXI (SAW) Transfert aéroport 1-4 personnes",
-            "ar": "VIP TAXI (SAW) نقل المطار 1-4 أشخاص"
-          }
-        },
-        {
-          "id": "srv_1779255020925",
-          "cat": "taxi",
-          "popular": false,
-          "currency": "€",
-          "price": "50",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779255202574_lrvojx2srnc",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "VİP TAKSİ ( IST) İstanbul havalimanı transferi",
-            "en": "VIP TAXI (IST) Istanbul airport transfer",
-            "ru": "VIP ТАКСИ (IST) Трансфер из аэропорта Стамбула",
-            "hy": "VIP TAXI (IST) Ստամբուլի օդանավակայանի տեղափոխում",
-            "ar": "VIP TAXI (IST) نقل المطار في اسطنبول",
-            "es": "VIP TAXI (IST) Traslado al aeropuerto de Estambul",
-            "zh": "VIP 出租车 (IST) 伊斯坦布尔机场接送",
-            "fr": "VIP TAXI (IST) Transfert aéroport d'Istanbul",
-            "it": "TAXI VIP (IST) Trasferimento aeroporto di Istanbul",
-            "ja": "VIP タクシー (IST) イスタンブール空港送迎"
-          },
-          "desc": {
-            "tr": "VİP TAKSİ  ( IST ) İstanbul havalimanı transferi",
-            "es": "VIP TAXI (IST) Traslado al aeropuerto de Estambul",
-            "zh": "VIP 出租车 (IST) 伊斯坦布尔机场接送",
-            "en": "VIP TAXI (IST) Istanbul airport transfer",
-            "ja": "VIP タクシー (IST) イスタンブール空港送迎",
-            "ar": "VIP TAXI (IST) نقل المطار في اسطنبول",
-            "ru": "VIP ТАКСИ (IST) Трансфер из аэропорта Стамбула",
-            "fr": "VIP TAXI (IST) Transfert aéroport d'Istanbul",
-            "hy": "VIP TAXI (IST) Ստամբուլի օդանավակայանի տեղափոխում",
-            "it": "TAXI VIP (IST) Trasferimento aeroporto di Istanbul"
-          }
-        },
-        {
-          "id": "srv_1779268867129",
-          "cat": "cleaning",
-          "popular": false,
-          "currency": "€",
-          "price": "",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779269068815_50tc6532ol4",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Yatak çarşaflarının ve havluların değiştirilmesi ücretsiz",
-            "en": "Change of bed linen and towels is free",
-            "fr": "Le changement des draps et des serviettes est gratuit",
-            "es": "El cambio de ropa de cama y toallas es gratuito.",
-            "hy": "Անկողնային սպիտակեղենի և սրբիչների փոփոխությունն անվճար է",
-            "ru": "Смена постельного белья и полотенец бесплатная.",
-            "zh": "免费更换床单和毛巾",
-            "ar": "تغيير أغطية السرير والمناشف مجاني",
-            "it": "Il cambio della biancheria da letto e da bagno è gratuito",
-            "ja": "ベッドリネンとタオルの交換は無料です"
-          },
-          "desc": {
-            "tr": "Yatak çarşaflarının ve havluların değiştirilmesi ücretsiz",
-            "en": "Change of bed linen and towels is free",
-            "ar": "تغيير أغطية السرير والمناشف مجاني",
-            "fr": "Le changement des draps et des serviettes est gratuit",
-            "hy": "Անկողնային սպիտակեղենի և սրբիչների փոփոխությունն անվճար է",
-            "es": "El cambio de ropa de cama y toallas es gratuito.",
-            "it": "Il cambio della biancheria da letto e da bagno è gratuito",
-            "ru": "Смена постельного белья и полотенец бесплатная.",
-            "zh": "免费更换床单和毛巾",
-            "ja": "ベッドリネンとタオルの交換は無料です"
-          }
-        },
-        {
-          "id": "srv_1779269289609",
-          "cat": "cleaning",
-          "popular": false,
-          "currency": "€",
-          "price": "",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779269415006_09p5t669zyyv",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Havluların değiştirilmesi ücretsizdir.",
-            "hy": "Սրբիչները փոխելն անվճար է։",
-            "en": "Changing towels is free of charge.",
-            "zh": "更换毛巾是免费的。",
-            "ar": "تغيير المناشف مجاني.",
-            "es": "El cambio de toallas es gratuito.",
-            "ru": "Смена полотенец осуществляется бесплатно.",
-            "fr": "Le changement des serviettes est gratuit.",
-            "it": "Il cambio degli asciugamani è gratuito.",
-            "ja": "タオルの交換は無料です。"
-          },
-          "desc": {
-            "tr": "Havluların değiştirilmesi ücretsizdir.",
-            "en": "Changing towels is free of charge.",
-            "ru": "Смена полотенец осуществляется бесплатно.",
-            "hy": "Սրբիչները փոխելն անվճար է։",
-            "fr": "Le changement des serviettes est gratuit.",
-            "it": "Il cambio degli asciugamani è gratuito.",
-            "es": "El cambio de toallas es gratuito.",
-            "zh": "更换毛巾是免费的。",
-            "ja": "タオルの交換は無料です。",
-            "ar": "تغيير المناشف مجاني."
-          }
-        },
-        {
-          "id": "srv_1779271085969",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "320",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779271404812_pl50ouiovas",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "ızgara tavuk kanat şiş",
-            "hy": "խորոված հավի թևերով շամփուրներ",
-            "ru": "шашлычки из куриных крылышек на гриле",
-            "ar": "أسياخ أجنحة دجاج مشوية",
-            "it": "spiedini di ali di pollo alla griglia",
-            "ja": "手羽元の串焼き",
-            "en": "grilled chicken wing skewers",
-            "es": "brochetas de alitas de pollo a la parrilla",
-            "fr": "brochettes d'ailes de poulet grillées",
-            "zh": "烤鸡翅串"
-          },
-          "desc": {
-            "tr": "Grilled chicken wing skewers",
-            "en": "Grilled chicken wing skewers",
-            "es": "Brochetas de alitas de pollo a la parrilla",
-            "hy": "Խորոված հավի թևերով շամփուրներ",
-            "fr": "Brochettes d'ailes de poulet grillées",
-            "it": "Spiedini di ali di pollo alla griglia",
-            "ru": "Шашлычки из куриных крылышек на гриле",
-            "zh": "烤鸡翅串",
-            "ar": "أسياخ أجنحة دجاج مشوية",
-            "ja": "手羽元の串焼き"
-          }
-        },
-        {
-          "id": "srv_1779274165003",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "370",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779274343650_7smzin1wmb3",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Izgara uç kanat",
-            "en": "grilled tip wing",
-            "ru": "кончик крыла на гриле",
-            "it": "ala di punta grigliata",
-            "es": "ala de punta a la parrilla",
-            "fr": "aile à pointe grillée",
-            "hy": "խորոված ծայրի թեւը",
-            "zh": "烤尖翅",
-            "ja": "チップウィングのグリル",
-            "ar": "جناح مشوي"
-          },
-          "desc": {
-            "tr": "Izgara uç kanat",
-            "en": "grilled tip wing",
-            "ru": "кончик крыла на гриле",
-            "hy": "խորոված ծայրի թեւը",
-            "ar": "جناح مشوي",
-            "fr": "aile à pointe grillée",
-            "ja": "チップウィングのグリル",
-            "it": "ala di punta grigliata",
-            "es": "ala de punta a la parrilla",
-            "zh": "烤尖翅"
-          }
-        },
-        {
-          "id": "srv_1779274908675",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779275166621_vtet7f2yd7",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Tavuk pirzola, kırmızı pilav, ızgara domates, salata",
-            "en": "Chicken chop, red rice, grilled tomato, salad",
-            "it": "Braciola di pollo, riso rosso, pomodoro grigliato, insalata",
-            "ru": "Куриная отбивная, красный рис, помидоры гриль, салат",
-            "es": "Chuleta de pollo, arroz rojo, tomate asado, ensalada",
-            "fr": "Côtelette de poulet, riz rouge, tomate grillée, salade",
-            "ja": "チキンチョップ、赤飯、グリルトマト、サラダ",
-            "ar": "قطعة دجاج، أرز أحمر، طماطم مشوية، سلطة",
-            "hy": "Հավի կոտլետ, կարմիր բրինձ, խորոված լոլիկ, աղցան",
-            "zh": "炸鸡排、红米饭、烤番茄、沙拉"
-          },
-          "desc": {
-            "tr": "Tavuk pirzola, kırmızı pilav, ızgara domates, salata\n",
-            "en": "Chicken cutlet, red rice, grilled tomato, salad",
-            "zh": "炸鸡排、红米饭、烤番茄、沙拉",
-            "ru": "Куриная котлета, красный рис, помидоры гриль, салат",
-            "es": "Chuleta de pollo, arroz rojo, tomate asado, ensalada",
-            "hy": "Հավի կոտլետ, կարմիր բրինձ, խորոված լոլիկ, աղցան",
-            "ar": "شريحة دجاج، أرز أحمر، طماطم مشوية، سلطة",
-            "fr": "Escalope de poulet, riz rouge, tomate grillée, salade",
-            "it": "Cotoletta di pollo, riso rosso, pomodoro grigliato, insalata",
-            "ja": "チキンカツ、赤飯、グリルトマト、サラダ"
-          }
-        },
-        {
-          "id": "srv_1779275430822",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "320",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779276461928_nwm3scwmjd",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Kelebek tavuk ızgara",
-            "en": "Grilled butterfly chicken",
-            "fr": "Poulet papillon grillé",
-            "es": "Pollo mariposa a la parrilla",
-            "ar": "دجاج الفراشة المشوي",
-            "it": "Pollo farfalla alla griglia",
-            "ja": "バタフライチキンのグリル",
-            "hy": "Խորոված թիթեռի հավ",
-            "zh": "烤蝴蝶鸡",
-            "ru": "Жареная курица-бабочка"
-          },
-          "desc": {
-            "tr": "Butterfly grilled chicken",
-            "en": "butterfly grilled chicken",
-            "ar": "دجاج مشوي على شكل فراشة",
-            "es": "pollo a la parrilla con mariposas",
-            "ja": "バタフライグリルチキン",
-            "fr": "poulet grillé aux papillons",
-            "it": "pollo alla griglia a farfalla",
-            "ru": "курица гриль-бабочка",
-            "hy": "թիթեռով խորոված հավ",
-            "zh": "蝴蝶烤鸡"
-          }
-        },
-        {
-          "id": "srv_1779285813395",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779286527628_rdn4qi7730a",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Urfa kebap, Adana kebap",
-            "en": "Urfa kebab, Adana kebab",
-            "ar": "أورفا كباب، أضنة كباب",
-            "zh": "乌尔法烤肉串、阿达纳烤肉串",
-            "ru": "Урфа-кебаб, Адана-кебаб",
-            "fr": "Kebab d'Urfa, kebab d'Adana",
-            "it": "Kebab Urfa, Kebab Adana",
-            "ja": "ウルファケバブ、アダナケバブ",
-            "es": "Kebab Urfa, Kebab Adana",
-            "hy": "Ուրֆայի քյաբաբ, Ադանայի քյաբաբ"
-          },
-          "desc": {
-            "tr": "Urfa kebap, Adana kebap",
-            "hy": "Ուրֆայի քյաբաբ, Ադանայի քյաբաբ",
-            "ru": "Урфа-кебаб, Адана-кебаб",
-            "fr": "Kebab d'Urfa, kebab d'Adana",
-            "it": "Kebab Urfa, Kebab Adana",
-            "en": "Urfa kebab, Adana kebab",
-            "es": "Kebab Urfa, Kebab Adana",
-            "ar": "أورفا كباب، أضنة كباب",
-            "zh": "乌尔法烤肉串、阿达纳烤肉串",
-            "ja": "ウルファケバブ、アダナケバブ"
-          }
-        },
-        {
-          "id": "srv_1779287111117",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "380",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779287234696_4eytkd0m8op",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Köfte",
-            "en": "Meatball",
-            "fr": "Boulette de viande",
-            "es": "Albóndiga",
-            "it": "Polpetta",
-            "zh": "肉丸",
-            "ru": "Фрикаделька",
-            "hy": "Կոլոլակ",
-            "ar": "كرات اللحم",
-            "ja": "ミートボール"
-          },
-          "desc": {
-            "tr": "Köfte",
-            "en": "Meatball",
-            "hy": "Կոլոլակ",
-            "it": "Polpetta",
-            "fr": "Boulette de viande",
-            "ja": "ミートボール",
-            "ru": "Фрикаделька",
-            "es": "Albóndiga",
-            "zh": "肉丸",
-            "ar": "كرات اللحم"
-          }
-        },
-        {
-          "id": "srv_1779287330897",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "490",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779287421624_ye8psz2395r",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Kuzu şiş",
-            "en": "lamb skewer",
-            "ar": "سيخ خروف",
-            "ru": "шашлык из баранины",
-            "fr": "brochette d'agneau",
-            "it": "spiedino di agnello",
-            "zh": "羊肉串",
-            "ja": "子羊の串焼き",
-            "hy": "գառան շամփուր",
-            "es": "brocheta de cordero"
-          },
-          "desc": {
-            "tr": "Kuzu şiş",
-            "en": "lamb skewer",
-            "ru": "шашлык из баранины",
-            "it": "spiedino di agnello",
-            "fr": "brochette d'agneau",
-            "es": "brocheta de cordero",
-            "hy": "գառան շամփուր",
-            "zh": "羊肉串",
-            "ja": "子羊の串焼き",
-            "ar": "سيخ خروف"
-          }
-        },
-        {
-          "id": "srv_1779297323186",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "480",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779297503899_d1jk1th0nyo",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "Ciğer şiş",
-            "en": "liver skewer",
-            "zh": "肝串",
-            "ar": "سيخ الكبد",
-            "fr": "brochette de foie",
-            "ru": "шашлык из печени",
-            "es": "brocheta de hígado",
-            "it": "spiedino di fegato",
-            "hy": "լյարդի շամփուր",
-            "ja": "レバー串"
-          },
-          "desc": {
-            "tr": "Ciğer şiş",
-            "en": "liver skewer",
-            "ru": "шашлык из печени",
-            "es": "brocheta de hígado",
-            "fr": "brochette de foie",
-            "ja": "レバー串",
-            "ar": "سيخ الكبد",
-            "it": "spiedino di fegato",
-            "hy": "լյարդի շամփուր",
-            "zh": "肝串"
-          }
-        },
-        {
-          "id": "srv_1779297583620",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "380",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779297744104_yg4q0wvdzyc",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KOÇ YUMURTASİ",
-            "en": "Aries EGG",
-            "ru": "Овен ЯЙЦО",
-            "es": "HUEVO Aries",
-            "zh": "白羊座蛋",
-            "ar": "بيضة برج الحمل",
-            "hy": "Խոյ ձու",
-            "ja": "牡羊座の卵",
-            "it": "UOVO Ariete",
-            "fr": "ŒUF Bélier"
-          },
-          "desc": {
-            "tr": "KOÇ YUMURTASİ",
-            "en": "Aries EGG",
-            "zh": "白羊座蛋",
-            "hy": "Խոյ ձու",
-            "it": "UOVO Ariete",
-            "fr": "ŒUF Bélier",
-            "ru": "Овен ЯЙЦО",
-            "es": "HUEVO Aries",
-            "ja": "牡羊座の卵",
-            "ar": "بيضة برج الحمل"
-          }
-        },
-        {
-          "id": "srv_1779297978136",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "550",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779298081822_qlky1x7ukl",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "beyti kebap",
-            "en": "beyti kebab",
-            "ar": "بيتي كباب",
-            "ja": "ベイティケバブ",
-            "hy": "բեյթի քյաբաբ",
-            "ru": "бейти-кебаб",
-            "it": "beyti kebab",
-            "es": "kebab beyti",
-            "fr": "beyti kebab",
-            "zh": "贝伊蒂烤肉串"
-          },
-          "desc": {
-            "tr": "beyti kebap",
-            "en": "beyti kebab",
-            "hy": "բեյթի քյաբաբ",
-            "ru": "бейти-кебаб",
-            "zh": "贝伊蒂烤肉串",
-            "it": "beyti kebab",
-            "es": "kebab beyti",
-            "fr": "beyti kebab",
-            "ja": "ベイティケバブ",
-            "ar": "بيتي كباب"
-          }
-        },
-        {
-          "id": "srv_1779300836283",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "550",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779300936629_rw1m8nhred",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "İKANDER KEBAP",
-            "it": "İKANDER KEBAP",
-            "fr": "IKANDER KEBAP",
-            "hy": "ԻԿԱՆԴԵՐ ՔԵԲԱՊ",
-            "en": "İKANDER KEBAP",
-            "zh": "伊坎德尔烤肉串",
-            "ru": "ИКАНДЕР КЕБАП",
-            "ar": "اسكندر كباب",
-            "es": "İKANDER KEBAP",
-            "ja": "イカンデル・ケバップ"
-          },
-          "desc": {
-            "tr": "İKANDER KEBAP",
-            "fr": "IKANDER KEBAP",
-            "en": "İKANDER KEBAP",
-            "ru": "ИКАНДЕР КЕБАП",
-            "hy": "ԻԿԱՆԴԵՐ ՔԵԲԱՊ",
-            "it": "İKANDER KEBAP",
-            "zh": "伊坎德尔烤肉串",
-            "ar": "اسكندر كباب",
-            "es": "İKANDER KEBAP",
-            "ja": "イカンデル・ケバップ"
-          }
-        },
-        {
-          "id": "srv_1779301157231",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "550",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779301291766_dyiftdp5pl",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "ALİNAZİK",
-            "en": "ALINAZIC",
-            "ru": "АЛИНАЗИЧ",
-            "it": "ALINAZICO",
-            "hy": "ԱԼԻՆԱԶԻԿ",
-            "es": "ALINAZIC",
-            "ar": "الينازيك",
-            "fr": "ALINAZIQUE",
-            "zh": "阿利纳兹克",
-            "ja": "アリナジッチ"
-          },
-          "desc": {
-            "tr": "ALİNAZİK",
-            "en": "ALINAZIC",
-            "es": "ALINAZIC",
-            "ar": "الينازيك",
-            "ru": "АЛИНАЗИЧ",
-            "fr": "ALINAZIQUE",
-            "hy": "ԱԼԻՆԱԶԻԿ",
-            "ja": "アリナジッチ",
-            "it": "ALINAZICO",
-            "zh": "阿利纳兹克"
-          }
-        },
-        {
-          "id": "srv_1779301687033",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "551",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779301848515_v4x88n562l",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "DOMATESLİ KEBEB",
-            "en": "KEBEB WITH TOMATOES",
-            "ar": "كباب بالطماطم",
-            "ja": "トマトのケベブ",
-            "fr": "KEBEB AUX TOMATES",
-            "zh": "番茄烤肉串",
-            "it": "KEBEB CON POMODORI",
-            "hy": "ՔԵԲԵԲ ԼՈԼԻԿՈՎ",
-            "ru": "КЕБЕБ С ПОМИДОРАМИ",
-            "es": "KEBEB CON TOMATES"
-          },
-          "desc": {
-            "tr": "DOMATESLİ KEBEB",
-            "en": "KEBEB WITH TOMATOES",
-            "hy": "ՔԵԲԵԲ ԼՈԼԻԿՈՎ",
-            "ru": "КЕБЕБ С ПОМИДОРАМИ",
-            "fr": "KEBEB AUX TOMATES",
-            "it": "KEBEB CON POMODORI",
-            "es": "KEBEB CON TOMATES",
-            "zh": "番茄烤肉串",
-            "ja": "トマトのケベブ",
-            "ar": "كباب بالطماطم"
-          }
-        },
-        {
-          "id": "srv_1779303312400",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "850",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779303442080_tmwhaynxh5e",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KUZU PİRZOLA",
-            "hy": "գառան կոտլետ",
-            "en": "LAMB CHOP",
-            "zh": "羊排",
-            "ar": "قطع لحم الضأن",
-            "ru": "БАРАНИНКА",
-            "es": "CHULETA DE CORDERO",
-            "it": "Costoletta d'agnello",
-            "fr": "CÔTE D'AGNEAU",
-            "ja": "ラムチョップ"
-          },
-          "desc": {
-            "tr": "KUZU PİRZOLA",
-            "en": "LAMB CHOP",
-            "hy": "գառան կոտլետ",
-            "ru": "БАРАНИНКА",
-            "es": "CHULETA DE CORDERO",
-            "fr": "CÔTE D'AGNEAU",
-            "ja": "ラムチョップ",
-            "zh": "羊排",
-            "ar": "قطع لحم الضأن",
-            "it": "Costoletta d'agnello"
-          }
-        },
-        {
-          "id": "srv_1779306198123",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "850",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779306318731_s4s2u8130i8",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KABURGA KEBAP",
-            "en": "RIB KEBAB",
-            "ru": "РИБ КЕБАБ",
-            "ar": "ضلع كباب",
-            "it": "COSTOLA KEBAB",
-            "es": "KEBAB DE COSTILLA",
-            "ja": "リブケバブ",
-            "fr": "KEBAB DE CÔTES",
-            "zh": "肋排烤肉串",
-            "hy": "RIB KEBAB"
-          },
-          "desc": {
-            "tr": "KABURGA KEBAP",
-            "hy": "RIB KEBAB",
-            "en": "RIB KEBAB",
-            "ru": "РИБ КЕБАБ",
-            "fr": "KEBAB DE CÔTES",
-            "zh": "肋排烤肉串",
-            "es": "KEBAB DE COSTILLA",
-            "ja": "リブケバブ",
-            "it": "COSTOLA KEBAB",
-            "ar": "ضلع كباب"
-          }
-        },
-        {
-          "id": "srv_1779306589102",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "848",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779306722231_bf8kl0v5zbk",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "YAGLİ KARA",
-            "en": "OILY BLACK",
-            "ar": "أسود زيتي",
-            "zh": "油性黑",
-            "ru": "МАСЛЯНЫЙ ЧЕРНЫЙ",
-            "hy": "ՅՈՒՂՏ ՍԵՎ",
-            "it": "NERO OLEOSO",
-            "ja": "オイリーブラック",
-            "fr": "NOIR GRAS",
-            "es": "NEGRO ACEITOSO"
-          },
-          "desc": {
-            "tr": "YAGLİ KARA",
-            "en": "OILY BLACK",
-            "hy": "ՅՈՒՂՏ ՍԵՎ",
-            "ru": "МАСЛЯНЫЙ ЧЕРНЫЙ",
-            "zh": "油性黑",
-            "it": "NERO OLEOSO",
-            "es": "NEGRO ACEITOSO",
-            "ar": "أسود زيتي",
-            "fr": "NOIR GRAS",
-            "ja": "オイリーブラック"
-          }
-        },
-        {
-          "id": "srv_1779306883578",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "550",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779307078814_ymd1hbtjps",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "PATİLCANLİ KEBEB",
-            "hy": "ՔԵԲԵԲ ՊԱՏԻԼԿԱՆՈՎ",
-            "en": "KEBEB WITH PATILCAN",
-            "es": "KEBEB CON PATILCAN",
-            "zh": "烤肉串与帕蒂尔坎",
-            "ar": "كباب مع باتيلكان",
-            "fr": "KEBEB AU PATILCAN",
-            "ja": "ケベブとパティルカン",
-            "ru": "КЕБЕБ С ПАТИЛКАНОМ",
-            "it": "KEBEB CON PATILCAN"
-          },
-          "desc": {
-            "tr": "PATİLCANLİ KEBEB",
-            "en": "KEBEB WITH PATILCAN",
-            "hy": "ՔԵԲԵԲ ՊԱՏԻԼԿԱՆՈՎ",
-            "ru": "КЕБЕБ С ПАТИЛКАНОМ",
-            "it": "KEBEB CON PATILCAN",
-            "fr": "KEBEB AU PATILCAN",
-            "es": "KEBEB CON PATILCAN",
-            "ja": "ケベブとパティルカン",
-            "zh": "烤肉串与帕蒂尔坎",
-            "ar": "كباب مع باتيلكان"
-          }
-        },
-        {
-          "id": "srv_1779307088640",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "700",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779307273624_jnlcasi98df",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "LEVREK",
-            "ar": "سمك باس البحر",
-            "zh": "鲈鱼",
-            "ja": "シーバス",
-            "fr": "BAR",
-            "en": "SEA BASS",
-            "ru": "МОРСКОЙ ОКУНЬ",
-            "it": "SPIGOLA",
-            "es": "LUBINA",
-            "hy": "ԾՈՎԱԲԱՍ"
-          },
-          "desc": {
-            "tr": "LEVREK",
-            "en": "SEA BASS",
-            "hy": "ԾՈՎԱԲԱՍ",
-            "fr": "BAR",
-            "it": "SPIGOLA",
-            "zh": "鲈鱼",
-            "ja": "シーバス",
-            "es": "LUBINA",
-            "ar": "سمك باس البحر",
-            "ru": "МОРСКОЙ ОКУНЬ"
-          }
-        },
-        {
-          "id": "srv_1779307283008",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "700",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779307921700_g7y8g4eep3a",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KALAMAR",
-            "ru": "КАЛЬМАР",
-            "en": "SQUID",
-            "fr": "CALMAR",
-            "es": "CALAMAR",
-            "it": "CALAMARI",
-            "ja": "イカ",
-            "zh": "乌贼",
-            "ar": "الحبار",
-            "hy": "SQUID"
-          },
-          "desc": {
-            "tr": "KALAMAR",
-            "en": "SQUID",
-            "it": "CALAMARI",
-            "fr": "CALMAR",
-            "zh": "乌贼",
-            "es": "CALAMAR",
-            "ru": "КАЛЬМАР",
-            "hy": "SQUID",
-            "ja": "イカ",
-            "ar": "الحبار"
-          }
-        },
-        {
-          "id": "srv_1779307987092",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "700",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779308511005_jw801qv512p",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "ÇUPRA",
-            "en": "seabream",
-            "ru": "морской лещ",
-            "zh": "鲷鱼",
-            "ar": "الدنيس",
-            "ja": "鯛",
-            "fr": "daurade",
-            "it": "orata",
-            "hy": "ծովախեցգետին",
-            "es": "dorada"
-          },
-          "desc": {
-            "tr": "ÇUPRA",
-            "en": "seabream",
-            "fr": "daurade",
-            "it": "orata",
-            "ja": "鯛",
-            "es": "dorada",
-            "zh": "鲷鱼",
-            "ru": "морской лещ",
-            "hy": "ծովախեցգետին",
-            "ar": "الدنيس"
-          }
-        },
-        {
-          "id": "srv_1779309373588",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "1100",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779309487395_dp4qr4fp2q",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "karışık kebap",
-            "en": "mixed kebab",
-            "hy": "խառը քյաբաբ",
-            "it": "kebab misto",
-            "es": "kebab mixto",
-            "ar": "كباب مختلط",
-            "zh": "混合烤肉串",
-            "ru": "смешанный кебаб",
-            "fr": "kebab mixte",
-            "ja": "ミックスケバブ"
-          },
-          "desc": {
-            "tr": "karışık kebap",
-            "en": "mixed kebab",
-            "fr": "kebab mixte",
-            "hy": "խառը քյաբաբ",
-            "it": "kebab misto",
-            "zh": "混合烤肉串",
-            "ar": "كباب مختلط",
-            "ja": "ミックスケバブ",
-            "ru": "смешанный кебаб",
-            "es": "kebab mixto"
-          }
-        },
-        {
-          "id": "srv_1779309620844",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "700",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779309724106_1hdmtw6fg27",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "karides",
-            "ja": "エビ",
-            "fr": "crevette",
-            "zh": "虾",
-            "es": "gamba",
-            "it": "gamberetto",
-            "ar": "جمبري",
-            "en": "prawn",
-            "ru": "креветка",
-            "hy": "ծովախեցգետին"
-          },
-          "desc": {
-            "tr": "karides",
-            "en": "prawn",
-            "zh": "虾",
-            "ja": "エビ",
-            "es": "gamba",
-            "ru": "креветка",
-            "ar": "جمبري",
-            "fr": "crevette",
-            "it": "gamberetto",
-            "hy": "ծովախեցգետին"
-          }
-        },
-        {
-          "id": "srv_1779309788195",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779310148819_7isibjp6kdt",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "SUCUKLU PİZZA",
-            "en": "SUJUK PIZZA",
-            "hy": "ՍՈՒՋՈՒԿ ՊԻՑՑԱ",
-            "fr": "PIZZA SUJUK",
-            "es": "PIZZA SUJUK",
-            "it": "PIZZA SUJUK",
-            "ja": "スジュクピザ",
-            "ar": "بيتزا سجق",
-            "ru": "СУДЖУК ПИЦЦА",
-            "zh": "苏朱克披萨"
-          },
-          "desc": {
-            "tr": "SUCUKLU PİZZA",
-            "en": "SUJUK PIZZA",
-            "ru": "СУДЖУК ПИЦЦА",
-            "hy": "ՍՈՒՋՈՒԿ ՊԻՑՑԱ",
-            "fr": "PIZZA SUJUK",
-            "it": "PIZZA SUJUK",
-            "ja": "スジュクピザ",
-            "ar": "بيتزا سجق",
-            "zh": "苏朱克披萨",
-            "es": "PIZZA SUJUK"
-          }
-        },
-        {
-          "id": "srv_1779310454950",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779310639222_sd9nxv7025k",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "SEBZELİ PİZZA",
-            "en": "VEGETABLE PIZZA",
-            "ar": "بيتزا الخضار",
-            "es": "PIZZA DE VERDURAS",
-            "it": "PIZZA DI VERDURE",
-            "ru": "ОВОЩНАЯ ПИЦЦА",
-            "hy": "Բանջարեղենային Պիցցա",
-            "fr": "PIZZA AUX LÉGUMES",
-            "zh": "蔬菜披萨",
-            "ja": "野菜ピザ"
-          },
-          "desc": {
-            "tr": "SEBZELİ PİZZA",
-            "en": "VEGETABLE PIZZA",
-            "es": "PIZZA DE VERDURAS",
-            "fr": "PIZZA AUX LÉGUMES",
-            "it": "PIZZA DI VERDURE",
-            "hy": "Բանջարեղենային Պիցցա",
-            "ru": "ОВОЩНАЯ ПИЦЦА",
-            "ja": "野菜ピザ",
-            "ar": "بيتزا الخضار",
-            "zh": "蔬菜披萨"
-          }
-        },
-        {
-          "id": "srv_1779310812527",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779310940831_yxr2f470ve8",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KAŞARLİ PİZZA",
-            "en": "cheddar pizza",
-            "ar": "بيتزا شيدر",
-            "ru": "пицца чеддер",
-            "hy": "չեդդեր պիցցա",
-            "it": "pizza al cheddar",
-            "fr": "pizza au cheddar",
-            "ja": "チェダーピザ",
-            "es": "pizza con queso cheddar",
-            "zh": "切达披萨"
-          },
-          "desc": {
-            "tr": "KAŞARLİ PİZZA",
-            "en": "cheddar pizza",
-            "ru": "пицца чеддер",
-            "hy": "չեդդեր պիցցա",
-            "it": "pizza al cheddar",
-            "es": "pizza con queso cheddar",
-            "fr": "pizza au cheddar",
-            "zh": "切达披萨",
-            "ja": "チェダーピザ",
-            "ar": "بيتزا شيدر"
-          }
-        },
-        {
-          "id": "srv_1779311202312",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "360",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779311331050_6fbr4xtfmve",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KARİŞİK PİZZA",
-            "en": "MIXED PIZZA",
-            "ru": "СМЕШАННАЯ ПИЦЦА",
-            "es": "PIZZA MIXTA",
-            "zh": "混合披萨",
-            "ja": "ミックスピザ",
-            "hy": "ԽԱՌՆ ՊԻՑՑԱ",
-            "fr": "PIZZA MIXTE",
-            "ar": "بيتزا مشكلة",
-            "it": "PIZZA MISTA"
-          },
-          "desc": {
-            "tr": "KARİŞİK PİZZA",
-            "en": "MIXED PIZZA",
-            "hy": "ԽԱՌՆ ՊԻՑՑԱ",
-            "zh": "混合披萨",
-            "it": "PIZZA MISTA",
-            "fr": "PIZZA MIXTE",
-            "ja": "ミックスピザ",
-            "ru": "СМЕШАННАЯ ПИЦЦА",
-            "ar": "بيتزا مشكلة",
-            "es": "PIZZA MIXTA"
-          }
-        },
-        {
-          "id": "srv_1779311518946",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "360",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779311617578_ee8fcvc80e",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "TAVUKLU PİZZA",
-            "fr": "PIZZA AU POULET",
-            "en": "CHICKEN PIZZA",
-            "hy": "ՀԱՎԻ ՊԻՑՑԱ",
-            "zh": "鸡肉披萨",
-            "ar": "بيتزا الدجاج",
-            "it": "PIZZA AL POLLO",
-            "ru": "КУРИНАЯ ПИЦЦА",
-            "ja": "チキンピザ",
-            "es": "PIZZA DE POLLO"
-          },
-          "desc": {
-            "tr": "TAVUKLU PİZZA",
-            "ru": "КУРИНАЯ ПИЦЦА",
-            "hy": "ՀԱՎԻ ՊԻՑՑԱ",
-            "en": "CHICKEN PIZZA",
-            "ja": "チキンピザ",
-            "fr": "PIZZA AU POULET",
-            "ar": "بيتزا الدجاج",
-            "zh": "鸡肉披萨",
-            "it": "PIZZA AL POLLO",
-            "es": "PIZZA DE POLLO"
-          }
-        },
-        {
-          "id": "srv_1779311813042",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779312089971_pstyvpm97a",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "MANTARLİ PİZZA",
-            "fr": "PIZZA AUX CHAMPIGNONS",
-            "ru": "ГРИБНАЯ ПИЦЦА",
-            "en": "MUSHROOM PIZZA",
-            "es": "PIZZA DE SETAS",
-            "ar": "بيتزا الفطر",
-            "hy": "ՍՆԿՈՎ ՊԻՑՑԱ",
-            "zh": "蘑菇披萨",
-            "ja": "マッシュルームピザ",
-            "it": "PIZZA AI FUNGHI"
-          },
-          "desc": {
-            "tr": "MANTARLİ PİZZA",
-            "fr": "PIZZA AUX CHAMPIGNONS",
-            "en": "MUSHROOM PIZZA",
-            "hy": "ՍՆԿՈՎ ՊԻՑՑԱ",
-            "ru": "ГРИБНАЯ ПИЦЦА",
-            "es": "PIZZA DE SETAS",
-            "zh": "蘑菇披萨",
-            "ar": "بيتزا الفطر",
-            "it": "PIZZA AI FUNGHI",
-            "ja": "マッシュルームピザ"
-          }
-        },
-        {
-          "id": "srv_1779312213517",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "360",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779312269860_wtgl94pis1m",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "karışık pide",
-            "en": "mixed pita",
-            "ru": "смешанный лаваш",
-            "ar": "بيتا مختلطة",
-            "hy": "խառը պիտա",
-            "es": "pita mixta",
-            "fr": "pita mélangé",
-            "ja": "ミックスピタ",
-            "it": "pita mista",
-            "zh": "混合皮塔饼"
-          },
-          "desc": {
-            "tr": "karışık pide",
-            "en": "mixed pita",
-            "ru": "смешанный лаваш",
-            "hy": "խառը պիտա",
-            "it": "pita mista",
-            "zh": "混合皮塔饼",
-            "es": "pita mixta",
-            "ja": "ミックスピタ",
-            "ar": "بيتا مختلطة",
-            "fr": "pita mélangé"
-          }
-        },
-        {
-          "id": "srv_1779312311276",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779312488470_8j9bqc534sb",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KUŞBAŞİ PİDE",
-            "en": "KUŞBAŞİ PITA",
-            "zh": "库斯巴斯伊皮塔饼",
-            "it": "KUŞBAŞİ PITA",
-            "ja": "クシュバシュ ピタ",
-            "ru": "КУШБАШИ ПИТА",
-            "ar": "كوشباشي بيتا",
-            "fr": "KUŞBAŞİ PITA",
-            "es": "KUŞBAŞİ PITA",
-            "hy": "KUŞBAŞİ PITA"
-          },
-          "desc": {
-            "tr": "KUŞBAŞİ PİDE",
-            "en": "KUŞBAŞİ PITA",
-            "fr": "KUŞBAŞİ PITA",
-            "ru": "КУШБАШИ ПИТА",
-            "es": "KUŞBAŞİ PITA",
-            "ar": "كوشباشي بيتا",
-            "it": "KUŞBAŞİ PITA",
-            "zh": "库斯巴斯伊皮塔饼",
-            "ja": "クシュバシュ ピタ",
-            "hy": "KUŞBAŞİ PITA"
-          }
-        },
-        {
-          "id": "srv_1779312554502",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "260",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779312629701_p4ys1gj5fsa",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KAŞARLİ PİDE",
-            "en": "PITA WITH cheddar",
-            "ru": "ПИТА С Чеддером",
-            "es": "PITA CON cheddar",
-            "ar": "بيتا مع شيدر",
-            "it": "PITA CON formaggio cheddar",
-            "fr": "PITA AU cheddar",
-            "zh": "切达皮塔饼",
-            "hy": "ՊԻՏԱ Չեդդերով",
-            "ja": "チェダーチーズ入りピタ"
-          },
-          "desc": {
-            "tr": "KAŞARLİ PİDE",
-            "en": "PITA WITH cheddar",
-            "hy": "ՊԻՏԱ Չեդդերով",
-            "es": "PITA CON cheddar",
-            "ru": "ПИТА С Чеддером",
-            "it": "PITA CON formaggio cheddar",
-            "ar": "بيتا مع شيدر",
-            "zh": "切达皮塔饼",
-            "fr": "PITA AU cheddar",
-            "ja": "チェダーチーズ入りピタ"
-          }
-        },
-        {
-          "id": "srv_1779313058024",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "320",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313124018_q9nznsuohfk",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KAŞARLİ SUCUKLU PİDE",
-            "en": "PITA WITH cheddar and sausage",
-            "es": "PITA CON cheddar y salchicha",
-            "hy": "ՊԻՏԱ Չեդդերով և նրբերշիկով",
-            "fr": "PITA AU cheddar et saucisses",
-            "it": "PITA CON cheddar e salsiccia",
-            "ru": "ПИТА С Чеддером и колбасой",
-            "ja": "チェダーチーズとソーセージのピタ",
-            "ar": "بيتا مع الشيدر والسجق",
-            "zh": "皮塔饼配切达干酪和香肠"
-          },
-          "desc": {
-            "tr": "KAŞARLİ SUCUKLU PİDE",
-            "en": "PITA WITH cheddar and sausage",
-            "fr": "PITA AU cheddar et saucisses",
-            "hy": "ՊԻՏԱ Չեդդերով և նրբերշիկով",
-            "it": "PITA CON cheddar e salsiccia",
-            "ja": "チェダーチーズとソーセージのピタ",
-            "ar": "بيتا مع الشيدر والسجق",
-            "ru": "ПИТА С Чеддером и колбасой",
-            "es": "PITA CON cheddar y salchicha",
-            "zh": "皮塔饼配切达干酪和香肠"
-          }
-        },
-        {
-          "id": "srv_1779313178096",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "300",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313246168_hz0wo2zosj7",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "SEBZELİ PİDE",
-            "zh": "蔬菜皮塔饼",
-            "it": "PITA CON VERDURE",
-            "fr": "PITA AUX LÉGUMES",
-            "ja": "野菜入りピタ",
-            "en": "PITA WITH VEGETABLES",
-            "ru": "ПИТА С ОВОЩАМИ",
-            "ar": "بيتا بالخضار",
-            "es": "PITA CON VERDURAS",
-            "hy": "ՊԻՏԱ Բանջարեղենով"
-          },
-          "desc": {
-            "tr": "SEBZELİ PİDE",
-            "en": "PITA WITH VEGETABLES",
-            "hy": "ՊԻՏԱ Բանջարեղենով",
-            "fr": "PITA AUX LÉGUMES",
-            "es": "PITA CON VERDURAS",
-            "ru": "ПИТА С ОВОЩАМИ",
-            "it": "PITA CON VERDURE",
-            "zh": "蔬菜皮塔饼",
-            "ja": "野菜入りピタ",
-            "ar": "بيتا بالخضار"
-          }
-        },
-        {
-          "id": "srv_1779313357857",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "300",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313421049_w7sjh6cieql",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "TAVUKLU PİDE",
-            "en": "CHICKEN PITA",
-            "es": "PITA DE POLLO",
-            "hy": "ՀԱՎԻ ՊԻՏԱ",
-            "zh": "鸡肉皮塔饼",
-            "ar": "بيتا الدجاج",
-            "fr": "PITA AU POULET",
-            "ru": "КУРИНАЯ ПИТА",
-            "ja": "チキンピタ",
-            "it": "PITA DI POLLO"
-          },
-          "desc": {
-            "tr": "TAVUKLU PİDE",
-            "en": "CHICKEN PITA",
-            "it": "PITA DI POLLO",
-            "ru": "КУРИНАЯ ПИТА",
-            "zh": "鸡肉皮塔饼",
-            "ar": "بيتا الدجاج",
-            "ja": "チキンピタ",
-            "hy": "ՀԱՎԻ ՊԻՏԱ",
-            "es": "PITA DE POLLO",
-            "fr": "PITA AU POULET"
-          }
-        },
-        {
-          "id": "srv_1779313478642",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "350",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313556905_ttqx9gpmdrg",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KİYMALİ KAŞARLİ PİDE",
-            "en": "PITA WITH MINED MEAT AND CHEDGE",
-            "hy": "ՊԻՏԱ ԱՎԱՆԴԱԳՐՎԱԾ ՄՍՈՎ ԵՎ ՉԵՋԻ ՀԵՏ",
-            "ar": "بيتا باللحم المفروم والجبن",
-            "es": "PITA CON CARNE MINADA Y CHEDGE",
-            "zh": "皮塔饼配矿肉和切碎",
-            "ru": "ПИТА С МЯСОМ И ЧЕДЖЕМ",
-            "fr": "PITA AVEC VIANDE MINE ET CHEDGE",
-            "it": "PITA CON CARNE MInata E CHEDGE",
-            "ja": "採れた肉とチェッジのピタ"
-          },
-          "desc": {
-            "tr": "KİYMALİ KAŞARLİ PİDE",
-            "en": "PITA WITH MINED MEAT AND CHEDGE",
-            "es": "PITA CON CARNE MINADA Y CHEDGE",
-            "it": "PITA CON CARNE MInata E CHEDGE",
-            "hy": "ՊԻՏԱ ԱՎԱՆԴԱԳՐՎԱԾ ՄՍՈՎ ԵՎ ՉԵՋԻ ՀԵՏ",
-            "ja": "採れた肉とチェッジのピタ",
-            "zh": "皮塔饼配矿肉和切碎",
-            "ru": "ПИТА С МЯСОМ И ЧЕДЖЕМ",
-            "fr": "PITA AVEC VIANDE MINE ET CHEDGE",
-            "ar": "بيتا باللحم المفروم والجبن"
-          }
-        },
-        {
-          "id": "srv_1779313655746",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "430",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313726978_fmze84cwrzw",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KAVURMALİ YUMURTALİ PİDE",
-            "en": "PITA WITH ROASTED EGG",
-            "hy": "ՊԻՏԱ բոված ձվով",
-            "es": "PITA CON HUEVO ASADO",
-            "ru": "ПИТА С ЖАРЕНЫМ ЯЙЦОМ",
-            "ar": "بيتا مع البيض المحمص",
-            "fr": "PITA À L'OEUF RÔTI",
-            "ja": "ローストエッグ入りピタ",
-            "zh": "皮塔饼配烤鸡蛋",
-            "it": "PITA CON UOVO ARROSTO"
-          },
-          "desc": {
-            "tr": "KAVURMALİ YUMURTALİ PİDE",
-            "en": "PITA WITH ROASTED EGG",
-            "fr": "PITA À L'OEUF RÔTI",
-            "it": "PITA CON UOVO ARROSTO",
-            "hy": "ՊԻՏԱ բոված ձվով",
-            "es": "PITA CON HUEVO ASADO",
-            "ru": "ПИТА С ЖАРЕНЫМ ЯЙЦОМ",
-            "zh": "皮塔饼配烤鸡蛋",
-            "ar": "بيتا مع البيض المحمص",
-            "ja": "ローストエッグ入りピタ"
-          }
-        },
-        {
-          "id": "srv_1779313789154",
-          "cat": "food",
-          "popular": false,
-          "currency": "₺",
-          "price": "170",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779313870530_gn5vsi1mdnh",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "KAŞARLİ LAHMACU",
-            "en": "Lahmacu with Cheddar",
-            "ru": "Лахмачу с Чеддером",
-            "ar": "لحماكو بالشيدر",
-            "fr": "Lahmacu au Cheddar",
-            "es": "Lahmacu con queso cheddar",
-            "it": "Lahmacu con Cheddar",
-            "hy": "Լահմակուն Չեդդարի հետ",
-            "ja": "ラフマクチェダー添え",
-            "zh": "拉赫马库配切达干酪"
-          },
-          "desc": {
-            "tr": "KAŞARLİ LAHMACU",
-            "en": "Lahmacu with Cheddar",
-            "zh": "拉赫马库配切达干酪",
-            "es": "Lahmacu con queso cheddar",
-            "fr": "Lahmacu au Cheddar",
-            "ru": "Лахмачу с Чеддером",
-            "hy": "Լահմակուն Չեդդարի հետ",
-            "ja": "ラフマクチェダー添え",
-            "ar": "لحماكو بالشيدر",
-            "it": "Lahmacu con Cheddar"
-          }
-        },
-        {
-          "id": "srv_1779313879986",
-          "cat": "food",
-          "popular": true,
-          "currency": "₺",
-          "price": "150",
-          "oldPrice": "",
-          "duration": "",
-          "mediaType": "image",
-          "media": "idb://media_1779314014331_v41brd16c4",
-          "h": 176,
-          "z": 1,
-          "title": {
-            "tr": "LAHMACU",
-            "en": "LAHMACU",
-            "ja": "ラフマク",
-            "ar": "لاهماكو",
-            "zh": "拉赫马库",
-            "es": "LAHMACU",
-            "ru": "ЛАХМАКУ",
-            "fr": "LAHMACU",
-            "it": "LAHMACU",
-            "hy": "ԼԱՀՄԱԿՈՒ"
-          },
-          "desc": {
-            "tr": "LAHMACU",
-            "en": "LAHMACU",
-            "ru": "ЛАХМАКУ",
-            "it": "LAHMACU",
-            "hy": "ԼԱՀՄԱԿՈՒ",
-            "es": "LAHMACU",
-            "fr": "LAHMACU",
-            "zh": "拉赫马库",
-            "ar": "لاهماكو",
-            "ja": "ラフマク"
-          }
-        }
-      ]
+    /*
+      VERY IMPORTANT:
+      1. Replace seedDataJson.categories with your current categories array exactly as it is now.
+      2. Replace seedDataJson.services with your current services array exactly as it is now.
+      3. If you want absolutely everything preserved, you can also paste your full current data object into seedDataJson.
+      4. If some media is idb://..., this code will automatically show premium fallback images instead.
+    */
+
+    const FALLBACK_MEDIA = {
+      default: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80",
+      hotel: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80",
+      food: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
+      taxi: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1200&q=80",
+      cleaning: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
+      istanbul_tours: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=80",
+      outside_tours: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      massage: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
+      rentals: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80",
+      hotel_guests: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80"
     };
 
-    const uiText = {
-      hotelSubtitle: {
-        en: "Guest services", hy: "Հյուրանոցային ծառայություններ", ru: "Сервисы для гостей", tr: "Misafir hizmetleri",
-        fr: "Guest services", it: "Guest services", es: "Guest services", zh: "Guest services", ja: "Guest services", ar: "Guest services"
-      },
-      categoriesTitle: {
-        en: "Categories", hy: "Կատեգորիաներ", ru: "Категории", tr: "Kategoriler",
-        fr: "Categories", it: "Categories", es: "Categories", zh: "Categories", ja: "Categories", ar: "Categories"
-      },
-      categoriesText: {
-        en: "Choose the section you need and explore the available offers.",
-        hy: "Ընտրեք ձեզ անհրաժեշտ բաժինը և տեսեք առաջարկները։",
-        ru: "Выберите нужный раздел и посмотрите доступные предложения.",
-        tr: "İhtiyacınız olan kategoriyi seçin ve mevcut hizmetleri inceleyin.",
-        fr: "Choose the section you need and explore the available offers.",
-        it: "Choose the section you need and explore the available offers.",
-        es: "Choose the section you need and explore the available offers.",
-        zh: "Choose the section you need and explore the available offers.",
-        ja: "Choose the section you need and explore the available offers.",
-        ar: "Choose the section you need and explore the available offers."
-      },
-      servicesTitle: {
-        en: "Available services", hy: "Հասանելի ծառայություններ", ru: "Доступные услуги", tr: "Mevcut hizmetler",
-        fr: "Available services", it: "Available services", es: "Available services", zh: "Available services", ja: "Available services", ar: "Available services"
-      },
-      servicesText: {
-        en: "Browse all services or filter by category.",
-        hy: "Դիտեք բոլոր ծառայությունները կամ ընտրեք կատեգորիա։",
-        ru: "Просматривайте все услуги или фильтруйте по категориям.",
-        tr: "Tüm hizmetleri görün veya kategoriye göre filtreleyin.",
-        fr: "Browse all services or filter by category.",
-        it: "Browse all services or filter by category.",
-        es: "Browse all services or filter by category.",
-        zh: "Browse all services or filter by category.",
-        ja: "Browse all services or filter by category.",
-        ar: "Browse all services or filter by category."
-      },
-      galleryTitle: {
-        en: "Guest photo section", hy: "Հյուրերի նկարների բաժին", ru: "Раздел фотографий гостей", tr: "Misafir fotoğraf bölümü",
-        fr: "Guest photo section", it: "Guest photo section", es: "Guest photo section", zh: "Guest photo section", ja: "Guest photo section", ar: "Guest photo section"
-      },
-      galleryText: {
-        en: "This area can later display hotel and guest photos from admin.",
-        hy: "Այս բաժնում հետո կարելի է ցույց տալ հյուրանոցի և հյուրերի նկարները admin-ից։",
-        ru: "Здесь позже можно показывать фото отеля и гостей из админки.",
-        tr: "Bu alanda daha sonra adminden otel ve misafir fotoğrafları gösterilebilir.",
-        fr: "This area can later display hotel and guest photos from admin.",
-        it: "This area can later display hotel and guest photos from admin.",
-        es: "This area can later display hotel and guest photos from admin.",
-        zh: "This area can later display hotel and guest photos from admin.",
-        ja: "This area can later display hotel and guest photos from admin.",
-        ar: "This area can later display hotel and guest photos from admin."
-      },
-      noGallery: {
-        en: "No guest photos added yet.", hy: "Հյուրերի նկարներ դեռ ավելացված չեն։", ru: "Фотографии гостей пока не добавлены.", tr: "Henüz misafir fotoğrafı eklenmedi.",
-        fr: "No guest photos added yet.", it: "No guest photos added yet.", es: "No guest photos added yet.", zh: "No guest photos added yet.", ja: "No guest photos added yet.", ar: "No guest photos added yet."
-      },
-      all: {
-        en: "All", hy: "Բոլորը", ru: "Все", tr: "Tümü", fr: "All", it: "All", es: "All", zh: "All", ja: "All", ar: "All"
-      },
-      request: {
-        en: "Request", hy: "Պատվիրել", ru: "Запросить", tr: "Talep et", fr: "Request", it: "Request", es: "Request", zh: "Request", ja: "Request", ar: "Request"
-      },
-      popular: {
-        en: "Popular", hy: "Սիրված", ru: "Популярно", tr: "Popüler", fr: "Popular", it: "Popular", es: "Popular", zh: "Popular", ja: "Popular", ar: "Popular"
-      },
-      free: {
-        en: "Free", hy: "Անվճար", ru: "Бесплатно", tr: "Ücretsiz", fr: "Free", it: "Free", es: "Free", zh: "Free", ja: "Free", ar: "Free"
-      },
-      requestMessage: {
-        en: "Your request has been prepared for reception:",
-        hy: "Ձեր հարցումը պատրաստ է ռեսեփշնի համար՝",
-        ru: "Ваш запрос подготовлен для ресепшн:",
-        tr: "Talebiniz resepsiyon için hazırlandı:",
-        fr: "Your request has been prepared for reception:",
-        it: "Your request has been prepared for reception:",
-        es: "Your request has been prepared for reception:",
-        zh: "Your request has been prepared for reception:",
-        ja: "Your request has been prepared for reception:",
-        ar: "Your request has been prepared for reception:"
-      },
-      noServices: {
-        en: "No services found in this category.",
-        hy: "Այս կատեգորիայում ծառայություն չկա։",
-        ru: "В этой категории услуг нет.",
-        tr: "Bu kategoride hizmet bulunamadı.",
-        fr: "No services found in this category.",
-        it: "No services found in this category.",
-        es: "No services found in this category.",
-        zh: "No services found in this category.",
-        ja: "No services found in this category.",
-        ar: "No services found in this category."
-      },
-      footer: {
-        en: "PEKER HOTEL services page", hy: "PEKER HOTEL ծառայությունների էջ", ru: "Страница услуг PEKER HOTEL", tr: "PEKER HOTEL hizmet sayfası",
-        fr: "PEKER HOTEL services page", it: "PEKER HOTEL services page", es: "PEKER HOTEL services page", zh: "PEKER HOTEL services page", ja: "PEKER HOTEL services page", ar: "PEKER HOTEL services page"
+    const STORAGE_KEY = "peker-hotel-premium-state-v2";
+    const LANGS = ["hy","en","ru","tr","fr","it","es","zh","ja","ar"];
+
+    const uiText = JSON.parse(document.getElementById("uiTextJson").textContent.trim());
+    const seedData = JSON.parse(document.getElementById("seedDataJson").textContent.trim());
+
+    const state = {
+      data: hydrateData(loadState() || seedData),
+      currentLang: "hy",
+      activeCategory: "all",
+      isAdmin: false,
+      calcMode: "TO_TRY",
+      bannerIndex: 0,
+      bannerTimer: null,
+      githubSaving: false
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
       }
-    };
+    }
 
-    let currentLang = "hy";
-    let activeCategory = "all";
+    function hydrateData(data) {
+      const clone = structuredClone(data);
 
-    const languageSelect = document.getElementById("languageSelect");
-    const categoriesGrid = document.getElementById("categoriesGrid");
-    const filters = document.getElementById("filters");
-    const servicesGrid = document.getElementById("servicesGrid");
-    const galleryContent = document.getElementById("galleryContent");
+      clone.categories = Array.isArray(clone.categories) ? clone.categories : [];
+      clone.services = Array.isArray(clone.services) ? clone.services : [];
+      clone.guestPosts = Array.isArray(clone.guestPosts) ? clone.guestPosts : [];
+      clone.banners = Array.isArray(clone.banners) && clone.banners.length ? clone.banners : buildDefaultBanners(clone.categories);
+      clone.settings = clone.settings || {};
+      clone.settings.whatsappUrl = clone.settings.whatsappUrl || "https://wa.me/905375120434?utm_source=chatgpt.com";
+      clone.settings.adminPin = clone.settings.adminPin || "1234";
+      clone.settings.github = clone.settings.github || {
+        enabled: false,
+        token: "",
+        owner: "",
+        repo: "",
+        path: "index.html",
+        branch: "main",
+        sha: ""
+      };
 
-    function t(obj) {
-      return obj?.[currentLang] || obj?.en || "";
+      if (clone.hotel && !clone.hotel.media) {
+        clone.hotel.media = FALLBACK_MEDIA.hotel;
+      }
+
+      return clone;
+    }
+
+    function buildDefaultBanners(categories) {
+      return (categories || []).slice(0, 4).map((cat, index) => ({
+        id: "banner_" + (index + 1),
+        image: resolveMedia(cat),
+        targetCategoryId: cat.id,
+        title: t(cat.name, "hy"),
+        subtitle: "Tap to open",
+        sort: index + 1
+      }));
+    }
+
+    function t(obj, lang = state.currentLang) {
+      return obj?.[lang] || obj?.en || obj?.tr || obj?.hy || "";
     }
 
     function setText(id, value) {
-      document.getElementById(id).textContent = value;
+      const el = $(id);
+      if (el) el.textContent = value;
+    }
+
+    function resolveMedia(item) {
+      if (!item) return FALLBACK_MEDIA.default;
+      const media = item.media || "";
+      if (media && !String(media).startsWith("idb://")) return media;
+
+      if (item.cat && FALLBACK_MEDIA[item.cat]) return FALLBACK_MEDIA[item.cat];
+      if (item.id && FALLBACK_MEDIA[item.id]) return FALLBACK_MEDIA[item.id];
+      if (item.icon && item.id && FALLBACK_MEDIA[item.id]) return FALLBACK_MEDIA[item.id];
+      if (item.id && FALLBACK_MEDIA[item.id?.replace(/^srv_/, "")]) return FALLBACK_MEDIA[item.id.replace(/^srv_/, "")];
+
+      return FALLBACK_MEDIA[item.id] || FALLBACK_MEDIA.default;
     }
 
     function mediaMarkup(item, className = "card-media") {
-      if (!item || !item.media) {
-        return `<div class="${className}"><div class="media-fallback"><i class="fa-solid fa-image"></i></div></div>`;
-      }
-      if (item.mediaType === "video") {
+      const src = resolveMedia(item);
+
+      if (item?.mediaType === "video" && src && !String(src).startsWith("idb://")) {
         return `
           <div class="${className}">
             <video autoplay muted loop playsinline>
-              <source src="${item.media}">
+              <source src="${src}">
             </video>
           </div>
         `;
       }
+
       return `
         <div class="${className}">
-          <img src="${item.media}" alt="">
+          <img src="${src}" alt="">
         </div>
       `;
     }
 
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function saveState({ syncGithub = true } = {}) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+      document.getElementById("seedDataJson").textContent = JSON.stringify(state.data, null, 2);
+      updateGithubStatus();
+      showToast("Saved");
+      if (syncGithub) debouncedGithubSave();
+    }
+
+    function updateGithubStatus() {
+      const g = state.data.settings.github;
+      $("githubStatusText").textContent = g.enabled && g.owner && g.repo
+        ? `GitHub auto save is ON: ${g.owner}/${g.repo} -> ${g.path}`
+        : "GitHub auto save is OFF";
+    }
+
+    function isFree(service) {
+      return service.price === 0 || service.price === "0" || service.price === "" || service.price == null;
+    }
+
+    function getAdjustedRate(code) {
+      const map = {
+        USD: Number(state.data.rates.usd || 0),
+        EUR: Number(state.data.rates.eur || 0),
+        RUB: Number(state.data.rates.rub || 0)
+      };
+      if (!map[code]) return 0;
+      return Math.max(0, map[code] - 1);
+    }
+
     function renderHeader() {
+      setText("brandName", state.data.hotel.name || "PEKER HOTEL");
       setText("hotelSubtitle", t(uiText.hotelSubtitle));
-      setText("heroTitle", t(data.hotel.title));
-      setText("heroText", t(data.hotel.text));
+      setText("heroTitle", t(state.data.hotel.title));
+      setText("heroText", t(state.data.hotel.text));
       setText("categoriesTitle", t(uiText.categoriesTitle));
       setText("categoriesText", t(uiText.categoriesText));
       setText("servicesTitle", t(uiText.servicesTitle));
@@ -2773,151 +1793,883 @@
       setText("galleryTitle", t(uiText.galleryTitle));
       setText("galleryText", t(uiText.galleryText));
       setText("footerText", t(uiText.footer));
+      setText("sliderTitle", t(uiText.sliderTitle));
+      setText("sliderText", t(uiText.sliderText));
+      setText("calcTitle", t(uiText.calcTitle));
+      $("globalWhatsappBtn").href = state.data.settings.whatsappUrl;
 
-      document.getElementById("heroMedia").innerHTML = mediaMarkup(data.hotel, "hero-media");
-      document.getElementById("heroOverlay").style.background = `linear-gradient(rgba(0,0,0,${data.hotel.dim || 0.42}), rgba(0,0,0,${(data.hotel.dim || 0.42) + 0.10}))`;
+      document.documentElement.lang = state.currentLang;
+      document.title = `${state.data.hotel.name || "PEKER HOTEL"} - ${t(state.data.hotel.title)}`;
 
-      document.documentElement.lang = currentLang;
-      document.title = `${data.hotel.name} - ${t(data.hotel.title)}`;
+      $("heroMedia").innerHTML = mediaMarkup(state.data.hotel, "hero-media-wrap");
+      $("hero").style.minHeight = (window.innerWidth <= 700 ? Math.max(230, (state.data.hotel.height || 360) * 0.62) : Math.max(290, (state.data.hotel.height || 360) * 0.78)) + "px";
+      $("hero").style.setProperty("--hero-zoom", state.data.hotel.zoom || 1.02);
+      $("heroOverlay").style.background = `linear-gradient(rgba(15,12,9,${state.data.hotel.dim || 0.34}), rgba(15,12,9,${Math.min(.78, (state.data.hotel.dim || 0.34) + 0.26)}))`;
     }
 
     function renderRates() {
-      document.getElementById("usdRate").textContent = Number(data.rates.usd).toFixed(2);
-      document.getElementById("eurRate").textContent = Number(data.rates.eur).toFixed(2);
-      document.getElementById("rubRate").textContent = Number(data.rates.rub).toFixed(2);
-      document.getElementById("marginRate").textContent = Number(data.rates.margin).toFixed(0) + "%";
-      setText("marginLabel", "Margin");
+      const list = [
+        { label: "USD", value: getAdjustedRate("USD") },
+        { label: "EUR", value: getAdjustedRate("EUR") },
+        { label: "RUB", value: getAdjustedRate("RUB") },
+        { label: "Margin", value: Number(state.data.rates.margin || 0), suffix: "%" }
+      ];
+
+      $("ratesBox").innerHTML = list.map(item => `
+        <div class="rate-card">
+          <small>${item.label}</small>
+          <strong>${item.suffix ? item.value.toFixed(0) + item.suffix : item.value.toFixed(2)}</strong>
+        </div>
+      `).join("");
+    }
+
+    function renderCalculator() {
+      const currency = $("calcCurrency").value;
+      const amount = Number($("calcAmount").value || 0);
+
+      if (!amount) {
+        $("calcResult").textContent = "";
+        return;
+      }
+
+      if (currency === "TRY") {
+        $("calcResult").textContent = `${amount.toFixed(2)} TRY`;
+        return;
+      }
+
+      const rate = getAdjustedRate(currency);
+      if (!rate) {
+        $("calcResult").textContent = "No rate";
+        return;
+      }
+
+      if (state.calcMode === "TO_TRY") {
+        const result = amount * rate;
+        $("calcResult").textContent = `${amount.toFixed(2)} ${currency} = ${result.toFixed(2)} TRY`;
+      } else {
+        const result = amount / rate;
+        $("calcResult").textContent = `${amount.toFixed(2)} TRY = ${result.toFixed(2)} ${currency}`;
+      }
+    }
+
+    function renderSlider() {
+      const banners = [...(state.data.banners || [])].sort((a, b) => (a.sort || 0) - (b.sort || 0));
+      const stage = $("bannerStage");
+      const dots = $("bannerDots");
+      $("editSliderBtn").classList.toggle("hidden", !state.isAdmin);
+
+      if (!banners.length) {
+        stage.innerHTML = `
+          <div class="banner-slide active">
+            <img src="${FALLBACK_MEDIA.hotel}" alt="">
+            <div class="banner-overlay"></div>
+            <div class="banner-copy">
+              <div>
+                <strong>${state.data.hotel.name || "PEKER HOTEL"}</strong>
+                <span>${t(uiText.sliderText)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        dots.innerHTML = "";
+        return;
+      }
+
+      if (state.bannerIndex >= banners.length) state.bannerIndex = 0;
+
+      stage.innerHTML = banners.map((banner, index) => `
+        <div class="banner-slide ${index === state.bannerIndex ? "active" : ""}" data-index="${index}">
+          <img src="${banner.image || FALLBACK_MEDIA.hotel}" alt="">
+          <div class="banner-overlay"></div>
+          <div class="banner-copy">
+            <div>
+              <strong>${escapeHtml(banner.title || "")}</strong>
+              <span>${escapeHtml(banner.subtitle || "")}</span>
+            </div>
+            ${state.isAdmin ? `
+              <div class="admin-tools" style="display:flex;position:static;flex-direction:row;">
+                <button class="admin-mini" onclick="editBanner('${banner.id}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="admin-mini" onclick="moveBanner('${banner.id}', -1)"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="admin-mini" onclick="moveBanner('${banner.id}', 1)"><i class="fa-solid fa-arrow-down"></i></button>
+              </div>
+            ` : ""}
+          </div>
+        </div>
+      `).join("");
+
+      stage.onclick = () => {
+        const banner = banners[state.bannerIndex];
+        if (!banner) return;
+        state.activeCategory = banner.targetCategoryId || "all";
+        renderAll();
+        document.getElementById("categoriesGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+
+      dots.innerHTML = banners.map((_, index) => `
+        <button class="banner-dot ${index === state.bannerIndex ? "active" : ""}" data-index="${index}"></button>
+      `).join("");
+
+      dots.querySelectorAll(".banner-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+          state.bannerIndex = Number(dot.dataset.index);
+          renderSlider();
+          startBannerTimer();
+        });
+      });
+    }
+
+    function startBannerTimer() {
+      clearInterval(state.bannerTimer);
+      state.bannerTimer = setInterval(() => {
+        const len = (state.data.banners || []).length;
+        if (len <= 1) return;
+        state.bannerIndex = (state.bannerIndex + 1) % len;
+        renderSlider();
+      }, 2000);
     }
 
     function renderCategories() {
-      categoriesGrid.innerHTML = "";
-      data.categories.forEach(category => {
+      const wrap = $("categoriesGrid");
+      wrap.innerHTML = "";
+
+      state.data.categories.forEach((category, index) => {
         const btn = document.createElement("button");
-        btn.className = "category-card" + (activeCategory === category.id ? " active" : "");
+        btn.className = "category-card" + (state.activeCategory === category.id ? " active" : "");
         btn.innerHTML = `
           ${mediaMarkup(category)}
           <div class="card-overlay"></div>
           <div class="category-content">
-            <i class="fa-solid ${category.icon}"></i>
-            <h3>${t(category.name)}</h3>
+            <div class="category-icon"><i class="fa-solid ${category.icon || "fa-layer-group"}"></i></div>
+            <h3>${escapeHtml(t(category.name))}</h3>
+          </div>
+          <div class="admin-tools">
+            <button class="admin-mini" title="Edit" onclick="event.stopPropagation(); editCategory('${category.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-mini" title="Up" onclick="event.stopPropagation(); moveCategory('${category.id}', -1)"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="admin-mini" title="Down" onclick="event.stopPropagation(); moveCategory('${category.id}', 1)"><i class="fa-solid fa-arrow-down"></i></button>
           </div>
         `;
         btn.addEventListener("click", () => {
-          activeCategory = category.id;
-          renderCategories();
-          renderFilters();
-          renderServices();
-          document.getElementById("servicesGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+          state.activeCategory = category.id;
+          renderAll();
+          $("servicesGrid").scrollIntoView({ behavior: "smooth", block: "start" });
         });
-        categoriesGrid.appendChild(btn);
+        wrap.appendChild(btn);
       });
     }
 
     function renderFilters() {
-      const allChip = `<button class="chip ${activeCategory === "all" ? "active" : ""}" data-id="all">${t(uiText.all)}</button>`;
-      const chips = data.categories.map(category => `
-        <button class="chip ${activeCategory === category.id ? "active" : ""}" data-id="${category.id}">
-          ${t(category.name)}
+      const allChip = `
+        <button class="chip ${state.activeCategory === "all" ? "active" : ""}" data-id="all">
+          ${escapeHtml(t(uiText.all))}
+        </button>
+      `;
+
+      const chips = state.data.categories.map(category => `
+        <button class="chip ${state.activeCategory === category.id ? "active" : ""}" data-id="${category.id}">
+          ${escapeHtml(t(category.name))}
         </button>
       `).join("");
 
-      filters.innerHTML = allChip + chips;
+      $("filters").innerHTML = allChip + chips;
 
-      filters.querySelectorAll(".chip").forEach(chip => {
+      $("filters").querySelectorAll(".chip").forEach(chip => {
         chip.addEventListener("click", () => {
-          activeCategory = chip.dataset.id;
-          renderFilters();
-          renderCategories();
-          renderServices();
+          state.activeCategory = chip.dataset.id;
+          renderAll();
         });
       });
     }
 
-    function isFree(service) {
-      return service.price === 0 || service.price === "0" || service.price === "" || service.price === null;
-    }
-
     function priceHTML(service) {
       if (isFree(service)) {
-        return `<span class="free-tag">${t(uiText.free)}</span>`;
+        return `<span class="free-tag">${escapeHtml(t(uiText.free))}</span>`;
       }
-      const old = service.oldPrice ? `<span class="old-price">${service.currency || ""}${service.oldPrice}</span>` : "";
+      const old = service.oldPrice ? `<span class="old-price">${escapeHtml(service.currency || "")}${escapeHtml(service.oldPrice)}</span>` : "";
       return `
         <div class="price-box">
-          <span class="price">${service.currency || ""}${service.price}</span>
+          <span class="price">${escapeHtml(service.currency || "")}${escapeHtml(service.price)}</span>
           ${old}
         </div>
       `;
     }
 
-    function renderServices() {
-      const list = activeCategory === "all"
-        ? data.services
-        : data.services.filter(service => service.cat === activeCategory);
+    function buildWhatsAppUrl(service) {
+      const title = t(service.title);
+      const category = state.data.categories.find(c => c.id === service.cat);
+      const catName = category ? t(category.name) : service.cat;
+      const lines = [
+        `${state.data.hotel.name || "PEKER HOTEL"}`,
+        `${t(uiText.requestMessage)}`,
+        `${catName}`,
+        `${title}`
+      ];
 
+      if (!isFree(service)) {
+        lines.push(`${service.currency || ""}${service.price}`);
+      }
+
+      const base = state.data.settings.whatsappUrl || "https://wa.me/905375120434?utm_source=chatgpt.com";
+      const text = encodeURIComponent(lines.join("\n"));
+      return base.includes("?") ? `${base}&text=${text}` : `${base}?text=${text}`;
+    }
+
+    function renderServices() {
+      const list = state.activeCategory === "all"
+        ? state.data.services
+        : state.data.services.filter(service => service.cat === state.activeCategory);
+
+      const servicesGrid = $("servicesGrid");
       servicesGrid.innerHTML = "";
 
       if (!list.length) {
-        servicesGrid.innerHTML = `<div class="empty-state">${t(uiText.noServices)}</div>`;
+        servicesGrid.innerHTML = `<div class="gallery-empty">${escapeHtml(t(uiText.noServices))}</div>`;
         return;
       }
 
       list.forEach(service => {
-        const card = document.createElement("article");
-        card.className = "service-card";
-        card.innerHTML = `
+        const article = document.createElement("article");
+        article.className = "service-card";
+        article.innerHTML = `
           <div class="service-media">
             ${mediaMarkup(service)}
             <div class="card-overlay"></div>
             <div class="badge-row">
-              ${service.popular ? `<span class="badge"><i class="fa-solid fa-star"></i>${t(uiText.popular)}</span>` : `<span></span>`}
-              ${service.duration ? `<span class="duration"><i class="fa-regular fa-clock"></i>${service.duration}</span>` : `<span></span>`}
+              ${service.popular ? `<span class="badge"><i class="fa-solid fa-star"></i>${escapeHtml(t(uiText.popular))}</span>` : `<span></span>`}
+              ${service.duration ? `<span class="duration"><i class="fa-regular fa-clock"></i>${escapeHtml(service.duration)}</span>` : `<span></span>`}
+            </div>
+            <div class="admin-tools">
+              <button class="admin-mini" title="Edit" onclick="editService('${service.id}')"><i class="fa-solid fa-pen"></i></button>
+              <button class="admin-mini" title="Up" onclick="moveService('${service.id}', -1)"><i class="fa-solid fa-arrow-up"></i></button>
+              <button class="admin-mini" title="Down" onclick="moveService('${service.id}', 1)"><i class="fa-solid fa-arrow-down"></i></button>
             </div>
           </div>
+
           <div class="service-body">
-            <h3 class="service-title">${t(service.title)}</h3>
-            <p class="service-desc">${t(service.desc)}</p>
+            <h3 class="service-title">${escapeHtml(t(service.title))}</h3>
+            <p class="service-desc">${escapeHtml(t(service.desc))}</p>
             <div class="service-meta">
               ${priceHTML(service)}
-              <button class="request-btn" data-id="${service.id}">${t(uiText.request)}</button>
+              <a class="request-btn" href="${buildWhatsAppUrl(service)}" target="_blank" rel="noopener">
+                <i class="fa-brands fa-whatsapp"></i>
+                ${escapeHtml(t(uiText.request))}
+              </a>
             </div>
           </div>
         `;
-        servicesGrid.appendChild(card);
-      });
-
-      servicesGrid.querySelectorAll(".request-btn").forEach(button => {
-        button.addEventListener("click", () => {
-          const service = data.services.find(item => item.id === button.dataset.id);
-          alert(`${t(uiText.requestMessage)}\n${t(service.title)}`);
-        });
+        servicesGrid.appendChild(article);
       });
     }
 
     function renderGallery() {
-      if (!data.guestPosts || !data.guestPosts.length) {
-        galleryContent.innerHTML = `<div class="gallery-empty">${t(uiText.noGallery)}</div>`;
+      const guestPosts = state.data.guestPosts || [];
+      const wrap = $("galleryContent");
+
+      if (!guestPosts.length) {
+        wrap.innerHTML = `<div class="gallery-empty">${escapeHtml(t(uiText.noGallery))}</div>`;
         return;
       }
-      galleryContent.innerHTML = data.guestPosts.map(post => `<div>${post}</div>`).join("");
+
+      wrap.innerHTML = `
+        <div class="gallery-grid">
+          ${guestPosts.map(post => `
+            <div class="gallery-card">
+              <img src="${post.image || FALLBACK_MEDIA.hotel_guests}" alt="">
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
     function renderAll() {
+      document.body.classList.toggle("is-admin", state.isAdmin);
+      setText("adminBtnLabel", state.isAdmin ? "Admin On" : "Admin");
       renderHeader();
       renderRates();
+      renderCalculator();
+      renderSlider();
       renderCategories();
       renderFilters();
       renderServices();
       renderGallery();
+      updateGithubStatus();
     }
 
-    languageSelect.value = currentLang;
-    languageSelect.addEventListener("change", e => {
-      currentLang = e.target.value;
+    function moveItem(array, id, direction) {
+      const index = array.findIndex(item => item.id === id);
+      if (index < 0) return;
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= array.length) return;
+      [array[index], array[newIndex]] = [array[newIndex], array[index]];
+      saveState();
+      renderAll();
+    }
+
+    function resizeHeight(item, delta) {
+      item.h = Math.max(90, Number(item.h || 140) + delta);
+    }
+
+    function openModal(title, html) {
+      $("editorTitle").textContent = title;
+      $("editorBody").innerHTML = html;
+      $("editorModal").classList.add("open");
+    }
+
+    function closeModal() {
+      $("editorModal").classList.remove("open");
+      $("editorBody").innerHTML = "";
+    }
+
+    function openAuth() {
+      $("authModal").classList.add("open");
+      $("adminPinInput").value = "";
+    }
+
+    function closeAuth() {
+      $("authModal").classList.remove("open");
+    }
+
+    function bindImageInput(inputId, previewId, callback) {
+      const input = $(inputId);
+      const preview = $(previewId);
+      if (!input) return;
+      input.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result;
+          if (preview) preview.value = base64;
+          callback(base64);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function editHero() {
+      const hotel = state.data.hotel;
+      openModal("Edit Hero", `
+        <div class="form-grid">
+          <div class="field full">
+            <label>Hero Image URL</label>
+            <input id="heroMediaInput" value="${escapeHtml(resolveMedia(hotel))}">
+          </div>
+          <div class="field full">
+            <label>Or Upload Image</label>
+            <input type="file" id="heroMediaFile" accept="image/*">
+          </div>
+          <div class="field">
+            <label>Height</label>
+            <input id="heroHeightInput" type="number" value="${Number(hotel.height || 360)}">
+          </div>
+          <div class="field">
+            <label>Dim</label>
+            <input id="heroDimInput" type="number" step="0.01" value="${Number(hotel.dim || 0.42)}">
+          </div>
+          <div class="field">
+            <label>Zoom</label>
+            <input id="heroZoomInput" type="number" step="0.01" value="${Number(hotel.zoom || 1.04)}">
+          </div>
+          <div class="field">
+            <label>Name</label>
+            <input id="heroNameInput" value="${escapeHtml(hotel.name || "PEKER HOTEL")}">
+          </div>
+          <div class="field full">
+            <label>Title (${state.currentLang})</label>
+            <input id="heroTitleInput" value="${escapeHtml(t(hotel.title))}">
+          </div>
+          <div class="field full">
+            <label>Text (${state.currentLang})</label>
+            <textarea id="heroTextInput">${escapeHtml(t(hotel.text))}</textarea>
+          </div>
+          <div class="field-row full">
+            <button class="soft-btn" id="saveHeroEditor"><i class="fa-solid fa-check"></i> Save</button>
+          </div>
+        </div>
+      `);
+
+      bindImageInput("heroMediaFile", "heroMediaInput", (base64) => {
+        $("heroMediaInput").value = base64;
+      });
+
+      $("saveHeroEditor").onclick = () => {
+        hotel.media = $("heroMediaInput").value.trim();
+        hotel.mediaType = "image";
+        hotel.height = Number($("heroHeightInput").value || 360);
+        hotel.dim = Number($("heroDimInput").value || 0.42);
+        hotel.zoom = Number($("heroZoomInput").value || 1.04);
+        hotel.name = $("heroNameInput").value.trim() || hotel.name;
+        hotel.title[state.currentLang] = $("heroTitleInput").value.trim();
+        hotel.text[state.currentLang] = $("heroTextInput").value.trim();
+        saveState();
+        renderAll();
+        closeModal();
+      };
+    }
+
+    function editRates() {
+      openModal("Edit Rates", `
+        <div class="form-grid">
+          <div class="field">
+            <label>USD rate</label>
+            <input id="rateUsd" type="number" step="0.01" value="${Number(state.data.rates.usd || 0)}">
+          </div>
+          <div class="field">
+            <label>EUR rate</label>
+            <input id="rateEur" type="number" step="0.01" value="${Number(state.data.rates.eur || 0)}">
+          </div>
+          <div class="field">
+            <label>RUB rate</label>
+            <input id="rateRub" type="number" step="0.01" value="${Number(state.data.rates.rub || 0)}">
+          </div>
+          <div class="field">
+            <label>Margin %</label>
+            <input id="rateMargin" type="number" step="0.01" value="${Number(state.data.rates.margin || 1)}">
+          </div>
+          <div class="field full">
+            <label>Note</label>
+            <input value="Displayed rate is always 1 TRY less automatically" disabled>
+          </div>
+          <div class="field-row full">
+            <button class="soft-btn" id="saveRatesEditor"><i class="fa-solid fa-check"></i> Save</button>
+          </div>
+        </div>
+      `);
+
+      $("saveRatesEditor").onclick = () => {
+        state.data.rates.usd = Number($("rateUsd").value || 0);
+        state.data.rates.eur = Number($("rateEur").value || 0);
+        state.data.rates.rub = Number($("rateRub").value || 0);
+        state.data.rates.margin = Number($("rateMargin").value || 1);
+        saveState();
+        renderAll();
+        closeModal();
+      };
+    }
+
+    function editCategory(id) {
+      const item = state.data.categories.find(x => x.id === id);
+      if (!item) return;
+
+      openModal("Edit Category", `
+        <div class="form-grid">
+          <div class="field">
+            <label>ID</label>
+            <input id="catId" value="${escapeHtml(item.id)}" disabled>
+          </div>
+          <div class="field">
+            <label>Icon class</label>
+            <input id="catIcon" value="${escapeHtml(item.icon || "fa-layer-group")}">
+          </div>
+          <div class="field full">
+            <label>Image URL</label>
+            <input id="catMedia" value="${escapeHtml(resolveMedia(item))}">
+          </div>
+          <div class="field full">
+            <label>Or Upload Image</label>
+            <input type="file" id="catMediaFile" accept="image/*">
+          </div>
+          <div class="field">
+            <label>Height</label>
+            <input id="catHeight" type="number" value="${Number(item.h || 140)}">
+          </div>
+          <div class="field">
+            <label>Title (${state.currentLang})</label>
+            <input id="catName" value="${escapeHtml(t(item.name))}">
+          </div>
+          <div class="field-row full">
+            <button class="ghost-btn" id="catSmaller"><i class="fa-solid fa-minus"></i> Smaller</button>
+            <button class="ghost-btn" id="catBigger"><i class="fa-solid fa-plus"></i> Bigger</button>
+            <button class="soft-btn" id="saveCategoryEditor"><i class="fa-solid fa-check"></i> Save</button>
+          </div>
+        </div>
+      `);
+
+      bindImageInput("catMediaFile", "catMedia", (base64) => {
+        $("catMedia").value = base64;
+      });
+
+      $("catSmaller").onclick = () => {
+        $("catHeight").value = Math.max(90, Number($("catHeight").value || item.h || 140) - 10);
+      };
+      $("catBigger").onclick = () => {
+        $("catHeight").value = Number($("catHeight").value || item.h || 140) + 10;
+      };
+      $("saveCategoryEditor").onclick = () => {
+        item.icon = $("catIcon").value.trim() || item.icon;
+        item.media = $("catMedia").value.trim();
+        item.mediaType = "image";
+        item.h = Number($("catHeight").value || 140);
+        item.name[state.currentLang] = $("catName").value.trim();
+        saveState();
+        renderAll();
+        closeModal();
+      };
+    }
+
+    function editService(id) {
+      const item = state.data.services.find(x => x.id === id);
+      if (!item) return;
+
+      openModal("Edit Menu Item", `
+        <div class="form-grid">
+          <div class="field">
+            <label>ID</label>
+            <input value="${escapeHtml(item.id)}" disabled>
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select id="srvCat">
+              ${state.data.categories.map(cat => `
+                <option value="${cat.id}" ${item.cat === cat.id ? "selected" : ""}>${escapeHtml(t(cat.name))}</option>
+              `).join("")}
+            </select>
+          </div>
+          <div class="field full">
+            <label>Image URL</label>
+            <input id="srvMedia" value="${escapeHtml(resolveMedia(item))}">
+          </div>
+          <div class="field full">
+            <label>Or Upload Image</label>
+            <input type="file" id="srvMediaFile" accept="image/*">
+          </div>
+          <div class="field">
+            <label>Height</label>
+            <input id="srvHeight" type="number" value="${Number(item.h || 176)}">
+          </div>
+          <div class="field">
+            <label>Popular</label>
+            <select id="srvPopular">
+              <option value="true" ${item.popular ? "selected" : ""}>Yes</option>
+              <option value="false" ${!item.popular ? "selected" : ""}>No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Title (${state.currentLang})</label>
+            <input id="srvTitle" value="${escapeHtml(t(item.title))}">
+          </div>
+          <div class="field">
+            <label>Duration</label>
+            <input id="srvDuration" value="${escapeHtml(item.duration || "")}">
+          </div>
+          <div class="field full">
+            <label>Description (${state.currentLang})</label>
+            <textarea id="srvDesc">${escapeHtml(t(item.desc))}</textarea>
+          </div>
+          <div class="field-row full">
+            <button class="ghost-btn" id="srvSmaller"><i class="fa-solid fa-minus"></i> Smaller</button>
+            <button class="ghost-btn" id="srvBigger"><i class="fa-solid fa-plus"></i> Bigger</button>
+            <button class="soft-btn" id="saveServiceEditor"><i class="fa-solid fa-check"></i> Save</button>
+          </div>
+        </div>
+      `);
+
+      bindImageInput("srvMediaFile", "srvMedia", (base64) => {
+        $("srvMedia").value = base64;
+      });
+
+      $("srvSmaller").onclick = () => {
+        $("srvHeight").value = Math.max(110, Number($("srvHeight").value || item.h || 176) - 10);
+      };
+      $("srvBigger").onclick = () => {
+        $("srvHeight").value = Number($("srvHeight").value || item.h || 176) + 10;
+      };
+      $("saveServiceEditor").onclick = () => {
+        item.cat = $("srvCat").value;
+        item.media = $("srvMedia").value.trim();
+        item.mediaType = "image";
+        item.h = Number($("srvHeight").value || 176);
+        item.popular = $("srvPopular").value === "true";
+        item.duration = $("srvDuration").value.trim();
+        item.title[state.currentLang] = $("srvTitle").value.trim();
+        item.desc[state.currentLang] = $("srvDesc").value.trim();
+        saveState();
+        renderAll();
+        closeModal();
+      };
+    }
+
+    function editBanner(id) {
+      const item = state.data.banners.find(x => x.id === id);
+      if (!item) return;
+
+      openModal("Edit Banner", `
+        <div class="form-grid">
+          <div class="field full">
+            <label>Image URL</label>
+            <input id="bannerImage" value="${escapeHtml(item.image || "")}">
+          </div>
+          <div class="field full">
+            <label>Or Upload Image</label>
+            <input type="file" id="bannerImageFile" accept="image/*">
+          </div>
+          <div class="field">
+            <label>Title</label>
+            <input id="bannerTitle" value="${escapeHtml(item.title || "")}">
+          </div>
+          <div class="field">
+            <label>Subtitle</label>
+            <input id="bannerSubtitle" value="${escapeHtml(item.subtitle || "")}">
+          </div>
+          <div class="field full">
+            <label>Target Category</label>
+            <select id="bannerTarget">
+              ${state.data.categories.map(cat => `
+                <option value="${cat.id}" ${item.targetCategoryId === cat.id ? "selected" : ""}>${escapeHtml(t(cat.name))}</option>
+              `).join("")}
+            </select>
+          </div>
+          <div class="field-row full">
+            <button class="ghost-btn danger-btn" id="deleteBannerBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+            <button class="soft-btn" id="saveBannerEditor"><i class="fa-solid fa-check"></i> Save</button>
+          </div>
+        </div>
+      `);
+
+      bindImageInput("bannerImageFile", "bannerImage", (base64) => {
+        $("bannerImage").value = base64;
+      });
+
+      $("deleteBannerBtn").onclick = () => {
+        state.data.banners = state.data.banners.filter(x => x.id !== id);
+        saveState();
+        renderAll();
+        closeModal();
+      };
+
+      $("saveBannerEditor").onclick = () => {
+        item.image = $("bannerImage").value.trim();
+        item.title = $("bannerTitle").value.trim();
+        item.subtitle = $("bannerSubtitle").value.trim();
+        item.targetCategoryId = $("bannerTarget").value;
+        saveState();
+        renderAll();
+        closeModal();
+      };
+    }
+
+    function addBanner() {
+      const newId = "banner_" + Date.now();
+      state.data.banners.push({
+        id: newId,
+        image: FALLBACK_MEDIA.hotel,
+        title: "New Banner",
+        subtitle: "Tap to open",
+        targetCategoryId: state.data.categories[0]?.id || "all",
+        sort: state.data.banners.length + 1
+      });
+      saveState();
+      editBanner(newId);
+    }
+
+    function openGithubSettings() {
+      const g = state.data.settings.github;
+
+      openModal("GitHub Auto Save", `
+        <div class="form-grid">
+          <div class="field">
+            <label>Enabled</label>
+            <select id="ghEnabled">
+              <option value="true" ${g.enabled ? "selected" : ""}>On</option>
+              <option value="false" ${!g.enabled ? "selected" : ""}>Off</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Admin PIN</label>
+            <input id="adminPinEditor" value="${escapeHtml(state.data.settings.adminPin || "1234")}">
+          </div>
+          <div class="field full">
+            <label>GitHub Token</label>
+            <input id="ghToken" value="${escapeHtml(g.token || "")}" placeholder="ghp_...">
+          </div>
+          <div class="field">
+            <label>Owner</label>
+            <input id="ghOwner" value="${escapeHtml(g.owner || "")}" placeholder="username">
+          </div>
+          <div class="field">
+            <label>Repo</label>
+            <input id="ghRepo" value="${escapeHtml(g.repo || "")}" placeholder="repo-name">
+          </div>
+          <div class="field">
+            <label>Path</label>
+            <input id="ghPath" value="${escapeHtml(g.path || "index.html")}" placeholder="index.html">
+          </div>
+          <div class="field">
+            <label>Branch</label>
+            <input id="ghBranch" value="${escapeHtml(g.branch || "main")}" placeholder="main">
+          </div>
+          <div class="field full">
+            <label>Note</label>
+            <textarea disabled>This page saves changes to browser local storage immediately. If GitHub is enabled and token/repo are correct, it also automatically updates your index.html on GitHub.</textarea>
+          </div>
+          <div class="field-row full">
+            <button class="soft-btn" id="saveGithubSettingsBtn"><i class="fa-solid fa-check"></i> Save Settings</button>
+          </div>
+        </div>
+      `);
+
+      $("saveGithubSettingsBtn").onclick = () => {
+        g.enabled = $("ghEnabled").value === "true";
+        g.token = $("ghToken").value.trim();
+        g.owner = $("ghOwner").value.trim();
+        g.repo = $("ghRepo").value.trim();
+        g.path = $("ghPath").value.trim() || "index.html";
+        g.branch = $("ghBranch").value.trim() || "main";
+        state.data.settings.adminPin = $("adminPinEditor").value.trim() || "1234";
+        saveState({ syncGithub: false });
+        updateGithubStatus();
+        closeModal();
+      };
+    }
+
+    function exportJson() {
+      const blob = new Blob([JSON.stringify(state.data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "peker-hotel-data.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function saveToGithubNow() {
+      const g = state.data.settings.github;
+      if (!g.enabled || !g.token || !g.owner || !g.repo || !g.path) return;
+
+      if (state.githubSaving) return;
+      state.githubSaving = true;
+
+      try {
+        const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const content = btoa(unescape(encodeURIComponent(html)));
+
+        const body = {
+          message: "Auto update from hotel admin panel",
+          content,
+          branch: g.branch || "main"
+        };
+
+        if (g.sha) body.sha = g.sha;
+
+        const res = await fetch(`https://api.github.com/repos/${g.owner}/${g.repo}/contents/${g.path}`, {
+          method: "PUT",
+          headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${g.token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          throw new Error(json?.message || "GitHub save failed");
+        }
+
+        state.data.settings.github.sha = json.content?.sha || state.data.settings.github.sha || "";
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+        document.getElementById("seedDataJson").textContent = JSON.stringify(state.data, null, 2);
+        showToast("Saved to GitHub");
+      } catch (error) {
+        console.error(error);
+        showToast("GitHub save failed");
+      } finally {
+        state.githubSaving = false;
+      }
+    }
+
+    function debouncedGithubSave() {
+      clearTimeout(debouncedGithubSave._t);
+      debouncedGithubSave._t = setTimeout(saveToGithubNow, 1400);
+    }
+
+    function goHome() {
+      state.activeCategory = "all";
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function moveToSiblingCategory(step) {
+      if (!state.data.categories.length) return;
+      const ids = state.data.categories.map(x => x.id);
+      let index = ids.indexOf(state.activeCategory);
+      if (index === -1) index = 0;
+      index += step;
+      if (index < 0) index = 0;
+      if (index > ids.length - 1) index = ids.length - 1;
+      state.activeCategory = ids[index];
+      renderAll();
+      $("servicesGrid").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    window.editCategory = editCategory;
+    window.editService = editService;
+    window.editBanner = editBanner;
+    window.moveCategory = (id, dir) => moveItem(state.data.categories, id, dir);
+    window.moveService = (id, dir) => moveItem(state.data.services, id, dir);
+    window.moveBanner = (id, dir) => {
+      moveItem(state.data.banners, id, dir);
+      state.data.banners.forEach((b, i) => b.sort = i + 1);
+      saveState();
+    };
+
+    $("languageSelect").value = state.currentLang;
+    $("languageSelect").addEventListener("change", (e) => {
+      state.currentLang = e.target.value;
       renderAll();
     });
 
+    $("calcCurrency").addEventListener("change", renderCalculator);
+    $("calcAmount").addEventListener("input", renderCalculator);
+    $("calcDirectionBtn").addEventListener("click", () => {
+      state.calcMode = state.calcMode === "TO_TRY" ? "FROM_TRY" : "TO_TRY";
+      $("calcDirectionBtn").textContent = state.calcMode === "TO_TRY" ? "FX" : "TRY";
+      renderCalculator();
+    });
+
+    $("adminToggleBtn").addEventListener("click", () => {
+      if (state.isAdmin) {
+        state.isAdmin = false;
+        renderAll();
+        return;
+      }
+      openAuth();
+    });
+
+    $("loginAdminBtn").addEventListener("click", () => {
+      const pin = $("adminPinInput").value.trim();
+      if (pin === String(state.data.settings.adminPin || "1234")) {
+        state.isAdmin = true;
+        closeAuth();
+        renderAll();
+        showToast("Admin mode enabled");
+      } else {
+        showToast("Wrong PIN");
+      }
+    });
+
+    $("closeAuthBtn").addEventListener("click", closeAuth);
+    $("closeEditorBtn").addEventListener("click", closeModal);
+    $("logoutAdminBtn").addEventListener("click", () => {
+      state.isAdmin = false;
+      renderAll();
+      showToast("Admin mode off");
+    });
+
+    $("editHeroBtn").addEventListener("click", editHero);
+    $("addBannerBtn").addEventListener("click", addBanner);
+    $("editRatesBtn").addEventListener("click", editRates);
+    $("githubSettingsBtn").addEventListener("click", openGithubSettings);
+    $("editSliderBtn").addEventListener("click", addBanner);
+    $("saveLocalBtn").addEventListener("click", () => saveState());
+    $("exportJsonBtn").addEventListener("click", exportJson);
+
+    $("prevCategoryBtn").addEventListener("click", () => moveToSiblingCategory(-1));
+    $("nextCategoryBtn").addEventListener("click", () => moveToSiblingCategory(1));
+    $("homeBtn").addEventListener("click", goHome);
+
     renderAll();
+    startBannerTimer();
   </script>
 </body>
 </html>
