@@ -1,174 +1,906 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peker Hotel Services</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
   <style>
-    /* Այստեղ կարող եք ավելացնել ձեր CSS ոճերը, եթե ունեք */
-    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; }
-    .app { max-width: 100%; margin: 0 auto; }
-    .hero { 
-      position: relative; 
-      background-image: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80'); 
-      background-size: cover; 
-      background-position: center; 
-      height: 360px; 
-      color: #ffffff; 
-      padding: 20px; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
+    :root {
+      --bg: #f4f7f5;
+      --card: #ffffff;
+      --ink: #17211c;
+      --muted: #69766f;
+      --line: #dfe8e2;
+      --deep: #123728;
+      --green: #1f8a5b;
+      --gold: #c99a43;
+      --red: #d95645;
+      --shadow: 0 14px 34px rgba(18, 55, 40, .14);
+      --soft: 0 8px 22px rgba(18, 55, 40, .08);
+      --r: 8px;
     }
-    .topbar { display: flex; justify-content: space-between; align-items: center; }
-    .brand { font-size: 24px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-    .lang-menu { display: none; position: absolute; background: white; color: black; right: 20px; top: 60px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .hero-copy { margin-bottom: 20px; }
-    .hero-copy h1 { font-size: 48px; margin: 0; }
-    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
-    .hero-btn { padding: 10px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .hero-btn.wa { background-color: #25D366; color: white; }
-    .hero-btn.light { background-color: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
-    main { padding: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px 0; }
-    .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
-    .media img, .media video { width: 100%; height: 140px; object-fit: cover; }
-    .card-body { padding: 15px; }
-    .card-body h3 { margin: 0 0 10px 0; font-size: 18px; }
-    .panel { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-    .search input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-    nav.bottom { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-    nav.bottom button { background: none; border: none; display: flex; flex-direction: column; align-items: center; font-size: 12px; color: #666; }
-    nav.bottom button i { font-size: 20px; margin-bottom: 4px; }
-    .modal { display: none; position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(circle at 8% 0%, rgba(201,154,67,.13), transparent 28rem), var(--bg);
+      color: var(--ink);
+      padding-bottom: 92px;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .app { width: min(100%, 840px); margin: auto; }
+
+    .hero {
+      position: relative;
+      min-height: var(--hero-height, 360px);
+      color: var(--hero-color, #ffffff);
+      overflow: hidden;
+      isolation: isolate;
+      padding: 15px 16px 76px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      background: var(--deep);
+    }
+    .hero-bg, .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+      transform: scale(var(--hero-zoom, 1.04));
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+    .hero-bg { background-position: center; background-size: cover; }
+    .hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(6,18,13,var(--hero-dim, .42)), rgba(6,18,13,.86));
+      z-index: -2;
+    }
+    .hero:after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 94px;
+      background: linear-gradient(180deg, transparent, var(--bg));
+      z-index: -1;
+    }
+    @keyframes heroZoom { from { transform: scale(var(--hero-zoom, 1.04)); } to { transform: scale(calc(var(--hero-zoom, 1.04) + .07)); } }
+
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: .3px; }
+    .brand i { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.4); border-radius: var(--r); background: rgba(255,255,255,.13); backdrop-filter: blur(12px); cursor:pointer; }
+    .top-actions { display: flex; gap: 8px; align-items: center; }
+    .lang { position: relative; }
+    .pill {
+      border: 1px solid rgba(255,255,255,.38);
+      color: #fff;
+      background: rgba(5,16,12,.42);
+      border-radius: 999px;
+      min-height: 38px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      backdrop-filter: blur(12px);
+    }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 46px;
+      width: 190px;
+      max-height: 330px;
+      overflow: auto;
+      padding: 6px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      z-index: 10;
+    }
+    .lang-menu.open { display: block; animation: rise .2s ease both; }
+    .lang-menu button {
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--ink);
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+    }
+    .lang-menu button.active, .lang-menu button:hover { background: #edf5ef; color: var(--green); }
+
+    .hero-copy { margin-top: 52px; }
+    .hero h1 {
+      max-width: 11ch;
+      font-size: var(--hero-title-size, clamp(38px, 11vw, 72px));
+      line-height: .93;
+      letter-spacing: 0;
+      text-shadow: 0 12px 28px rgba(0,0,0,.28);
+    }
+    .hero p {
+      max-width: 620px;
+      margin-top: 14px;
+      color: color-mix(in srgb, var(--hero-color, #fff) 88%, transparent);
+      line-height: 1.55;
+      font-size: var(--hero-text-size, 15px);
+      font-weight: 750;
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .hero-btn {
+      border: 0;
+      border-radius: var(--r);
+      min-height: 45px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+      transition: transform .2s ease;
+    }
+    .hero-btn:hover { transform: translateY(-2px); }
+    .wa { background: #25d366; color: #fff; }
+    .light { background: rgba(255,255,255,.92); color: var(--deep); }
+
+    main { padding: 0 16px; margin-top: -46px; position: relative; z-index: 2; }
+    .panel, .card, .service, .rate-box {
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(223,232,226,.95);
+      border-radius: var(--r);
+      box-shadow: var(--soft);
+    }
+    .toolbar { padding: 12px; display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 14px; }
+    .search { height: 46px; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: #f9fbfa; border: 1px solid var(--line); border-radius: var(--r); }
+    .search input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font-weight: 750; }
+    .icon-btn { width: 46px; height: 46px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; color: var(--ink); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin: 18px 2px 12px; }
+    .section-head h2 { font-size: 21px; letter-spacing: 0; }
+    .section-head p { color: var(--muted); font-size: 12px; font-weight: 900; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .card { overflow: hidden; animation: rise .25s ease both; position: relative; }
+    .media { width: 100%; height: var(--h, 140px); background: #dde6e0; overflow: hidden; }
+    .media img, .media video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(var(--z, 1)); }
+    .card:hover .media img, .card:hover .media video { transform: scale(calc(var(--z, 1) + .06)); transition: transform .45s ease; }
+    .card-body { padding: 11px; }
+    .card h3 { font-size: 15px; line-height: 1.25; letter-spacing: 0; }
+    .card p { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; font-weight: 750; }
+    .count { margin-top: 9px; display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-size: 12px; font-weight: 900; }
+
+    .services { display: grid; gap: 12px; }
+    .service { overflow: hidden; animation: rise .25s ease both; }
+    .service .media { height: var(--h, 176px); position: relative; }
+    .badge { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,.94); color: var(--ink); border-radius: 999px; padding: 6px 9px; font-size: 11px; font-weight: 900; box-shadow: 0 5px 14px rgba(0,0,0,.12); }
+    .service-body { padding: 13px; }
+    .title-row { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .title-row h3 { font-size: 18px; line-height: 1.25; letter-spacing: 0; }
+    .price { text-align: right; color: var(--green); font-weight: 900; white-space: nowrap; }
+    .old-price { display: block; color: var(--red); text-decoration: line-through; font-size: 12px; font-weight: 900; }
+    .service-body p { margin-top: 7px; color: var(--muted); line-height: 1.45; font-size: 13px; font-weight: 650; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .meta span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: var(--muted); font-size: 11px; font-weight: 900; background: #f8fbf9; }
+    .actions { display: grid; grid-template-columns: 1fr auto; gap: 9px; }
+    .btn { min-height: 42px; border: 0; border-radius: var(--r); padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 900; text-decoration: none; }
+    .primary { background: var(--green); color: #fff; }
+    .ghost { background: #edf5ef; color: var(--deep); border: 1px solid rgba(31,138,91,.15); }
+    .danger { background: var(--red); color: #fff; }
+    .back { margin-bottom: 12px; }
+    .empty { display: none; padding: 30px 15px; text-align: center; color: var(--muted); font-weight: 900; }
+
+    .rate-box { margin-top: 16px; padding: 12px; }
+    .rate-box h3 { font-size: 16px; margin-bottom: 9px; }
+    .rates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .rate { background: #f8fbf9; border: 1px solid var(--line); border-radius: var(--r); padding: 10px; text-align: center; }
+    .rate strong { display: block; font-size: 15px; }
+    .rate span { display: block; color: var(--muted); font-size: 11px; font-weight: 900; margin-top: 4px; }
+    .calc-preview { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+    .calc-preview p { color: var(--muted); font-size: 12px; line-height: 1.4; font-weight: 800; }
+    .calc-result { margin-top: 12px; padding: 14px; border: 1px solid var(--line); border-radius: var(--r); background: #f8fbf9; text-align: center; }
+    .calc-result strong { display: block; font-size: 24px; color: var(--green); }
+    .calc-result span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 900; }
+    .upload-row { display: grid; gap: 7px; }
+    .upload-row input[type="file"] { padding: 9px; background: #f8fbf9; }
+    .guest-panel { display: none; margin: 0 0 12px; padding: 12px; }
+    .guest-panel.open { display: block; }
+    .guest-grid { display: grid; gap: 12px; margin-top: 12px; }
+    .guest-card { overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--soft); }
+    .guest-card img, .guest-card video { width: 100%; max-height: 260px; object-fit: cover; display: block; background: #dde6e0; }
+    .guest-card-body { padding: 12px; }
+    .guest-card-body h3 { font-size: 15px; }
+    .guest-card-body p { margin-top: 7px; color: var(--muted); line-height: 1.45; font-size: 13px; font-weight: 650; }
+    .guest-card-body time { display: block; margin-top: 8px; color: var(--green); font-size: 11px; font-weight: 900; }
+    .edit-float {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: var(--deep);
+      box-shadow: 0 6px 16px rgba(0,0,0,.18);
+      z-index: 4;
+    }
+    body.admin-active .edit-float { display: grid; place-items: center; }
+
+    .bottom {
+      position: fixed;
+      left: 50%; bottom: 12px;
+      transform: translateX(-50%);
+      width: min(calc(100% - 24px), 760px);
+      height: 64px;
+      background: rgba(255,255,255,.94);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      padding: 6px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.18fr 1fr;
+      z-index: 30;
+    }
+    .nav { border: 0; background: transparent; border-radius: 999px; color: var(--muted); display: grid; place-items: center; align-content: center; gap: 3px; font-size: 10px; font-weight: 900; }
+    .nav i { font-size: 17px; }
+    .nav.home { background: var(--deep); color: #fff; }
+
+    .modal { display: none; position: fixed; inset: 0; z-index: 80; background: rgba(5,16,12,.62); padding: 12px; align-items: flex-end; }
+    .modal.open { display: flex; }
+    .sheet { width: min(100%, 680px); max-height: 92vh; overflow: auto; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 30px 90px rgba(0,0,0,.3); animation: slide .2s ease both; }
+    .sheet-head { position: sticky; top: 0; background: rgba(255,255,255,.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 14px; display: flex; align-items: center; justify-content: space-between; z-index: 2; }
+    .sheet-head h3 { font-size: 17px; }
+    .sheet-body { padding: 14px; }
+    .form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display: grid; gap: 6px; margin-bottom: 10px; }
+    .full { grid-column: 1 / -1; }
+    label { color: var(--muted); font-size: 12px; font-weight: 900; }
+    input, textarea, select { width: 100%; min-height: 43px; border: 1px solid var(--line); border-radius: var(--r); padding: 10px; outline: 0; color: var(--ink); background: #fff; font-weight: 650; }
+    textarea { min-height: 80px; resize: vertical; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .chosen { display: grid; grid-template-columns: 86px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: var(--r); background: #f8fbf9; margin-bottom: 12px; }
+    .chosen img, .chosen video { width: 86px; height: 70px; object-fit: cover; border-radius: 7px; }
+    .chosen h4 { font-size: 15px; }
+    .chosen p { margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 800; }
+
+    .admin { display: none; margin-top: 16px; padding: 12px; }
+    .admin.open { display: block; }
+    .admin-top { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+    .admin-list { display: grid; gap: 8px; }
+    .admin-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: var(--r); padding: 9px; background: #fff; }
+    .admin-row strong { display: block; font-size: 13px; }
+    .admin-row span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; margin-top: 2px; }
+    .mini { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .mini button { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 999px; background: #f8fbf9; color: var(--ink); }
+    .mini .red { background: #fff0ee; color: var(--red); }
+    .toast { position: fixed; left: 50%; bottom: 88px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; transition: .2s ease; z-index: 120; width: min(calc(100% - 28px), 480px); background: var(--deep); color: #fff; border-radius: var(--r); padding: 12px 14px; box-shadow: var(--shadow); font-weight: 900; font-size: 13px; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slide { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (min-width: 680px) {
+      .hero { padding-left: 28px; padding-right: 28px; }
+      main { padding-left: 28px; padding-right: 28px; }
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .services { grid-template-columns: repeat(2, 1fr); }
+      .modal { align-items: center; }
+    }
+    @media (max-width: 430px) {
+      .form, .modal-actions, .rates { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .hero-btn { justify-content: center; padding: 0 9px; }
+    }
   </style>
 </head>
 <body>
   <div class="app">
     <header class="hero" id="hero">
+      <div id="heroMedia"></div>
       <div class="topbar">
         <div class="brand"><i class="fa-solid fa-hotel" id="brandAdmin"></i><span id="hotelName">PEKER HOTEL</span></div>
         <div class="top-actions">
           <button class="pill" id="heroEditBtn" type="button" style="display:none"><i class="fa-solid fa-pen"></i></button>
           <div class="lang">
-            <button class="pill" id="langBtn" type="button"><i class="fa-solid fa-globe"></i><span id="langLabel">TR</span><i class="fa-solid fa-chevron-down"></i></button>
-            <div class="lang-menu" id="langMenu">
-              <button data-lang="en"><span>English</span><b>EN</b></button>
-              <button data-lang="hy"><span>Հայերեն</span><b>HY</b></button>
-              <button data-lang="ru"><span>Русский</span><b>RU</b></button>
-              <button data-lang="tr" class="active"><span>Turkish</span><b>TR</b></button>
-              <button data-lang="fr"><span>Français</span><b>FR</b></button>
-              <button data-lang="it"><span>Italiano</span><b>IT</b></button>
-              <button data-lang="es"><span>Español</span><b>ES</b></button>
-              <button data-lang="zh"><span>中文</span><b>ZH</b></button>
-              <button data-lang="ja"><span>日本語</span><b>JA</b></button>
-              <button data-lang="ar"><span>العربية</span><b>AR</b></button>
-            </div>
+            <button class="pill" id="langBtn" type="button"><i class="fa-solid fa-globe"></i><span id="langLabel">EN</span><i class="fa-solid fa-chevron-down"></i></button>
+            <div class="lang-menu" id="langMenu"></div>
           </div>
         </div>
       </div>
       <div class="hero-copy">
-        <h1 id="heroTitle">Otel hizmetleri</h1>
-        <p id="heroText">Kategori seçin, hizmetleri görün ve talebinizi resepsiyona gönderin.</p>
-        <div class="hero-actions" id="quickButtons">
-          <button class="hero-btn wa" data-quick="contact" type="button"><i class="fa-brands fa-whatsapp"></i>Resepsiyon</button>
-          <button class="hero-btn light" data-quick="taxi" type="button"><i class="fa-solid fa-taxi"></i>Taksi</button>
-          <button class="hero-btn light" data-quick="istanbul_tours" type="button"><i class="fa-solid fa-map-location-dot"></i>Tur</button>
-          <button class="hero-btn light" data-quick="massage" type="button"><i class="fa-solid fa-spa"></i>Masaj</button>
-          <button class="hero-btn light" data-quick="hamam" type="button"><i class="fa-solid fa-hot-tub-person"></i>Hamam</button>
-          <button class="hero-btn light" data-quick="food" type="button"><i class="fa-solid fa-utensils"></i>Yemek/içecek</button>
-        </div>
+        <h1 id="heroTitle">Hotel services</h1>
+        <p id="heroText">Choose a category, view available services and send your request directly to reception.</p>
+        <div class="hero-actions" id="quickButtons"></div>
       </div>
     </header>
 
     <main>
       <div class="panel toolbar">
-        <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="search" type="search" placeholder="Ara"></label>
+        <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="search" type="search" placeholder="Search"></label>
       </div>
 
-      <button class="btn ghost back" id="backBtn" type="button" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-t="back">Geri</span></button>
+      <button class="btn ghost back" id="backBtn" type="button" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-t="back">Back</span></button>
 
       <div class="section-head">
-        <div><h2 id="viewTitle">Kategoriler</h2><p id="viewHint">Hizmet türünü seçin</p></div>
-        <p id="countText">9 kategoriler</p>
+        <div><h2 id="viewTitle">Categories</h2><p id="viewHint">Choose service type</p></div>
+        <p id="countText"></p>
       </div>
 
-      <section class="grid" id="categoryGrid">
-        <article class="card" data-cat="cleaning">
-          <button class="edit-float" data-edit-cat="cleaning" type="button"><i class="fa-solid fa-pen"></i></button>
-          <div class="media"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80" alt=""></div>
-          <div class="card-body">
-            <h3><i class="fa-solid fa-broom"></i> Oda temizliği ve bakımı</h3>
-            <p>3 hizmet</p>
-            <span class="count"><i class="fa-solid fa-arrow-right"></i>Detay</span>
-          </div>
-        </article>
-
-        <article class="card" data-cat="taxi">
-          <button class="edit-float" data-edit-cat="taxi" type="button"><i class="fa-solid fa-pen"></i></button>
-          <div class="media"><img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=900&q=80" alt=""></div>
-          <div class="card-body">
-            <h3><i class="fa-solid fa-taxi"></i> Taksi ve Transfer</h3>
-            <p>4 hizmet</p>
-            <span class="count"><i class="fa-solid fa-arrow-right"></i>Detay</span>
-          </div>
-        </article>
-
-        <article class="card" data-cat="food">
-          <button class="edit-float" data-edit-cat="food" type="button"><i class="fa-solid fa-pen"></i></button>
-          <div class="media"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80" alt=""></div>
-          <div class="card-body">
-            <h3><i class="fa-solid fa-utensils"></i> Yemek ve İçecek</h3>
-            <p>39 hizmet</p>
-            <span class="count"><i class="fa-solid fa-arrow-right"></i>Detay</span>
-          </div>
-        </article>
-
-        <article class="card" data-cat="istanbul_tours">
-          <button class="edit-float" data-edit-cat="istanbul_tours" type="button"><i class="fa-solid fa-pen"></i></button>
-          <div class="media"><img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80" alt=""></div>
-          <div class="card-body">
-            <h3><i class="fa-solid fa-map-location-dot"></i> İstanbul Turları</h3>
-            <p>2 hizmet</p>
-            <span class="count"><i class="fa-solid fa-arrow-right"></i>Detay</span>
-          </div>
-        </article>
-      </section>
-
+      <section class="grid" id="categoryGrid"></section>
       <section class="services" id="serviceGrid" style="display:none"></section>
-      
       <section class="guest-panel panel" id="guestPanel">
         <div class="section-head" style="margin-top:0">
-          <div><h2 id="guestTitle">Misafir fotoğrafları ve yorumları</h2><p id="guestHint">Misafirler sadece bu bölümde fotoğraf ve yorum paylaşabilir.</p></div>
+          <div><h2 id="guestTitle">Guest photos & reviews</h2><p id="guestHint">Share only in this category</p></div>
         </div>
-        <button class="btn primary" id="openGuestPost" type="button"><i class="fa-solid fa-plus"></i><span id="guestPostBtn">Fotoğraf veya yorum ekle</span></button>
+        <button class="btn primary" id="openGuestPost" type="button"><i class="fa-solid fa-plus"></i><span id="guestPostBtn">Add photo or review</span></button>
         <div class="guest-grid" id="guestGrid"></div>
       </section>
-
-      <div class="empty panel" id="empty" style="display: none;">No results found.</div>
+      <div class="empty panel" id="empty">No results found.</div>
 
       <section class="rate-box" id="rateBox">
-        <h3 id="rateTitle">Döviz hesaplayıcı</h3>
+        <h3 id="rateTitle">Exchange calculator</h3>
         <div class="calc-preview">
-          <p id="calcPreviewText">Para birimi ve tutar seçin, Türk lirasını hesaplayın.</p>
-          <button class="btn primary" id="openCalc" type="button"><i class="fa-solid fa-calculator"></i><span id="calcBtnText">Aç</span></button>
+          <p id="calcPreviewText">Calculate how much your cash is worth in Turkish lira. The hotel calculator subtracts 1 TL from each currency rate.</p>
+          <button class="btn primary" id="openCalc" type="button"><i class="fa-solid fa-calculator"></i><span id="calcBtnText">Open</span></button>
         </div>
+      </section>
+
+      <section class="admin panel" id="adminPanel">
+        <h3>Admin panel</h3>
+        <p style="color:var(--muted);font-size:12px;font-weight:800;line-height:1.45;margin-top:5px">Admin can edit hero screen, categories, services, prices, discounts, images/videos, order, size and exchange rates. Changes are saved in this browser.</p>
+        <div class="admin-top">
+          <button class="btn primary" id="editHero" type="button"><i class="fa-solid fa-image"></i>Hero</button>
+          <button class="btn primary" id="addCat" type="button"><i class="fa-solid fa-plus"></i>Category</button>
+          <button class="btn ghost" id="addSrv" type="button"><i class="fa-solid fa-plus"></i>Service</button>
+          <button class="btn ghost" id="editRates" type="button"><i class="fa-solid fa-money-bill-trend-up"></i>Rates</button>
+          <button class="btn ghost" id="exportData" type="button"><i class="fa-solid fa-download"></i>Export</button>
+          <button class="btn danger" id="resetData" type="button"><i class="fa-solid fa-rotate-left"></i>Reset</button>
+        </div>
+        <div class="admin-list" id="adminList"></div>
       </section>
     </main>
   </div>
 
   <nav class="bottom">
-    <button class="nav" id="prevBtn" type="button"><i class="fa-solid fa-arrow-left"></i><span data-t="prev">Önceki</span></button>
-    <button class="nav" id="contactBtn" type="button"><i class="fa-brands fa-whatsapp"></i><span data-t="contact">İletişim</span></button>
-    <button class="nav home" id="homeBtn" type="button"><i class="fa-solid fa-house"></i><span data-t="home">Ana</span></button>
-    <button class="nav" id="nextBtn" type="button"><i class="fa-solid fa-arrow-right"></i><span data-t="next">Sonraki</span></button>
+    <button class="nav" id="prevBtn" type="button"><i class="fa-solid fa-arrow-left"></i><span data-t="prev">Prev</span></button>
+    <button class="nav" id="contactBtn" type="button"><i class="fa-brands fa-whatsapp"></i><span data-t="contact">Contact</span></button>
+    <button class="nav home" id="homeBtn" type="button"><i class="fa-solid fa-house"></i><span data-t="home">Home</span></button>
+    <button class="nav" id="nextBtn" type="button"><i class="fa-solid fa-arrow-right"></i><span data-t="next">Next</span></button>
   </nav>
 
+  <div class="modal" id="orderModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3 data-t="orderTitle">Complete order</h3><button class="icon-btn" data-close="orderModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <div class="chosen" id="chosen"></div>
+        <form id="orderForm">
+          <div class="form">
+            <div class="field"><label data-t="guest">Guest name</label><input id="guest" placeholder="Anna"></div>
+            <div class="field"><label data-t="room">Room number</label><input id="room" required placeholder="304"></div>
+            <div class="field"><label data-t="time">Preferred time</label><input id="time" placeholder="Today 18:00"></div>
+            <div class="field"><label data-t="qty">People / quantity</label><input id="qty" type="number" min="1" value="1"></div>
+            <div class="field full"><label data-t="note">Note</label><textarea id="note" placeholder="Special request"></textarea></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" data-close="orderModal" type="button" data-t="cancel">Cancel</button><button class="btn primary" type="submit"><i class="fa-brands fa-whatsapp"></i><span data-t="send">Send WhatsApp</span></button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="heroModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3>Hero screen</h3><button class="icon-btn" data-close="heroModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <form id="heroForm">
+          <div class="form">
+            <div class="field"><label>Hotel name</label><input id="hName"></div>
+            <div class="field"><label>Hero height px</label><input id="hHeight" type="number" min="260" max="620"></div>
+            <div class="field"><label>Title size px</label><input id="hTitleSize" type="number" min="32" max="92"></div>
+            <div class="field"><label>Text size px</label><input id="hTextSize" type="number" min="12" max="26"></div>
+            <div class="field"><label>Text color</label><input id="hColor" type="color"></div>
+            <div class="field"><label>Dark overlay</label><input id="hDim" type="number" min="0" max="0.8" step="0.05"></div>
+            <div class="field"><label>Background type</label><select id="hMediaType"><option value="image">Image</option><option value="video">Video / animation</option></select></div>
+            <div class="field"><label>Background zoom</label><input id="hZoom" type="number" min="1" max="2" step="0.05"></div>
+            <div class="field full"><label>Background image/video URL</label><input id="hMedia"></div>
+            <div class="field full upload-row"><label>Or upload from phone/computer</label><input id="hFile" type="file" accept="image/*,video/*"></div>
+            <div class="field full"><label>Title EN</label><input id="hTitleEn"></div>
+            <div class="field full"><label>Title HY</label><input id="hTitleHy"></div>
+            <div class="field full"><label>Title RU</label><input id="hTitleRu"></div>
+            <div class="field full"><label>Title TR - admin writes here</label><input id="hTitleTr"></div>
+            <div class="field full"><label>Text EN</label><textarea id="hTextEn"></textarea></div>
+            <div class="field full"><label>Text HY</label><textarea id="hTextHy"></textarea></div>
+            <div class="field full"><label>Text RU</label><textarea id="hTextRu"></textarea></div>
+            <div class="field full"><label>Text TR - admin writes here</label><textarea id="hTextTr"></textarea></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" type="button" data-close="heroModal">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="catModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3 id="catModalTitle">Category</h3><button class="icon-btn" data-close="catModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <form id="catForm">
+          <input type="hidden" id="catId">
+          <div class="form">
+            <div class="field"><label>Name EN</label><input id="catEn" required></div>
+            <div class="field"><label>Name HY</label><input id="catHy"></div>
+            <div class="field"><label>Name RU</label><input id="catRu"></div>
+            <div class="field"><label>Name TR - admin writes here</label><input id="catTr"></div>
+            <div class="field"><label>Icon</label><input id="catIcon" placeholder="fa-map-location-dot"></div>
+            <div class="field"><label>Media type</label><select id="catMediaType"><option value="image">Image</option><option value="video">Video / animation</option></select></div>
+            <div class="field full"><label>Image/video URL</label><input id="catMedia"></div>
+            <div class="field full upload-row"><label>Or upload from phone/computer</label><input id="catFile" type="file" accept="image/*,video/*"></div>
+            <div class="field"><label>Media height px</label><input id="catHeight" type="number" min="90" max="360" value="140"></div>
+            <div class="field"><label>Media zoom</label><input id="catZoom" type="number" min="1" max="2" step=".05" value="1"></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" type="button" data-close="catModal">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="srvModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3 id="srvModalTitle">Service</h3><button class="icon-btn" data-close="srvModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <form id="srvForm">
+          <input type="hidden" id="srvId">
+          <div class="form">
+            <div class="field full"><label>Category</label><select id="srvCat"></select></div>
+            <div class="field"><label>Title EN</label><input id="srvEn" required></div>
+            <div class="field"><label>Title HY</label><input id="srvHy"></div>
+            <div class="field"><label>Title RU</label><input id="srvRu"></div>
+            <div class="field"><label>Title TR - admin writes here</label><input id="srvTr"></div>
+            <div class="field full"><label>Description EN</label><textarea id="descEn" required></textarea></div>
+            <div class="field full"><label>Description HY</label><textarea id="descHy"></textarea></div>
+            <div class="field full"><label>Description RU</label><textarea id="descRu"></textarea></div>
+            <div class="field full"><label>Description TR - admin writes here</label><textarea id="descTr"></textarea></div>
+            <div class="field"><label>Currency</label><select id="currency"><option value="€">€ EUR</option><option value="$">$ USD</option><option value="₺">₺ TRY</option><option value="₽">₽ RUB</option><option value="">No currency</option></select></div>
+            <div class="field"><label>Price</label><input id="price" type="number" step="any" placeholder="50"></div>
+            <div class="field"><label>Old price / discount</label><input id="oldPrice" type="number" step="any" placeholder="30"></div>
+            <div class="field"><label>Time / duration</label><input id="duration" placeholder="60 min"></div>
+            <div class="field"><label>Popular</label><select id="popularSel"><option value="false">No</option><option value="true">Yes</option></select></div>
+            <div class="field"><label>Media type</label><select id="srvMediaType"><option value="image">Image</option><option value="video">Video / animation</option></select></div>
+            <div class="field full"><label>Image/video URL</label><input id="srvMedia"></div>
+            <div class="field full upload-row"><label>Or upload from phone/computer</label><input id="srvFile" type="file" accept="image/*,video/*"></div>
+            <div class="field"><label>Media height px</label><input id="srvHeight" type="number" min="110" max="380" value="176"></div>
+            <div class="field"><label>Media zoom</label><input id="srvZoom" type="number" min="1" max="2" step=".05" value="1"></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" type="button" data-close="srvModal">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="rateModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3>Exchange rates</h3><button class="icon-btn" data-close="rateModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <form id="rateForm">
+          <div class="form">
+            <div class="field"><label>USD to TRY used</label><input id="rateUsd" type="number" step="any"></div>
+            <div class="field"><label>EUR to TRY used</label><input id="rateEur" type="number" step="any"></div>
+            <div class="field"><label>RUB to TRY used</label><input id="rateRub" type="number" step="any"></div>
+            <div class="field"><label>Margin subtracted</label><input id="rateMargin" type="number" step="any"></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" type="button" data-close="rateModal">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="calcModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3 id="calcTitle">Currency calculator</h3><button class="icon-btn" data-close="calcModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <div class="form">
+          <div class="field"><label id="calcCurrencyLabel">Currency</label><select id="calcCurrency"><option value="usd">USD Dollar</option><option value="eur">EUR Euro</option><option value="rub">RUB Ruble</option></select></div>
+          <div class="field"><label id="calcAmountLabel">Amount</label><input id="calcAmount" type="number" step="any" placeholder="100"></div>
+        </div>
+        <div class="calc-result" id="calcResult"><strong>0 ₺</strong><span>Write amount to calculate</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="guestModal">
+    <div class="sheet">
+      <div class="sheet-head"><h3 id="guestModalTitle">Add photo or review</h3><button class="icon-btn" data-close="guestModal"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="sheet-body">
+        <form id="guestForm">
+          <div class="form">
+            <div class="field"><label id="guestNameLabel">Guest name</label><input id="guestPostName" placeholder="Anna"></div>
+            <div class="field"><label id="guestRoomLabel">Room number</label><input id="guestPostRoom" placeholder="304"></div>
+            <div class="field full upload-row"><label id="guestFileLabel">Photo/video/animation</label><input id="guestPostFile" type="file" accept="image/*,video/*"></div>
+            <div class="field full"><label id="guestReviewLabel">Review</label><textarea id="guestPostText" placeholder="Write your review"></textarea></div>
+          </div>
+          <div class="modal-actions"><button class="btn ghost" type="button" data-close="guestModal">Cancel</button><button class="btn primary" type="submit"><i class="fa-solid fa-paper-plane"></i><span id="guestSubmitText">Publish</span></button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
+
+  <script>
+    const phone = "905375120434";
+    const storeKey = "peker_hotel_catalog_v6";
+    const langs = [
+      ["en","EN","English"],["hy","HY","Հայերեն"],["ru","RU","Русский"],["tr","TR","Turkish"],
+      ["fr","FR","Français"],["it","IT","Italiano"],["es","ES","Español"],["zh","ZH","中文"],["ja","JA","日本語"],["ar","AR","العربية"]
+    ];
+    const words = {
+      en:{reception:"Reception",taxi:"Taxi",tour:"Tour",massage:"Massage",hamam:"Hamam",food:"Food & drink",back:"Back",home:"Home",popular:"Popular",contact:"Contact",search:"Search",cats:"Categories",catHint:"Choose service type",services:"Services",srvHint:"Choose and order from reception",order:"Order",details:"Details",orderTitle:"Complete order",guest:"Guest name",room:"Room number",time:"Preferred time",qty:"People / quantity",note:"Note",cancel:"Cancel",send:"Send WhatsApp",empty:"No results found.",roomNeed:"Please enter room number.",sent:"Opening WhatsApp.",items:"services",prev:"Prev",next:"Next",rate:"Currency calculator",calcText:"Choose currency and amount to calculate Turkish lira.",openCalc:"Open",calcTitle:"Currency calculator",calcCurrency:"Currency",calcAmount:"Amount",calcEmpty:"Write amount to calculate",guestTitle:"Guest photos & reviews",guestHint:"Guests can publish photos and reviews only in this category.",guestAdd:"Add photo or review",guestReview:"Review",publish:"Publish",published:"Published and WhatsApp notice is ready."},
+      hy:{reception:"Ռեսեփշն",taxi:"Տաքսի",tour:"Տուր",massage:"Մերսում",hamam:"Համամ",food:"Ուտելիք/խմիչք",back:"Հետ",home:"Գլխավոր",popular:"Հայտնի",contact:"Կապ",search:"Որոնել",cats:"Կատեգորիաներ",catHint:"Ընտրեք ծառայության տեսակը",services:"Ծառայություններ",srvHint:"Ընտրեք և պատվիրեք ռեսեփշնից",order:"Պատվիրել",details:"Մանրամասն",orderTitle:"Լրացնել պատվերը",guest:"Հյուրի անունը",room:"Սենյակի համարը",time:"Ցանկալի ժամ",qty:"Մարդ / քանակ",note:"Նշում",cancel:"Չեղարկել",send:"Ուղարկել WhatsApp",empty:"Արդյունք չկա։",roomNeed:"Գրեք սենյակի համարը։",sent:"Բացվում է WhatsApp-ը։",items:"ծառայություն",prev:"Հետ",next:"Առաջ",rate:"Փոխարժեքի հաշվիչ",calcText:"Ընտրեք արժույթը և գումարը՝ թուրքական լիրան հաշվելու համար։",openCalc:"Բացել",calcTitle:"Փոխարժեքի հաշվիչ",calcCurrency:"Արժույթ",calcAmount:"Գումար",calcEmpty:"Գրեք գումարը հաշվելու համար",guestTitle:"Հյուրերի նկարներ և կարծիքներ",guestHint:"Հյուրերը կարող են նկար կամ կարծիք հրապարակել միայն այս բաժնում։",guestAdd:"Ավելացնել նկար կամ կարծիք",guestReview:"Կարծիք",publish:"Հրապարակել",published:"Հրապարակվեց, WhatsApp ծանուցումը պատրաստ է։"},
+      ru:{reception:"Ресепшн",taxi:"Такси",tour:"Тур",massage:"Массаж",hamam:"Хамам",food:"Еда/напитки",back:"Назад",home:"Главная",popular:"Топ",contact:"Связь",search:"Поиск",cats:"Категории",catHint:"Выберите тип услуги",services:"Услуги",srvHint:"Выберите и закажите через ресепшн",order:"Заказать",details:"Детали",orderTitle:"Оформить заказ",guest:"Имя гостя",room:"Номер комнаты",time:"Удобное время",qty:"Люди / кол-во",note:"Примечание",cancel:"Отмена",send:"Отправить WhatsApp",empty:"Ничего не найдено.",roomNeed:"Укажите номер комнаты.",sent:"Открываем WhatsApp.",items:"услуг",prev:"Назад",next:"Вперед",rate:"Калькулятор валют",calcText:"Выберите валюту и сумму, чтобы посчитать турецкие лиры.",openCalc:"Открыть",calcTitle:"Калькулятор валют",calcCurrency:"Валюта",calcAmount:"Сумма",calcEmpty:"Введите сумму для расчета",guestTitle:"Фото и отзывы гостей",guestHint:"Гости могут публиковать фото и отзывы только в этом разделе.",guestAdd:"Добавить фото или отзыв",guestReview:"Отзыв",publish:"Опубликовать",published:"Опубликовано, WhatsApp уведомление готово."},
+      tr:{reception:"Resepsiyon",taxi:"Taksi",tour:"Tur",massage:"Masaj",hamam:"Hamam",food:"Yemek/içecek",back:"Geri",home:"Ana",popular:"Popüler",contact:"İletişim",search:"Ara",cats:"Kategoriler",catHint:"Hizmet türünü seçin",services:"Hizmetler",srvHint:"Seçin ve resepsiyondan sipariş edin",order:"Sipariş",details:"Detay",orderTitle:"Siparişi tamamla",guest:"Misafir adı",room:"Oda numarası",time:"Tercih edilen saat",qty:"Kişi / adet",note:"Not",cancel:"İptal",send:"WhatsApp gönder",empty:"Sonuç bulunamadı.",roomNeed:"Oda numarasını yazın.",sent:"WhatsApp açılıyor.",items:"hizmet",prev:"Önceki",next:"Sonraki",rate:"Döviz hesaplayıcı",calcText:"Para birimi ve tutar seçin, Türk lirasını hesaplayın.",openCalc:"Aç",calcTitle:"Döviz hesaplayıcı",calcCurrency:"Para birimi",calcAmount:"Tutar",calcEmpty:"Hesaplamak için tutar yazın",guestTitle:"Misafir fotoğrafları ve yorumları",guestHint:"Misafirler sadece bu bölümde fotoğraf ve yorum paylaşabilir.",guestAdd:"Fotoğraf veya yorum ekle",guestReview:"Yorum",publish:"Yayınla",published:"Yayınlandı, WhatsApp bildirimi hazır."}
+    };
+
+    const copyFromEnglish = obj => {
+      ["fr","it","es","zh","ja","ar"].forEach(l => { if (!obj[l]) obj[l] = obj.en; });
+      return obj;
+    };
+
+    const defaultData = {
+      hotel:{
+        name:"PEKER HOTEL", mediaType:"image", media:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80",
+        height:360, titleSize:72, textSize:15, color:"#ffffff", dim:.42, zoom:1.04,
+        title:copyFromEnglish({en:"Hotel services",hy:"Հյուրանոցի ծառայություններ",ru:"Услуги отеля",tr:"Otel hizmetleri"}),
+        text:copyFromEnglish({en:"Choose a category, view available services and send your request directly to reception.",hy:"Ընտրեք կատեգորիա, տեսեք ծառայությունները և ուղարկեք պատվերը ռեսեփշնին։",ru:"Выберите категорию, посмотрите услуги и отправьте запрос на ресепшн.",tr:"Kategori seçin, hizmetleri görün ve talebinizi resepsiyona gönderin."})
+      },
+      rates:{usd:45.58, eur:53.21, rub:.64, margin:1},
+      guestPosts:[],
+      categories:[
+        cat("istanbul_tours","fa-map-location-dot","Tours in Istanbul","Տուրեր Ստամբուլում","Туры в Стамбуле","İstanbul Turları","https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80"),
+        cat("outside_tours","fa-route","Tours outside Istanbul","Տուրեր Ստամբուլից դուրս","Туры из Стамбула","İstanbul Dışı Turlar","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"),
+        cat("taxi","fa-taxi","Taxi & Transfer","Տաքսի և տրանսֆեր","Такси и трансфер","Taksi ve Transfer","https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=80"),
+        cat("hamam","fa-hot-tub-person","Hamam","Համամ","Хамам","Hamam","https://images.unsplash.com/photo-1583416750470-965b2f419952?auto=format&fit=crop&w=900&q=80"),
+        cat("massage","fa-spa","Massage salons","Մերսման սրահներ","Массажные салоны","Masaj Salonları","https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80"),
+        cat("food","fa-utensils","Food & drinks","Ուտելիք և խմիչք","Еда и напитки","Yemek ve İçecek","https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80"),
+        cat("rentals","fa-key","Rentals","Վարձակալություն","Аренда","Kiralama","https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80"),
+        cat("cleaning","fa-broom","Cleaning & room needs","Մաքրություն և սենյակ","Уборка и номер","Temizlik ve Oda","https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80"),
+        cat("hotel_guests","fa-camera-retro","Hotel & guest photos","Հյուրանոց և հյուրերի նկարներ","Фото отеля и гостей","Otel ve Misafir Fotoğrafları","https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80")
+      ],
+      services:[
+        srv("bos","istanbul_tours",true,"€",50,65,"3-4h","Bosphorus Cruise","Բոսֆորի նավարկություն","Круиз по Босфору","Boğaz Turu","Group or private cruise with hotel pickup options.","Խմբակային կամ անհատական նավարկություն՝ հյուրանոցից վերցնելու հնարավորությամբ։","Групповой или приватный круиз с трансфером из отеля.","Otel transfer seçeneğiyle grup veya özel tekne turu.","https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=900&q=80"),
+        srv("old","istanbul_tours",true,"€",40,"","5h","Old City Tour","Հին քաղաքի տուր","Тур по старому городу","Eski Şehir Turu","Sultanahmet, Hagia Sophia, Topkapi and Grand Bazaar.","Սուլթանահմեդ, Այա Սոֆիա, Թոփքափը և Գրանդ Բազար։","Султанахмет, Айя-София, Топкапы и Гранд Базар.","Sultanahmet, Ayasofya, Topkapı ve Kapalıçarşı.","https://images.unsplash.com/photo-1589561454226-796a8aa89b05?auto=format&fit=crop&w=900&q=80"),
+        srv("sapanca","outside_tours",false,"€",55,"","Full day","Sapanca & Masukiye","Սապանջա և Մաշուքիե","Сапанджа и Машукие","Sapanca Maşukiye","Nature day trip outside Istanbul with transfer options.","Բնության ամբողջօրյա տուր Ստամբուլից դուրս։","Поездка на природу за пределы Стамбула.","İstanbul dışında doğa turu ve transfer seçeneği.","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"),
+        srv("airport","taxi",true,"€",35,"","24/7","Airport Transfer","Օդանավակայանի տրանսֆեր","Трансфер в аэропорт","Havalimanı Transferi","Private car to or from Istanbul airports.","Անհատական մեքենա օդանավակայան կամ օդանավակայանից։","Индивидуальный автомобиль в аэропорт или из аэропорта.","İstanbul havalimanlarına özel araç transferi.","https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80"),
+        srv("hamam1","hamam",false,"€",45,60,"90 min","Traditional Turkish Bath","Ավանդական թուրքական համամ","Традиционный турецкий хамам","Geleneksel Türk Hamamı","Hamam package with reservation support from reception.","Համամի փաթեթ՝ ռեսեփշնի ամրագրման աջակցությամբ։","Пакет хамама с помощью бронирования.","Resepsiyon destekli hamam paketi.","https://images.unsplash.com/photo-1583416750470-965b2f419952?auto=format&fit=crop&w=900&q=80"),
+        srv("massage1","massage",true,"$",60,"","60 min","Relax Massage","Ռելաքս մերսում","Расслабляющий массаж","Relax Masajı","Relaxing massage appointment with trusted partners.","Հանգստացնող մերսում վստահելի գործընկերների մոտ։","Расслабляющий массаж у проверенных партнеров.","Güvenilir partnerlerle rahatlatıcı masaj.","https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80"),
+        srv("breakfast","food",true,"€",12,"","Morning","Breakfast Plate","Նախաճաշ","Завтрак","Kahvaltı","Fresh breakfast order or reservation through reception.","Թարմ նախաճաշ՝ պատվեր կամ ամրագրում ռեսեփշնի միջոցով։","Свежий завтрак через ресепшн.","Resepsiyon üzerinden kahvaltı siparişi.","https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=900&q=80"),
+        srv("clean1","cleaning",false,"",0,"","Today","Room cleaning","Սենյակի մաքրում","Уборка номера","Oda Temizliği","Request cleaning, towels, water or room support.","Պատվիրեք մաքրում, սրբիչներ, ջուր կամ սենյակային օգնություն։","Запросите уборку, полотенца, воду или помощь в номер.","Temizlik, havlu, su veya oda desteği isteyin.","https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80"),
+        srv("guestphoto","hotel_guests",false,"",0,"","Gallery","Hotel photo gallery","Հյուրանոցի նկարներ","Фотогалерея отеля","Otel Fotoğraf Galerisi","Add hotel and guest photos here from admin.","Այստեղ admin-ը կարող է ավելացնել հյուրանոցի և հյուրերի նկարներ։","Админ может добавить фото отеля и гостей.","Admin otel ve misafir fotoğrafları ekleyebilir.","https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80")
+      ]
+    };
+
+    function cat(id, icon, en, hy, ru, tr, media) {
+      return { id, icon, mediaType:"image", media, h:140, z:1, name:copyFromEnglish({en,hy,ru,tr}) };
+    }
+    function srv(id, cat, popular, currency, price, oldPrice, duration, en, hy, ru, tr, den, dhy, dru, dtr, media) {
+      return { id, cat, popular, currency, price, oldPrice, duration, mediaType:"image", media, h:176, z:1, title:copyFromEnglish({en,hy,ru,tr}), desc:copyFromEnglish({en:den,hy:dhy,ru:dru,tr:dtr}) };
+    }
+
+    let lang = localStorage.getItem("peker_lang") || "en";
+    let data = JSON.parse(localStorage.getItem(storeKey) || "null") || structuredClone(defaultData);
+    data.guestPosts = data.guestPosts || [];
+    data.rates = data.rates || structuredClone(defaultData.rates);
+    let view = "categories", currentCat = null, selected = null, admin = false, popular = false;
+    const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+    const tr = k => (words[lang] || words.en)[k] || words.en[k] || k;
+    const loc = o => o?.[lang] || o?.en || o?.tr || Object.values(o || {})[0] || "";
+    const save = () => localStorage.setItem(storeKey, JSON.stringify(data));
+    const priceText = s => s.price || s.price === 0 ? `${s.currency || ""}${s.price}` : "";
+    const oldPriceText = s => s.oldPrice ? `<span class="old-price">${s.currency || ""}${s.oldPrice}</span>` : "";
+    const isStoredMedia = src => String(src || "").startsWith("idb://");
+    const media = item => {
+      const src = item.media || "";
+      if (isStoredMedia(src)) {
+        return item.mediaType === "video"
+          ? `<video data-media-src="${src}" autoplay loop muted playsinline></video>`
+          : `<img data-media-src="${src}" alt="">`;
+      }
+      return item.mediaType === "video" ? `<video src="${src}" autoplay loop muted playsinline></video>` : `<img src="${src}" alt="">`;
+    };
+
+    function buildLangMenu(){
+      $("#langMenu").innerHTML = langs.map(l => `<button data-lang="${l[0]}" class="${l[0]===lang?"active":""}"><span>${l[2]}</span><b>${l[1]}</b></button>`).join("");
+    }
+    function init(){
+      buildLangMenu();
+      bind();
+      paint();
+    }
+    function bind(){
+      $("#langBtn").onclick = () => $("#langMenu").classList.toggle("open");
+      $("#langMenu").onclick = e => { const b=e.target.closest("[data-lang]"); if(!b)return; lang=b.dataset.lang; localStorage.setItem("peker_lang",lang); $("#langMenu").classList.remove("open"); buildLangMenu(); paint(); };
+      $("#search").oninput = paint;
+      $("#backBtn").onclick = () => goHome();
+      $("#brandAdmin").onclick = toggleAdmin;
+      $("#heroEditBtn").onclick = openHeroEditor;
+      $("#categoryGrid").onclick = e => { const edit=e.target.closest("[data-edit-cat]"); if(edit){ e.stopPropagation(); openCatEditor(edit.dataset.editCat); return; } const c=e.target.closest("[data-cat]"); if(c) openCat(c.dataset.cat); };
+      $("#serviceGrid").onclick = e => { const edit=e.target.closest("[data-edit-srv]"); if(edit){ e.stopPropagation(); openSrvEditor(edit.dataset.editSrv); return; } const o=e.target.closest("[data-order]"); if(o) openOrder(o.dataset.order); };
+      $("#orderForm").onsubmit = sendOrder;
+      $("#editHero").onclick = openHeroEditor;
+      $("#addCat").onclick = () => openCatEditor();
+      $("#addSrv").onclick = () => openSrvEditor();
+      $("#editRates").onclick = openRateEditor;
+      $("#openCalc").onclick = () => openModal("calcModal");
+      $("#calcCurrency").oninput = updateCalc;
+      $("#calcAmount").oninput = updateCalc;
+      $("#openGuestPost").onclick = openGuestPost;
+      $("#guestForm").onsubmit = saveGuestPost;
+      $("#catForm").onsubmit = saveCatForm;
+      $("#srvForm").onsubmit = saveSrvForm;
+      $("#heroForm").onsubmit = saveHeroForm;
+      $("#rateForm").onsubmit = saveRateForm;
+      $("#exportData").onclick = exportData;
+      $("#resetData").onclick = resetData;
+      $("#adminList").onclick = adminClick;
+      $("#prevBtn").onclick = () => moveView(-1);
+      $("#nextBtn").onclick = () => moveView(1);
+      $("#homeBtn").onclick = goHome;
+      $("#contactBtn").onclick = () => window.open(waLink("Hello Peker Hotel reception."), "_blank");
+      $$("[data-close]").forEach(b => b.onclick = () => closeModal(b.dataset.close));
+      document.addEventListener("click",e=>{ if(!e.target.closest(".lang")) $("#langMenu").classList.remove("open"); });
+    }
+    function paint(){
+      paintHero();
+      $$("[data-t]").forEach(el=>el.textContent=tr(el.dataset.t));
+      $("#search").placeholder=tr("search");
+      $("#rateTitle").textContent=tr("rate");
+      $("#calcPreviewText").textContent=tr("calcText");
+      $("#calcBtnText").textContent=tr("openCalc");
+      $("#calcTitle").textContent=tr("calcTitle");
+      $("#calcCurrencyLabel").textContent=tr("calcCurrency");
+      $("#calcAmountLabel").textContent=tr("calcAmount");
+      $("#guestTitle").textContent=tr("guestTitle");
+      $("#guestHint").textContent=tr("guestHint");
+      $("#guestPostBtn").textContent=tr("guestAdd");
+      $("#guestModalTitle").textContent=tr("guestAdd");
+      $("#guestNameLabel").textContent=tr("guest");
+      $("#guestRoomLabel").textContent=tr("room");
+      $("#guestReviewLabel").textContent=tr("guestReview");
+      $("#guestSubmitText").textContent=tr("publish");
+      $("#backBtn").style.display=view==="services"?"inline-flex":"none";
+      $("#viewTitle").textContent=view==="categories"?tr("cats"):(loc(data.categories.find(c=>c.id===currentCat)?.name)||tr("services"));
+      $("#viewHint").textContent=view==="categories"?tr("catHint"):tr("srvHint");
+      $("#categoryGrid").style.display=view==="categories"?"grid":"none";
+      $("#serviceGrid").style.display=view==="services"?"grid":"none";
+      view==="categories"?renderCats():renderServices();
+      renderGuestPanel();
+      renderRates();
+      renderAdmin();
+      hydrateStoredMedia();
+    }
+    function paintHero(){
+      const h=data.hotel;
+      $("#hotelName").textContent=h.name;
+      $("#heroTitle").textContent=loc(h.title);
+      $("#heroText").textContent=loc(h.text);
+      $("#langLabel").textContent=langs.find(l=>l[0]===lang)?.[1]||"EN";
+      $("#hero").style.setProperty("--hero-height", `${h.height||360}px`);
+      $("#hero").style.setProperty("--hero-title-size", `${h.titleSize||72}px`);
+      $("#hero").style.setProperty("--hero-text-size", `${h.textSize||15}px`);
+      $("#hero").style.setProperty("--hero-color", h.color||"#ffffff");
+      $("#hero").style.setProperty("--hero-dim", h.dim ?? .42);
+      $("#hero").style.setProperty("--hero-zoom", h.zoom||1.04);
+      if (isStoredMedia(h.media)) {
+        $("#heroMedia").innerHTML = h.mediaType==="video" ? `<video class="hero-video" data-media-src="${h.media}" autoplay loop muted playsinline></video>` : `<div class="hero-bg" data-media-bg="${h.media}"></div>`;
+      } else {
+        $("#heroMedia").innerHTML = h.mediaType==="video" ? `<video class="hero-video" src="${h.media}" autoplay loop muted playsinline></video>` : `<div class="hero-bg" style="background-image:url('${h.media}')"></div>`;
+      }
+      $("#heroEditBtn").style.display=admin?"inline-flex":"none";
+      $("#quickButtons").innerHTML = [
+        ["reception","fa-brands fa-whatsapp","wa","contact"],["taxi","fa-solid fa-taxi","light","taxi"],["tour","fa-solid fa-map-location-dot","light","istanbul_tours"],
+        ["massage","fa-solid fa-spa","light","massage"],["hamam","fa-solid fa-hot-tub-person","light","hamam"],["food","fa-solid fa-utensils","light","food"]
+      ].map(([key,icon,cls,target])=>`<button class="hero-btn ${cls}" data-quick="${target}" type="button"><i class="${icon}"></i>${tr(key)}</button>`).join("");
+      $$("[data-quick]").forEach(b=>b.onclick=()=> b.dataset.quick==="contact" ? window.open(waLink("Hello Peker Hotel reception."),"_blank") : openCat(b.dataset.quick));
+    }
+    function renderCats(){
+      const q=$("#search").value.toLowerCase();
+      const cats=data.categories.filter(c=>loc(c.name).toLowerCase().includes(q));
+      $("#countText").textContent=`${cats.length} ${tr("cats").toLowerCase()}`;
+      $("#empty").style.display=cats.length?"none":"block";
+      $("#categoryGrid").innerHTML=cats.map(c=>`<article class="card" data-cat="${c.id}" style="--h:${c.h||140}px;--z:${c.z||1}"><button class="edit-float" data-edit-cat="${c.id}" type="button"><i class="fa-solid fa-pen"></i></button><div class="media">${media(c)}</div><div class="card-body"><h3><i class="fa-solid ${c.icon||"fa-layer-group"}"></i> ${loc(c.name)}</h3><p>${serviceCount(c.id)} ${tr("items")}</p><span class="count"><i class="fa-solid fa-arrow-right"></i>${tr("details")}</span></div></article>`).join("");
+    }
+    function renderServices(){
+      const q=$("#search").value.toLowerCase();
+      let list=data.services.filter(s=>(currentCat?s.cat===currentCat:true) && (!popular || s.popular));
+      list=list.filter(s=>(loc(s.title)+" "+loc(s.desc)+" "+priceText(s)).toLowerCase().includes(q));
+      $("#countText").textContent=`${list.length} ${tr("items")}`;
+      $("#empty").style.display=list.length?"none":"block";
+      $("#serviceGrid").innerHTML=list.map(s=>`<article class="service" style="--h:${s.h||176}px;--z:${s.z||1};position:relative"><button class="edit-float" data-edit-srv="${s.id}" type="button"><i class="fa-solid fa-pen"></i></button><div class="media">${media(s)}${s.popular?`<span class="badge"><i class="fa-solid fa-star"></i> ${tr("popular")}</span>`:""}</div><div class="service-body"><div class="title-row"><h3>${loc(s.title)}</h3><div class="price">${oldPriceText(s)}${priceText(s)}</div></div><p>${loc(s.desc)}</p><div class="meta"><span><i class="fa-solid fa-clock"></i> ${s.duration||""}</span><span><i class="fa-solid fa-check"></i> Hotel partner</span></div><div class="actions"><button class="btn primary" data-order="${s.id}"><i class="fa-brands fa-whatsapp"></i>${tr("order")}</button><button class="btn ghost" onclick="toast('${(loc(s.desc)||"").replaceAll("'","")}')"><i class="fa-solid fa-circle-info"></i>${tr("details")}</button></div></div></article>`).join("");
+    }
+    function renderRates(){
+      updateCalc();
+    }
+    function renderGuestPanel(){
+      const show = view === "services" && currentCat === "hotel_guests";
+      $("#guestPanel").classList.toggle("open", show);
+      if(!show) return;
+      $("#guestGrid").innerHTML = data.guestPosts.length ? data.guestPosts.map(post => `
+        <article class="guest-card">
+          ${post.media ? (isStoredMedia(post.media) ? (post.mediaType === "video" ? `<video data-media-src="${post.media}" controls playsinline></video>` : `<img data-media-src="${post.media}" alt="">`) : (post.mediaType === "video" ? `<video src="${post.media}" controls playsinline></video>` : `<img src="${post.media}" alt="">`)) : ""}
+          <div class="guest-card-body">
+            <h3>${post.name || "Guest"} ${post.room ? "· Room " + post.room : ""}</h3>
+            <p>${post.text || ""}</p>
+            <time>${post.date}</time>
+            ${admin ? `<button class="btn danger" style="margin-top:10px" onclick="deleteGuestPost('${post.id}')"><i class="fa-solid fa-trash"></i>Delete</button>` : ""}
+          </div>
+        </article>
+      `).join("") : `<p style="color:var(--muted);font-weight:800">${tr("empty")}</p>`;
+    }
+    function serviceCount(cat){ return data.services.filter(s=>s.cat===cat).length; }
+    function openCat(id){ currentCat=id; view="services"; popular=false; $("#search").value=""; paint(); document.querySelector("main").scrollIntoView({behavior:"smooth"}); }
+    function goHome(){ view="categories"; currentCat=null; popular=false; $("#search").value=""; paint(); scrollTo({top:0,behavior:"smooth"}); }
+    function moveView(dir){
+      if(view==="categories"){ const first=dir>0?data.categories[0]:data.categories[data.categories.length-1]; if(first) openCat(first.id); return; }
+      const i=data.categories.findIndex(c=>c.id===currentCat); const next=data.categories[i+dir];
+      if(next) openCat(next.id); else goHome();
+    }
+    function toggleAdmin(){ if(!admin){ const p=prompt("Admin password:"); if(p!=="peker1903"){toast("Wrong password");return;} admin=true; document.body.classList.add("admin-active"); } $("#adminPanel").classList.toggle("open"); paintHero(); paint(); $("#adminPanel").scrollIntoView({behavior:"smooth"}); }
+    function renderAdmin(){
+      if(!$("#adminPanel").classList.contains("open")) return;
+      const cats=data.categories.map(c=>`<div class="admin-row"><div><strong>Category: ${loc(c.name)}</strong><span>${serviceCount(c.id)} services · media ${c.h||140}px · zoom ${c.z||1}</span></div><div class="mini"><button data-act="catUp" data-id="${c.id}"><i class="fa-solid fa-arrow-up"></i></button><button data-act="catDown" data-id="${c.id}"><i class="fa-solid fa-arrow-down"></i></button><button data-act="catEdit" data-id="${c.id}"><i class="fa-solid fa-pen"></i></button><button class="red" data-act="catDel" data-id="${c.id}"><i class="fa-solid fa-trash"></i></button></div></div>`).join("");
+      const srvs=data.services.map(s=>`<div class="admin-row"><div><strong>Service: ${loc(s.title)}</strong><span>${loc(data.categories.find(c=>c.id===s.cat)?.name)} · ${priceText(s)} · old ${s.oldPrice||"-"} · media ${s.h||176}px</span></div><div class="mini"><button data-act="srvUp" data-id="${s.id}"><i class="fa-solid fa-arrow-up"></i></button><button data-act="srvDown" data-id="${s.id}"><i class="fa-solid fa-arrow-down"></i></button><button data-act="srvEdit" data-id="${s.id}"><i class="fa-solid fa-pen"></i></button><button class="red" data-act="srvDel" data-id="${s.id}"><i class="fa-solid fa-trash"></i></button></div></div>`).join("");
+      $("#adminList").innerHTML=cats+srvs;
+    }
+    function adminClick(e){ const b=e.target.closest("[data-act]"); if(!b)return; const {act,id}=b.dataset; if(act==="catEdit")openCatEditor(id); if(act==="srvEdit")openSrvEditor(id); if(act==="catDel"&&confirm("Delete category?")){data.categories=data.categories.filter(c=>c.id!==id);data.services=data.services.filter(s=>s.cat!==id);save();paint();} if(act==="srvDel"&&confirm("Delete service?")){data.services=data.services.filter(s=>s.id!==id);save();paint();} if(act.includes("Up"))move(act.startsWith("cat")?"categories":"services",id,-1); if(act.includes("Down"))move(act.startsWith("cat")?"categories":"services",id,1); }
+    function move(key,id,dir){ const a=data[key], i=a.findIndex(x=>x.id===id), j=i+dir; if(i<0||j<0||j>=a.length)return; [a[i],a[j]]=[a[j],a[i]]; save(); paint(); }
+    async function translateFromTurkish(trText){
+      const result = { tr: trText || "" };
+      const targets = ["en","hy","ru","fr","it","es","zh","ja","ar"];
+      await Promise.all(targets.map(async code => {
+        if(!trText){ result[code] = ""; return; }
+        try {
+          const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=tr&tl=${code}&dt=t&q=${encodeURIComponent(trText)}`);
+          const data = await response.json();
+          result[code] = data?.[0]?.map(part => part[0]).join("") || trText;
+        } catch (error) {
+          result[code] = trText;
+        }
+      }));
+      return result;
+    }
+    async function mapFromTurkish(trText, existing){
+      if(!trText) return copyFromEnglish({ en:"", hy:"", ru:"", tr:"" });
+      if(existing && existing.tr === trText) return copyFromEnglish(existing);
+      return translateFromTurkish(trText);
+    }
+    function map4(en,hy,ru,trv){ return copyFromEnglish({en,hy:hy||en,ru:ru||en,tr:trv||en}); }
+    function readFile(file){
+      return new Promise((resolve,reject)=>{
+        if(!file){ resolve(""); return; }
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    function openMediaDb(){
+      return new Promise((resolve,reject)=>{
+        const request=indexedDB.open("pekerHotelMedia",1);
+        request.onupgradeneeded=()=>request.result.createObjectStore("files");
+        request.onsuccess=()=>resolve(request.result);
+        request.onerror=()=>reject(request.error);
+      });
+    }
+    async function storeMediaFile(file){
+      if(!file) return "";
+      const key="media_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+      const db=await openMediaDb();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction("files","readwrite");
+        tx.objectStore("files").put(file,key);
+        tx.oncomplete=resolve;
+        tx.onerror=()=>reject(tx.error);
+      });
+      db.close();
+      return "idb://"+key;
+    }
+    async function loadStoredMedia(src){
+      const key=String(src||"").replace("idb://","");
+      const db=await openMediaDb();
+      const file=await new Promise((resolve,reject)=>{
+        const request=db.transaction("files","readonly").objectStore("files").get(key);
+        request.onsuccess=()=>resolve(request.result);
+        request.onerror=()=>reject(request.error);
+      });
+      db.close();
+      return file ? URL.createObjectURL(file) : "";
+    }
+    async function hydrateStoredMedia(){
+      const nodes=[...document.querySelectorAll("[data-media-src], [data-media-bg]")];
+      for(const node of nodes){
+        const ref=node.dataset.mediaSrc || node.dataset.mediaBg;
+        if(!ref || node.dataset.ready==="1") continue;
+        const url=await loadStoredMedia(ref);
+        if(!url) continue;
+        if(node.dataset.mediaBg) node.style.backgroundImage=`url('${url}')`;
+        else node.src=url;
+        node.dataset.ready="1";
+      }
+    }
+    function fileKind(file, fallback){
+      if(!file) return fallback || "image";
+      return file.type && file.type.startsWith("video") ? "video" : "image";
+    }
+    function effectiveRate(key){
+      const raw = Number(data.rates[key] || 0);
+      const margin = Number(data.rates.margin || 0);
+      return Math.max(0, raw - margin);
+    }
+    function updateCalc(){
+      if(!$("#calcResult")) return;
+      const key=$("#calcCurrency")?.value || "usd";
+      const amount=Number($("#calcAmount")?.value || 0);
+      const rate=effectiveRate(key);
+      const total=amount*rate;
+      const label=key.toUpperCase();
+      $("#calcResult").innerHTML = amount ? `<strong>${total.toFixed(2)} ₺</strong><span>${amount} ${label}</span>` : `<strong>0 ₺</strong><span>${tr("calcEmpty")}</span>`;
+    }
+    function openHeroEditor(){ const h=data.hotel; $("#hName").value=h.name; $("#hHeight").value=h.height; $("#hTitleSize").value=h.titleSize; $("#hTextSize").value=h.textSize; $("#hColor").value=h.color; $("#hDim").value=h.dim; $("#hMediaType").value=h.mediaType; $("#hZoom").value=h.zoom; $("#hMedia").value=h.media; $("#hTitleEn").value=h.title.en; $("#hTitleHy").value=h.title.hy; $("#hTitleRu").value=h.title.ru; $("#hTitleTr").value=h.title.tr; $("#hTextEn").value=h.text.en; $("#hTextHy").value=h.text.hy; $("#hTextRu").value=h.text.ru; $("#hTextTr").value=h.text.tr; openModal("heroModal"); }
+    async function saveHeroForm(e){ e.preventDefault(); const file=$("#hFile").files[0]; const uploaded=await storeMediaFile(file); data.hotel={...data.hotel,name:$("#hName").value,height:+$("#hHeight").value||360,titleSize:+$("#hTitleSize").value||72,textSize:+$("#hTextSize").value||15,color:$("#hColor").value,dim:+$("#hDim").value,mediaType:fileKind(file,$("#hMediaType").value),zoom:+$("#hZoom").value||1.04,media:uploaded||$("#hMedia").value,title:await mapFromTurkish($("#hTitleTr").value || $("#hTitleEn").value, data.hotel.title),text:await mapFromTurkish($("#hTextTr").value || $("#hTextEn").value, data.hotel.text)}; $("#hFile").value=""; save(); closeModal("heroModal"); paint(); }
+    function openCatEditor(id){ const c=id?data.categories.find(x=>x.id===id):{id:"cat_"+Date.now(),name:{},icon:"fa-layer-group",mediaType:"image",media:"",h:140,z:1}; $("#catModalTitle").textContent=id?"Edit category":"Add category"; $("#catId").value=c.id; $("#catEn").value=c.name.en||""; $("#catHy").value=c.name.hy||""; $("#catRu").value=c.name.ru||""; $("#catTr").value=c.name.tr||""; $("#catIcon").value=c.icon||""; $("#catMediaType").value=c.mediaType||"image"; $("#catMedia").value=c.media||""; $("#catHeight").value=c.h||140; $("#catZoom").value=c.z||1; openModal("catModal"); }
+    function openSrvEditor(id){ fillCatSelect(); const s=id?data.services.find(x=>x.id===id):{id:"srv_"+Date.now(),cat:currentCat||data.categories[0]?.id,title:{},desc:{},currency:"€",price:"",oldPrice:"",duration:"",popular:false,mediaType:"image",media:"",h:176,z:1}; $("#srvModalTitle").textContent=id?"Edit service":"Add service"; $("#srvId").value=s.id; $("#srvCat").value=s.cat; $("#srvEn").value=s.title.en||""; $("#srvHy").value=s.title.hy||""; $("#srvRu").value=s.title.ru||""; $("#srvTr").value=s.title.tr||""; $("#descEn").value=s.desc.en||""; $("#descHy").value=s.desc.hy||""; $("#descRu").value=s.desc.ru||""; $("#descTr").value=s.desc.tr||""; $("#currency").value=s.currency||""; $("#price").value=s.price||""; $("#oldPrice").value=s.oldPrice||""; $("#duration").value=s.duration||""; $("#popularSel").value=String(!!s.popular); $("#srvMediaType").value=s.mediaType||"image"; $("#srvMedia").value=s.media||""; $("#srvHeight").value=s.h||176; $("#srvZoom").value=s.z||1; openModal("srvModal"); }
+    function fillCatSelect(){ $("#srvCat").innerHTML=data.categories.map(c=>`<option value="${c.id}">${loc(c.name)}</option>`).join(""); }
+    async function saveCatForm(e){ e.preventDefault(); const file=$("#catFile").files[0]; const uploaded=await storeMediaFile(file); const id=$("#catId").value; const old=data.categories.find(c=>c.id===id); const item={id, icon:$("#catIcon").value||"fa-layer-group", mediaType:fileKind(file,$("#catMediaType").value), media:uploaded||$("#catMedia").value, h:+$("#catHeight").value||140, z:+$("#catZoom").value||1, name:await mapFromTurkish($("#catTr").value || $("#catEn").value, old?.name)}; const i=data.categories.findIndex(c=>c.id===id); i>=0?data.categories[i]=item:data.categories.push(item); $("#catFile").value=""; save(); closeModal("catModal"); paint(); }
+    async function saveSrvForm(e){ e.preventDefault(); const file=$("#srvFile").files[0]; const uploaded=await storeMediaFile(file); const id=$("#srvId").value; const old=data.services.find(s=>s.id===id); const item={id, cat:$("#srvCat").value, popular:$("#popularSel").value==="true", currency:$("#currency").value, price:$("#price").value, oldPrice:$("#oldPrice").value, duration:$("#duration").value, mediaType:fileKind(file,$("#srvMediaType").value), media:uploaded||$("#srvMedia").value, h:+$("#srvHeight").value||176, z:+$("#srvZoom").value||1, title:await mapFromTurkish($("#srvTr").value || $("#srvEn").value, old?.title), desc:await mapFromTurkish($("#descTr").value || $("#descEn").value, old?.desc)}; const i=data.services.findIndex(s=>s.id===id); i>=0?data.services[i]=item:data.services.push(item); $("#srvFile").value=""; save(); closeModal("srvModal"); paint(); }
+    function openRateEditor(){ $("#rateUsd").value=data.rates.usd; $("#rateEur").value=data.rates.eur; $("#rateRub").value=data.rates.rub; $("#rateMargin").value=data.rates.margin; openModal("rateModal"); }
+    function saveRateForm(e){ e.preventDefault(); data.rates={usd:+$("#rateUsd").value,eur:+$("#rateEur").value,rub:+$("#rateRub").value,margin:+$("#rateMargin").value}; save(); closeModal("rateModal"); paint(); }
+    function openGuestPost(){ if(currentCat !== "hotel_guests") return; openModal("guestModal"); }
+    async function saveGuestPost(e){
+      e.preventDefault();
+      if(currentCat !== "hotel_guests") return;
+      const file=$("#guestPostFile").files[0];
+      const uploaded=await storeMediaFile(file);
+      const post={id:"guest_"+Date.now(),name:$("#guestPostName").value.trim()||"Guest",room:$("#guestPostRoom").value.trim(),text:$("#guestPostText").value.trim(),media:uploaded,mediaType:fileKind(file,"image"),date:new Date().toLocaleString()};
+      data.guestPosts.unshift(post);
+      save();
+      closeModal("guestModal");
+      $("#guestForm").reset();
+      paint();
+      const msg=["Peker Hotel website notice",`Guest: ${post.name}`,`Room: ${post.room||"-"}`,`Action: ${post.media ? "shared photo/video" : "shared review"}`,`Review: ${post.text||"-"}`,`Date: ${post.date}`].join("\\n");
+      toast(tr("published"));
+      window.open(waLink(msg),"_blank");
+    }
+    function deleteGuestPost(id){
+      if(!admin) return;
+      if(confirm("Delete guest post?")){
+        data.guestPosts=data.guestPosts.filter(p=>p.id!==id);
+        save();
+        paint();
+      }
+    }
+    function openOrder(id){ selected=data.services.find(s=>s.id===id); const mediaHtml=isStoredMedia(selected.media) ? (selected.mediaType==="video" ? `<video data-media-src="${selected.media}" autoplay loop muted playsinline></video>` : `<img data-media-src="${selected.media}" alt="">`) : `<${selected.mediaType==="video"?"video autoplay loop muted playsinline":"img"} src="${selected.media}"></${selected.mediaType==="video"?"video":"img"}>`; $("#chosen").innerHTML=`${mediaHtml}<div><h4>${loc(selected.title)}</h4><p>${priceText(selected)} · ${selected.duration}</p></div>`; openModal("orderModal"); hydrateStoredMedia(); }
+    function sendOrder(e){ e.preventDefault(); if(!$("#room").value.trim()){toast(tr("roomNeed"));return;} const msg=["New hotel service request","Hotel: Peker Hotel",`Room: ${$("#room").value}`,`Guest: ${$("#guest").value||"-"}`,`Service: ${loc(selected.title)}`,`Price: ${priceText(selected)}`,`Time: ${$("#time").value||"-"}`,`People/quantity: ${$("#qty").value||"1"}`,`Note: ${$("#note").value||"-"}`,`Language: ${lang.toUpperCase()}`].join("\\n"); toast(tr("sent")); window.open(waLink(msg),"_blank"); closeModal("orderModal"); $("#orderForm").reset(); $("#qty").value=1; }
+    function waLink(msg){ return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`; }
+    function openModal(id){ $("#"+id).classList.add("open"); document.body.style.overflow="hidden"; }
+    function closeModal(id){ $("#"+id).classList.remove("open"); document.body.style.overflow=""; }
+    function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); clearTimeout(window.tt); window.tt=setTimeout(()=>t.classList.remove("show"),2400); }
+    function exportData(){ const a=document.createElement("a"); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(data,null,2)); a.download="peker-hotel-data.json"; a.click(); }
+    function resetData(){ if(confirm("Reset all local changes?")){ localStorage.removeItem(storeKey); data=structuredClone(defaultData); paint(); } }
+    init();
+  </script>
 </body>
 </html>
