@@ -889,6 +889,35 @@
       .categories-grid {
         grid-template-columns: 1fr 1fr;
       }
+      body.mobile-category-focus .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      body.mobile-category-focus .service-media {
+        height: 118px;
+      }
+      body.mobile-category-focus .service-body {
+        padding: 12px;
+        gap: 10px;
+      }
+      body.mobile-category-focus .service-title {
+        font-size: 15px;
+        line-height: 1.15;
+      }
+      body.mobile-category-focus .service-desc {
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      body.mobile-category-focus .service-meta {
+        gap: 8px;
+      }
+      body.mobile-category-focus .price {
+        font-size: 18px;
+      }
+      body.mobile-category-focus .request-btn {
+        width: 100%;
+        justify-content: center;
+      }
       .wa-button {
         width: 54px;
         height: 54px;
@@ -918,16 +947,16 @@
           <div class="lang-box">
             <i class="fa-solid fa-earth-americas"></i>
             <select id="languageSelect">
-              <option value="hy">Հայերեն</option>
-              <option value="en">English</option>
-              <option value="ru">Русский</option>
-              <option value="tr">Türkçe</option>
-              <option value="fr">Français</option>
-              <option value="it">Italiano</option>
-              <option value="es">Español</option>
-              <option value="zh">中文</option>
-              <option value="ja">日本語</option>
-              <option value="ar">العربية</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="ru">🇷🇺 Русский</option>
+              <option value="tr">🇹🇷 Türkçe</option>
+              <option value="hy">🇦🇲 Հայերեն</option>
+              <option value="es">🇪🇸 Español</option>
+              <option value="it">🇮🇹 Italiano</option>
+              <option value="ar">🇸🇦 العربية</option>
+              <option value="zh">🇨🇳 中文</option>
+              <option value="ja">🇯🇵 日本語</option>
+              <option value="fr">🇫🇷 Français</option>
             </select>
           </div>
           <a class="wa-button" id="globalWhatsappBtn" href="https://wa.me/905375120434?utm_source=chatgpt.com" target="_blank" rel="noopener">
@@ -1279,6 +1308,26 @@
             "hy": "հավի շամփուրներ",
             "ja": "鶏の串",
             "zh": "鸡肉串"
+          }
+        },
+        {
+          "id": "room_booking",
+          "icon": "fa-bed",
+          "mediaType": "image",
+          "media": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+          "h": 140,
+          "z": 1,
+          "name": {
+            "en": "Room booking",
+            "ru": "Бронирование номера",
+            "tr": "Oda rezervasyonu",
+            "hy": "Սենյակի ամրագրում",
+            "es": "Reserva de habitacion",
+            "it": "Prenotazione camera",
+            "ar": "حجز الغرفة",
+            "zh": "客房预订",
+            "ja": "客室予約",
+            "fr": "Reservation de chambre"
           }
         }
       ],
@@ -3287,7 +3336,7 @@
       generic: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80"
     };
 
-    let currentLang = "hy";
+    let currentLang = "en";
     let activeCategory = "all";
     let isAdmin = false;
     let sliderIndex = 0;
