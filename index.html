@@ -118,6 +118,11 @@
     }
     .lang-box {
       padding: 8px 12px;
+      position: fixed;
+      top: 10px;
+      right: 52px;
+      z-index: 56;
+      min-width: 68px;
     }
     .lang-box i { font-size: 14px; }
     .lang-box select {
@@ -126,6 +131,14 @@
       color: #fff;
       outline: none;
       cursor: pointer;
+      width: 100%;
+      min-width: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
     }
     .lang-box select option { color: #111; }
     .wa-button, .admin-toggle, .request-btn, .nav-fab, .editor-btn, .small-btn, .save-btn {
@@ -608,7 +621,8 @@
       body.mobile-category-focus #galleryText,
       body.mobile-category-focus #footerText,
       body.mobile-category-focus #sliderTitle,
-      body.mobile-category-focus #sliderText {
+      body.mobile-category-focus #sliderText,
+      body.mobile-category-focus .section-head {
         display: none !important;
       }
       body.mobile-category-focus .section:has(#servicesGrid) {
@@ -878,10 +892,14 @@
       }
       .lang-box {
         padding: 6px 10px;
-        margin-right: 42px;
+        margin-right: 0;
+        top: 10px;
+        right: 52px;
+        min-width: 58px;
       }
       .lang-box select {
-        max-width: 78px;
+        max-width: 42px;
+        font-size: 11px;
       }
       .filters {
         grid-template-columns: 1fr 1fr;
@@ -890,7 +908,8 @@
         grid-template-columns: 1fr 1fr;
       }
       body.mobile-category-focus .services-grid {
-        grid-template-columns: 1fr 1fr;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 10px;
       }
       body.mobile-category-focus .service-media {
@@ -917,6 +936,10 @@
       body.mobile-category-focus .request-btn {
         width: 100%;
         justify-content: center;
+      }
+      body.mobile-category-focus #servicesTitle,
+      body.mobile-category-focus #servicesText {
+        display: none !important;
       }
       .wa-button {
         width: 54px;
@@ -947,16 +970,16 @@
           <div class="lang-box">
             <i class="fa-solid fa-earth-americas"></i>
             <select id="languageSelect">
-              <option value="en">🇬🇧 English</option>
-              <option value="ru">🇷🇺 Русский</option>
-              <option value="tr">🇹🇷 Türkçe</option>
-              <option value="hy">🇦🇲 Հայերեն</option>
-              <option value="es">🇪🇸 Español</option>
-              <option value="it">🇮🇹 Italiano</option>
-              <option value="ar">🇸🇦 العربية</option>
-              <option value="zh">🇨🇳 中文</option>
-              <option value="ja">🇯🇵 日本語</option>
-              <option value="fr">🇫🇷 Français</option>
+              <option value="en">🇬🇧 EN</option>
+              <option value="ru">🇷🇺 RU</option>
+              <option value="tr">🇹🇷 TR</option>
+              <option value="hy">🇦🇲 HY</option>
+              <option value="es">🇪🇸 ES</option>
+              <option value="it">🇮🇹 IT</option>
+              <option value="ar">🇸🇦 AR</option>
+              <option value="zh">🇨🇳 ZH</option>
+              <option value="ja">🇯🇵 JA</option>
+              <option value="fr">🇫🇷 FR</option>
             </select>
           </div>
           <a class="wa-button" id="globalWhatsappBtn" href="https://wa.me/905375120434?utm_source=chatgpt.com" target="_blank" rel="noopener">
