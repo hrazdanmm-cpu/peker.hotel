@@ -911,6 +911,7 @@
         display: grid !important;
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 10px;
+        align-items: start;
       }
       body.mobile-category-focus .service-media {
         height: 118px;
@@ -936,6 +937,9 @@
       body.mobile-category-focus .request-btn {
         width: 100%;
         justify-content: center;
+      }
+      body.mobile-category-focus .service-card {
+        min-width: 0;
       }
       body.mobile-category-focus #servicesTitle,
       body.mobile-category-focus #servicesText {
@@ -1033,7 +1037,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="sliderSection">
       <div class="container">
         <div class="section-head">
           <div>
@@ -1048,7 +1052,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="categoriesSection">
       <div class="container">
         <div class="section-head">
           <div>
@@ -1060,7 +1064,7 @@
       </div>
     </section>
 
-    <section class="section" style="padding-top: 10px;">
+    <section class="section" id="servicesSection" style="padding-top: 10px;">
       <div class="container">
         <div class="section-head">
           <div>
@@ -3842,7 +3846,8 @@
     }
 
     function renderAll() {
-      document.body.classList.toggle("mobile-category-focus", window.innerWidth <= 700 && activeCategory !== "all");
+      const mobileCategoryFocus = window.innerWidth <= 700 && activeCategory !== "all";
+      document.body.classList.toggle("mobile-category-focus", mobileCategoryFocus);
       renderHeader();
       renderRates();
       renderCalculator();
@@ -3852,6 +3857,41 @@
       renderServices();
       renderGallery();
       updateAdminStatus();
+      applyMobileCategoryFocus(mobileCategoryFocus);
+    }
+
+    function applyMobileCategoryFocus(enabled) {
+      const hero = document.getElementById("hero");
+      const utilityGrid = document.querySelector(".utility-grid");
+      const sliderSection = document.getElementById("sliderSection");
+      const categoriesSection = document.getElementById("categoriesSection");
+      const gallerySection = document.getElementById("gallerySection");
+      const footer = document.querySelector(".footer");
+      const servicesSection = document.getElementById("servicesSection");
+
+      if (enabled) {
+        if (hero) hero.style.display = "none";
+        if (utilityGrid) utilityGrid.style.display = "none";
+        if (sliderSection) sliderSection.style.display = "none";
+        if (categoriesSection) categoriesSection.style.display = "none";
+        if (gallerySection) gallerySection.style.display = "none";
+        if (footer) footer.style.display = "none";
+        if (servicesSection) servicesSection.style.paddingTop = "6px";
+        servicesGrid.style.display = "grid";
+        servicesGrid.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
+        servicesGrid.style.gap = "10px";
+      } else {
+        if (hero) hero.style.display = "";
+        if (utilityGrid) utilityGrid.style.display = "";
+        if (sliderSection) sliderSection.style.display = "";
+        if (categoriesSection) categoriesSection.style.display = "";
+        if (gallerySection) gallerySection.style.display = "";
+        if (footer) footer.style.display = "";
+        if (servicesSection) servicesSection.style.paddingTop = "10px";
+        servicesGrid.style.display = "";
+        servicesGrid.style.gridTemplateColumns = "";
+        servicesGrid.style.gap = "";
+      }
     }
 
     function updateAdminStatus() {
@@ -4372,6 +4412,7 @@
     document.getElementById("navHomeBtn").addEventListener("click", goHome);
     document.getElementById("navBackBtn").addEventListener("click", () => moveHorizontal(-1));
     document.getElementById("navNextBtn").addEventListener("click", () => moveHorizontal(1));
+    window.addEventListener("resize", renderAll);
 
     renderAll();
     startSlider();
